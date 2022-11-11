@@ -2,6 +2,8 @@ namespace RheolauArmsManagmentSystemPrototype
 {
     public partial class LgnFrm : Form
     {
+
+        
         public LgnFrm()
         {
             InitializeComponent();
@@ -20,7 +22,9 @@ namespace RheolauArmsManagmentSystemPrototype
 
             if (loginHandler.Login(UsernameTxt.Text, PasswordTxt.Text))
             {
-
+                MainMenu mainMenu = new MainMenu();
+                this.Hide();
+                mainMenu.Show();
             }
             else
             {

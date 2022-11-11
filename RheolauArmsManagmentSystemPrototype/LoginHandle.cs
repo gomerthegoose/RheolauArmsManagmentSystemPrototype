@@ -22,33 +22,53 @@ namespace RheolauArmsManagmentSystemPrototype
         public bool Login(string Username , string Password) //handle login returns true if successfull login
         {
             LoginSettings loginSettings = new LoginSettings(); //create nenw instance of login settings
-            
-            if (getUsrData(loginSettings.UsrDetailsFile).Username == Username && getUsrData(loginSettings.UsrDetailsFile).password == Password)
+
+            UsrInfo[] usrInfo = getUsrData(loginSettings.UsrDetailsFile); // get usr data from file 
+
+
+
+            for (int i = 0; i < usrInfo.Length; i++)
             {
-                return true;
+                if (usrInfo[i].Username == Username && usrInfo[i].password == Password) // check if username and password match usr enterd data 
+                {
+                    return true; // return true if match found 
+                }
             }
-            else
-            {
-                return false;
-            }
+            return false; // return false if no match found 
         }
 
-        private UsrInfo getUsrData(string fileLocation)
+        private UsrInfo[] getUsrData(string fileLocation)
         {
-            UsrInfo usrInfo = new UsrInfo();
-            Cryptography cryptography = new Cryptography();
+            
+            Cryptography cryptography = new Cryptography(); // instanciate new cryptography class
 
-            using (StreamReader Sr = new StreamReader(fileLocation))
+
+            StreamReader SrLineCount = new StreamReader(fileLocation);      // create new stream reader         
+            int NumLines = 0; // number of lines in file
+            while (SrLineCount.Peek() >= 0) // if not at end of file
             {
-                usrInfo.RawData = cryptography.decryptStr(Sr.ReadToEnd());
+                SrLineCount.ReadLine(); //read line to advance file pointer 
+                NumLines++; // incriment number of lines 
             }
-            string[] usrDataSingleLine = usrInfo.RawData.Split(",");
+            SrLineCount.Close(); // close file
+            
 
-            usrInfo.ID = int.Parse(usrDataSingleLine[0]);
-            usrInfo.Username = usrDataSingleLine[1];
-            usrInfo.password = usrDataSingleLine[2];
-            usrInfo.accessLevel = int.Parse(usrDataSingleLine[3]);    
-            return usrInfo;
+            using (StreamReader Sr = new StreamReader(fileLocation)) // create new stream reader
+            {
+                UsrInfo[] usrInfo = new UsrInfo[NumLines]; // create new usr info variable
+                int i = 0;
+                while (Sr.Peek() >= 0) // if not at end of file
+                {           
+                    usrInfo[i].RawData = cryptography.decryptStr(Sr.ReadLine());            //read line from file and decrypt
+                    string[] usrDataSingleLine = usrInfo[i].RawData.Split(","); // split read line by ,
+                    usrInfo[i].ID = int.Parse(usrDataSingleLine[0]); // parse first segment ID
+                    usrInfo[i].Username = usrDataSingleLine[1]; // parse second segment Username
+                    usrInfo[i].password = usrDataSingleLine[2]; // parse 3rd secmend password
+                    usrInfo[i].accessLevel = int.Parse(usrDataSingleLine[3]); // parse 4th segment access level
+                    i++;
+                }
+                return usrInfo; // return usr info
+            }                  
         }
     }
 }
