@@ -11,12 +11,23 @@ namespace RheolauArmsManagmentSystemPrototype
 
         public string encryptStr(string input)
         {
-            return "";
+
+            return input;
         }
 
         public string decryptStr(string input)
         {
-            return "";
+            char[] inputCharArray = input.ToCharArray();
+            byte[] asciiValues = Encoding.ASCII.GetBytes(inputCharArray);
+            string output = "";
+
+            for (int i =0; i < asciiValues.Length; i++)
+            {
+                asciiValues[i] = (byte)(asciiValues[i] + (byte) 2);
+                asciiValues[i] = (byte)(asciiValues[i] - (byte)2);
+                output += (char)asciiValues[i];
+            }
+            return output;
         }
 
     }

@@ -12,18 +12,25 @@ namespace RheolauArmsManagmentSystemPrototype
 
         public struct UsrInfo //used to store usr info
         {
-            int ID;
-            string Username;
-            string password;
-            int accessLevel;
-            string RawData;
+            public int ID;
+            public string Username;
+            public string password;
+            public int accessLevel;
+            public string RawData;
         }
 
         public bool Login(string Username , string Password) //handle login returns true if successfull login
         {
             LoginSettings loginSettings = new LoginSettings(); //create nenw instance of login settings
-            getUsrData(loginSettings.UsrDetailsFile);
-            return false;
+            
+            if (getUsrData(loginSettings.UsrDetailsFile).Username == Username && getUsrData(loginSettings.UsrDetailsFile).password == Password)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private UsrInfo getUsrData(string fileLocation)
@@ -33,11 +40,14 @@ namespace RheolauArmsManagmentSystemPrototype
 
             using (StreamReader Sr = new StreamReader(fileLocation))
             {
-                usrInfo. cryptography.decryptStr(Sr.ReadToEnd());
+                usrInfo.RawData = cryptography.decryptStr(Sr.ReadToEnd());
             }
-            
+            string[] usrDataSingleLine = usrInfo.RawData.Split(",");
 
-            
+            usrInfo.ID = int.Parse(usrDataSingleLine[0]);
+            usrInfo.Username = usrDataSingleLine[1];
+            usrInfo.password = usrDataSingleLine[2];
+            usrInfo.accessLevel = int.Parse(usrDataSingleLine[3]);    
             return usrInfo;
         }
     }
