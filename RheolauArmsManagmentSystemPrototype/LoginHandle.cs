@@ -59,7 +59,8 @@ namespace RheolauArmsManagmentSystemPrototype
                 int i = 0;
                 while (Sr.Peek() >= 0) // if not at end of file
                 {           
-                    usrInfo[i].RawData = cryptography.decryptStr(Sr.ReadLine());            //read line from file and decrypt
+                    usrInfo[i].RawData = cryptography.decryptStr(cryptography.encryptStr(Sr.ReadLine()));            //read line from file and decrypt
+
                     string[] usrDataSingleLine = usrInfo[i].RawData.Split(","); // split read line by ,
                     usrInfo[i].ID = int.Parse(usrDataSingleLine[0]); // parse first segment ID
                     usrInfo[i].Username = usrDataSingleLine[1]; // parse second segment Username
