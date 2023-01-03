@@ -31,5 +31,11 @@ namespace RheolauArmsManagmentSystemPrototype
                 MessageBox.Show("Failed To find Username Or Password", "Login Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Cryptography cryptography = new Cryptography();
+            UsernameTxt.Text = cryptography.encryptStr(UsernameTxt.Text);
+        }
     }
 }

@@ -11,8 +11,17 @@ namespace RheolauArmsManagmentSystemPrototype
 
         public string encryptStr(string input)
         {
+            char[] inputCharArray = input.ToCharArray();
+            byte[] asciiValues = Encoding.ASCII.GetBytes(inputCharArray);
+            string output = "";
 
-            return input;
+            for (int i = 0; i < asciiValues.Length; i++)
+            {
+                asciiValues[i] = (byte)(asciiValues[i] + (byte)3);
+
+                output += (char)asciiValues[i];
+            }
+            return output;
         }
 
         public string decryptStr(string input)
@@ -23,8 +32,7 @@ namespace RheolauArmsManagmentSystemPrototype
 
             for (int i =0; i < asciiValues.Length; i++)
             {
-                asciiValues[i] = (byte)(asciiValues[i] + (byte) 2);
-                asciiValues[i] = (byte)(asciiValues[i] - (byte)2);
+                asciiValues[i] = (byte)(asciiValues[i] - (byte) 3);
                 output += (char)asciiValues[i];
             }
             return output;
