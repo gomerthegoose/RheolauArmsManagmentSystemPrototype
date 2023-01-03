@@ -9,14 +9,18 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
+
 namespace RheolauArmsManagmentSystemPrototype
 {
 
-
-
+    struct staffDetails
+    {
+        string
+    }
 
     public partial class MainMenu : Form
     {
+        static string staffFileLocation = "";
 
         public MainMenu()
         {
@@ -81,6 +85,34 @@ namespace RheolauArmsManagmentSystemPrototype
             View_panel.Location = new Point(navigationPanel.Width, navigationPanel.Location.Y); // reset location of view panel
         }
 
+        #region View Staff 
+        private void loadViewStaff()
+        {
+            LoginSettings settings = new LoginSettings(); //create nenw instance of login settings
+            using (StreamReader Sr = new StreamReader(settings.staffDetailsFile)) // create new stream reader
+            {
+                UsrInfo[] usrInfo = new UsrInfo[NumLines]; // create new usr info variable
+                int i = 0;
+                while (Sr.Peek() >= 0) // if not at end of file
+                {
+                    usrInfo[i].RawData = cryptography.decryptStr(Sr.ReadLine());            //read line from file and decrypt
+                    string[] usrDataSingleLine = usrInfo[i].RawData.Split(","); // split read line by ,
+                    usrInfo[i].ID = int.Parse(usrDataSingleLine[0]); // parse first segment ID
+                    usrInfo[i].Username = usrDataSingleLine[1]; // parse second segment Username
+                    usrInfo[i].password = usrDataSingleLine[2]; // parse 3rd secmend password
+                    usrInfo[i].accessLevel = int.Parse(usrDataSingleLine[3]); // parse 4th segment access level
+                    i++;
+                }
+                return usrInfo; // return usr info
+            }
+        }
+
+        private void ClearViewStaff()
+        {
+
+        }
+
+        #endregion
         #endregion
 
         #region - Stock -
