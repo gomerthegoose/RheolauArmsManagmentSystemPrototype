@@ -13,22 +13,31 @@ using System.Windows.Forms;
 namespace RheolauArmsManagmentSystemPrototype
 {
 
-    struct staffDetails
+    struct StaffInfo
     {
-        string
+        public string RawData;
+        public int staffID;
+        public int userID;
+        public string surname;
+        public string forename;
+        public string adress;
+        public string phonenumber;
+        public string DOB;
+        public string email;
     }
+
 
     public partial class MainMenu : Form
     {
-        static string staffFileLocation = "";
-
+        //------------------------------------------------------------------
+        static int defaultPadding = 5;
+        //------------------------------------------------------------------
         public MainMenu()
         {
             InitializeComponent();
 
         }
-
-
+        //------------------------------------------------------------------
         #region - Main menu  -
 
         private void StockMenuBtn_Click(object sender, EventArgs e)
@@ -37,22 +46,23 @@ namespace RheolauArmsManagmentSystemPrototype
             StockControls_panel.Show();
             StockControls_panel.BringToFront();
             View_panel.Location = new Point(StockControls_panel.Width, StockControls_panel.Location.Y);
+            View_panel.Size = new Size(this.Width - StockControls_panel.Size.Width - 15, StockControls_panel.Size.Height);
         }
-
         private void StaffMenuBtn_Click(object sender, EventArgs e)
         {
             navigationPanel.Hide();
             StaffControls_panel.Show();
             StaffControls_panel.BringToFront();
             View_panel.Location = new Point(StaffControls_panel.Width, StaffControls_panel.Location.Y);
+            View_panel.Size = new Size(this.Width - StaffControls_panel.Size.Width - 15  , StaffControls_panel.Size.Height);
         }
-
         private void ThursdayBookingsBtn_Click(object sender, EventArgs e)
         {
             navigationPanel.Hide();
             ThursdayControls_panel.Show();
             ThursdayControls_panel.BringToFront();
             View_panel.Location = new Point(ThursdayControls_panel.Width , ThursdayControls_panel.Location.Y);
+            View_panel.Size = new Size(this.Width - ThursdayControls_panel.Size.Width - 15, ThursdayControls_panel.Size.Height);
         }
         private void SundayBookingsBtn_Click(object sender, EventArgs e)
         {
@@ -60,6 +70,15 @@ namespace RheolauArmsManagmentSystemPrototype
             SundayControlls_panel.Show();
             SundayControlls_panel.BringToFront();
             View_panel.Location = new Point(SundayControlls_panel.Width, SundayControlls_panel.Location.Y);
+            View_panel.Size = new Size(this.Width - SundayControlls_panel.Size.Width - 15, SundayControlls_panel.Size.Height);
+        }
+        private void SettingsMenu_button_Click(object sender, EventArgs e)
+        {
+            navigationPanel.Hide();
+            SettingsControls_panel.Show();
+            SettingsControls_panel.BringToFront();
+            View_panel.Location = new Point(SettingsControls_panel.Width, SettingsControls_panel.Location.Y);
+            View_panel.Size = new Size(this.Width - SettingsControls_panel.Size.Width - 15, SettingsControls_panel.Size.Height);
         }
 
         private void ExitBtn_Click(object sender, EventArgs e)
@@ -67,54 +86,339 @@ namespace RheolauArmsManagmentSystemPrototype
             Application.Exit();
         }
 
-
         #endregion
-
+        //------------------------------------------------------------------
         #region - Staff menu  -
-
         private void ViewStaff_button_Click(object sender, EventArgs e)
         {
-
+            // remove all children of view panel to clear old information
+            while (View_panel.Controls.Count > 0)
+            {
+                View_panel.Controls[0].Dispose();
+            }
+            ViewStaff();
         }
-
+        private void EditStaff_button_Click(object sender, EventArgs e)
+        {
+            // remove all children of view panel to clear old information
+            while (View_panel.Controls.Count > 0)
+            {
+                View_panel.Controls[0].Dispose();
+            }
+            EditStaff();
+        }
         private void StaffReturn_button_Click(object sender, EventArgs e)
         {
-            navigationPanel.BringToFront();
-            StaffControls_panel.Hide();
-            navigationPanel.Show();
+            navigationPanel.BringToFront(); // bring main nav panel to front 
+            StaffControls_panel.Hide(); // hide current nav panel
+            navigationPanel.Show(); // show main nav panel
             View_panel.Location = new Point(navigationPanel.Width, navigationPanel.Location.Y); // reset location of view panel
-        }
 
-        #region View Staff 
-        private void loadViewStaff()
+            // remove all children of view panel to clear old information
+            while (View_panel.Controls.Count > 0)
+            {
+                View_panel.Controls[0].Dispose();
+            }
+
+        }
+        private void ViewStaff()
         {
+            #region - file garbage ish mostly idk -
             LoginSettings settings = new LoginSettings(); //create nenw instance of login settings
+            Cryptography cryptography = new Cryptography();
+            Graphics graphics = CreateGraphics();
+
+            Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 2, 80);
+            Size textSize = new Size(250, 24);
+
+
+            StreamReader SrLineCount = new StreamReader(settings.staffDetailsFile);      // create new stream reader         
+            int NumLines = 0; // number of lines in file
+            while (SrLineCount.Peek() >= 0) // if not at end of file
+            {
+                SrLineCount.ReadLine(); //read line to advance file pointer 
+                NumLines++; // incriment number of lines 
+            }
+            SrLineCount.Close(); // close file
+
+            StaffInfo[] staffInfo = new StaffInfo[NumLines]; // create new usr info variable
+
             using (StreamReader Sr = new StreamReader(settings.staffDetailsFile)) // create new stream reader
             {
-                UsrInfo[] usrInfo = new UsrInfo[NumLines]; // create new usr info variable
+
                 int i = 0;
                 while (Sr.Peek() >= 0) // if not at end of file
                 {
-                    usrInfo[i].RawData = cryptography.decryptStr(Sr.ReadLine());            //read line from file and decrypt
-                    string[] usrDataSingleLine = usrInfo[i].RawData.Split(","); // split read line by ,
-                    usrInfo[i].ID = int.Parse(usrDataSingleLine[0]); // parse first segment ID
-                    usrInfo[i].Username = usrDataSingleLine[1]; // parse second segment Username
-                    usrInfo[i].password = usrDataSingleLine[2]; // parse 3rd secmend password
-                    usrInfo[i].accessLevel = int.Parse(usrDataSingleLine[3]); // parse 4th segment access level
+                    staffInfo[i].RawData = cryptography.decryptStr(Sr.ReadLine());            //read line from file and decrypt
+                    string[] usrDataSingleLine = staffInfo[i].RawData.Split(","); // split read line by ,
+                    staffInfo[i].staffID = int.Parse(usrDataSingleLine[0]); // parse first segment staffID
+                    staffInfo[i].userID = int.Parse(usrDataSingleLine[1]); // parse second segment userID
+                    staffInfo[i].surname = usrDataSingleLine[2]; // parse 3rd secmend surname
+                    staffInfo[i].forename = usrDataSingleLine[3]; // parse 4th segment forename
+                    staffInfo[i].adress = usrDataSingleLine[4]; // parse 5th segment adress
+                    staffInfo[i].phonenumber = usrDataSingleLine[5]; // parse 6th segment phonenumber
+                    staffInfo[i].DOB = usrDataSingleLine[6]; // parse 7th segment DOB
+                    staffInfo[i].email = usrDataSingleLine[7]; // parse 8th segment email
                     i++;
                 }
-                return usrInfo; // return usr info
+            }
+            #endregion
+
+            Panel[] panels = new Panel[staffInfo.Length];
+            Label[] Forename_Label = new Label[staffInfo.Length];
+            Label[] surname_Label = new Label[staffInfo.Length];
+            Label[] staffID_Label = new Label[staffInfo.Length];
+            Label[] userID_Label = new Label[staffInfo.Length];
+            Label[] adress_Label = new Label[staffInfo.Length];
+            Label[] PhoneNumber_Label = new Label[staffInfo.Length];
+            Label[] Dob_label = new Label[staffInfo.Length];
+            Label[] email_label = new Label[staffInfo.Length];
+
+            for (int i = 0; i < staffInfo.Length; i++)
+            {
+
+                // - Panel -
+                panels[i] = new Panel();
+                panels[i].Parent = View_panel;
+                panels[i].Location = new Point(defaultPadding, defaultPadding + panelSize.Height * i + defaultPadding * i);
+                panels[i].Size = panelSize;
+                panels[i].BackColor = Color.FromArgb(66, 96, 138);
+
+                // - forename -
+                Forename_Label[i] = new Label();
+                Forename_Label[i].Parent = panels[i];
+                Forename_Label[i].Text = staffInfo[i].forename;
+                Forename_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                Forename_Label[i].Location = new Point(defaultPadding, defaultPadding);
+                Forename_Label[i].ForeColor = Color.White;
+
+
+                // - Surname -
+                surname_Label[i] = new Label();
+                surname_Label[i].Parent = panels[i];
+                surname_Label[i].Text = staffInfo[i].surname;
+                surname_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                surname_Label[i].Location = new Point(Forename_Label[i].Location.X + Forename_Label[i].Size.Width, defaultPadding);
+                surname_Label[i].ForeColor = Color.White;
+
+                // - staff ID -
+                staffID_Label[i] = new Label();
+                staffID_Label[i].Parent = panels[i];
+                staffID_Label[i].Text = "Staff ID: " + staffInfo[i].staffID.ToString();
+                staffID_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                staffID_Label[i].Location = new Point(defaultPadding, Forename_Label[i].Location.Y + Forename_Label[i].Size.Height);
+                staffID_Label[i].ForeColor = Color.White;
+
+                // - user ID -
+                userID_Label[i] = new Label();
+                userID_Label[i].Parent = panels[i];
+                userID_Label[i].Text = "User ID: " + staffInfo[i].userID.ToString();
+                userID_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                userID_Label[i].Location = new Point(defaultPadding, staffID_Label[i].Location.Y + staffID_Label[i].Size.Height);
+                userID_Label[i].ForeColor = Color.White;
+
+                // - adress  -
+                adress_Label[i] = new Label();
+                adress_Label[i].Parent = panels[i];
+                adress_Label[i].Text = "Adress: " + staffInfo[i].adress;
+                adress_Label[i].Size = textSize;
+                adress_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                adress_Label[i].Location = new Point(staffID_Label[i].Location.X + staffID_Label[i].Size.Width, Forename_Label[i].Location.Y + Forename_Label[i].Size.Height);
+                adress_Label[i].ForeColor = Color.White;
+
+                // - phonenumber -
+                PhoneNumber_Label[i] = new Label();
+                PhoneNumber_Label[i].Parent = panels[i];
+                PhoneNumber_Label[i].Text = "Phone Number: " + staffInfo[i].phonenumber;
+                PhoneNumber_Label[i].Size = textSize;
+                PhoneNumber_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                PhoneNumber_Label[i].Location = new Point(userID_Label[i].Location.X + userID_Label[i].Size.Width, staffID_Label[i].Location.Y + staffID_Label[i].Size.Height);
+                PhoneNumber_Label[i].ForeColor = Color.White;
+
+                // - DOB  -
+                Dob_label[i] = new Label();
+                Dob_label[i].Parent = panels[i];
+                Dob_label[i].Text = "DOB: " + staffInfo[i].DOB;
+                Dob_label[i].Size = textSize;
+                Dob_label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                Dob_label[i].Location = new Point(adress_Label[i].Location.X + adress_Label[i].Size.Width, Forename_Label[i].Location.Y + Forename_Label[i].Size.Height);
+                Dob_label[i].ForeColor = Color.White;
+
+                // - Email  -
+                email_label[i] = new Label();
+                email_label[i].Parent = panels[i];
+                email_label[i].Text = "Email: " + staffInfo[i].email;
+                email_label[i].Size = textSize;
+                email_label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                email_label[i].Location = new Point(PhoneNumber_Label[i].Location.X + PhoneNumber_Label[i].Size.Width, staffID_Label[i].Location.Y + staffID_Label[i].Size.Height);
+                email_label[i].ForeColor = Color.White;
+            }       
+        }
+        private void EditStaff()
+        {
+            #region - file garbage ish mostly idk -
+            LoginSettings settings = new LoginSettings(); //create nenw instance of login settings
+            Cryptography cryptography = new Cryptography();
+            Graphics graphics = CreateGraphics();
+
+            Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 2, 80);
+            Size textSize = new Size(250, 24);
+
+            StreamReader SrLineCount = new StreamReader(settings.staffDetailsFile);      // create new stream reader         
+            int NumLines = 0; // number of lines in file
+            while (SrLineCount.Peek() >= 0) // if not at end of file
+            {
+                SrLineCount.ReadLine(); //read line to advance file pointer 
+                NumLines++; // incriment number of lines 
+            }
+            SrLineCount.Close(); // close file
+
+            StaffInfo[] staffInfo = new StaffInfo[NumLines]; // create new usr info variable
+
+            using (StreamReader Sr = new StreamReader(settings.staffDetailsFile)) // create new stream reader
+            {
+
+                int i = 0;
+                while (Sr.Peek() >= 0) // if not at end of file
+                {
+                    staffInfo[i].RawData = cryptography.decryptStr(Sr.ReadLine());            //read line from file and decrypt
+                    string[] usrDataSingleLine = staffInfo[i].RawData.Split(","); // split read line by ,
+                    staffInfo[i].staffID = int.Parse(usrDataSingleLine[0]); // parse first segment staffID
+                    staffInfo[i].userID = int.Parse(usrDataSingleLine[1]); // parse second segment userID
+                    staffInfo[i].surname = usrDataSingleLine[2]; // parse 3rd secmend surname
+                    staffInfo[i].forename = usrDataSingleLine[3]; // parse 4th segment forename
+                    staffInfo[i].adress = usrDataSingleLine[4]; // parse 5th segment adress
+                    staffInfo[i].phonenumber = usrDataSingleLine[5]; // parse 6th segment phonenumber
+                    staffInfo[i].DOB = usrDataSingleLine[6]; // parse 7th segment DOB
+                    staffInfo[i].email = usrDataSingleLine[7]; // parse 8th segment email
+                    i++;
+                }
+            }
+            #endregion
+
+            Panel[] panels = new Panel[staffInfo.Length];
+            TextBox[] Forename_TxtBox = new TextBox[staffInfo.Length];
+            TextBox[] surname_TxtBox = new TextBox[staffInfo.Length];
+            TextBox[] staffID_TxtBox = new TextBox[staffInfo.Length];
+            TextBox[] userID_TxtBox = new TextBox[staffInfo.Length];
+            TextBox[] adress_TxtBox = new TextBox[staffInfo.Length];
+            TextBox[] PhoneNumber_TxtBox = new TextBox[staffInfo.Length];
+            TextBox[] Dob_TxtBox = new TextBox[staffInfo.Length];
+            TextBox[] email_TxtBox = new TextBox[staffInfo.Length];
+            Button[] editEntry_button = new Button[staffInfo.Length];
+            Button[] deleteEntry_button = new Button[staffInfo.Length];
+
+
+
+
+            for (int i = 0; i < staffInfo.Length; i++)
+            {
+
+                // - Panel -
+                panels[i] = new Panel();
+                panels[i].Parent = View_panel;
+                panels[i].Location = new Point(defaultPadding, defaultPadding + panelSize.Height * i + defaultPadding * i);
+                panels[i].Size = panelSize;
+                panels[i].BackColor = Color.FromArgb(66, 96, 138);
+
+                // - forename -
+                Forename_TxtBox[i] = new TextBox();
+                Forename_TxtBox[i].Parent = panels[i];
+                Forename_TxtBox[i].Text = staffInfo[i].forename;
+                Forename_TxtBox[i].PlaceholderText = "Forename";
+                Forename_TxtBox[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                Forename_TxtBox[i].Location = new Point(defaultPadding, defaultPadding);
+                Forename_TxtBox[i].ForeColor = Color.Black;
+
+
+                // - Surname -
+                surname_TxtBox[i] = new TextBox();
+                surname_TxtBox[i].Parent = panels[i];
+                surname_TxtBox[i].Text = staffInfo[i].surname;
+                surname_TxtBox[i].PlaceholderText = "Surname";
+                surname_TxtBox[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                surname_TxtBox[i].Location = new Point(Forename_TxtBox[i].Location.X + Forename_TxtBox[i].Size.Width, defaultPadding);
+                surname_TxtBox[i].ForeColor = Color.Black;
+
+                // - staff ID -
+                staffID_TxtBox[i] = new TextBox();
+                staffID_TxtBox[i].Parent = panels[i];
+                staffID_TxtBox[i].Text = staffInfo[i].staffID.ToString();
+                staffID_TxtBox[i].PlaceholderText = "Staff ID";
+                staffID_TxtBox[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                staffID_TxtBox[i].Location = new Point(defaultPadding, Forename_TxtBox[i].Location.Y + Forename_TxtBox[i].Size.Height);
+                staffID_TxtBox[i].ForeColor = Color.Black;
+
+                // - user ID -
+                userID_TxtBox[i] = new TextBox();
+                userID_TxtBox[i].Parent = panels[i];
+                userID_TxtBox[i].Text = staffInfo[i].userID.ToString();
+                userID_TxtBox[i].PlaceholderText = "User ID";
+                userID_TxtBox[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                userID_TxtBox[i].Location = new Point(defaultPadding, staffID_TxtBox[i].Location.Y + staffID_TxtBox[i].Size.Height);
+                userID_TxtBox[i].ForeColor = Color.Black;
+
+                // - adress  -
+                adress_TxtBox[i] = new TextBox();
+                adress_TxtBox[i].Parent = panels[i];
+                adress_TxtBox[i].Text = staffInfo[i].adress;
+                adress_TxtBox[i].PlaceholderText = "Adress";
+                adress_TxtBox[i].Size = textSize;
+                adress_TxtBox[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                adress_TxtBox[i].Location = new Point(staffID_TxtBox[i].Location.X + staffID_TxtBox[i].Size.Width, Forename_TxtBox[i].Location.Y + Forename_TxtBox[i].Size.Height);
+                adress_TxtBox[i].ForeColor = Color.Black;
+
+                // - phonenumber -
+                PhoneNumber_TxtBox[i] = new TextBox();
+                PhoneNumber_TxtBox[i].Parent = panels[i];
+                PhoneNumber_TxtBox[i].Text = staffInfo[i].phonenumber;
+                PhoneNumber_TxtBox[i].PlaceholderText = "Phone Number";
+                PhoneNumber_TxtBox[i].Size = textSize;
+                PhoneNumber_TxtBox[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                PhoneNumber_TxtBox[i].Location = new Point(userID_TxtBox[i].Location.X + userID_TxtBox[i].Size.Width, staffID_TxtBox[i].Location.Y + staffID_TxtBox[i].Size.Height);
+                PhoneNumber_TxtBox[i].ForeColor = Color.Black;
+
+                // - DOB  -
+                Dob_TxtBox[i] = new TextBox();
+                Dob_TxtBox[i].Parent = panels[i];
+                Dob_TxtBox[i].Text = staffInfo[i].DOB;
+                Dob_TxtBox[i].PlaceholderText = "DOB";
+                Dob_TxtBox[i].Size = textSize;
+                Dob_TxtBox[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                Dob_TxtBox[i].Location = new Point(adress_TxtBox[i].Location.X + adress_TxtBox[i].Size.Width, Forename_TxtBox[i].Location.Y + Forename_TxtBox[i].Size.Height);
+                Dob_TxtBox[i].ForeColor = Color.Black;
+
+                // - Email  -
+                email_TxtBox[i] = new TextBox();
+                email_TxtBox[i].Parent = panels[i];
+                email_TxtBox[i].Text = staffInfo[i].email;
+                email_TxtBox[i].PlaceholderText = "Email";
+                email_TxtBox[i].Size = textSize;
+                email_TxtBox[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                email_TxtBox[i].Location = new Point(PhoneNumber_TxtBox[i].Location.X + PhoneNumber_TxtBox[i].Size.Width, staffID_TxtBox[i].Location.Y + staffID_TxtBox[i].Size.Height);
+                email_TxtBox[i].ForeColor = Color.Black;
+
+                // - Edit Entry button -
+                editEntry_button[i] = new Button();
+                editEntry_button[i].Text = "Save Changes!";
+                editEntry_button[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                editEntry_button[i].BackColor = Color.FromArgb(64, 199, 73);
+                editEntry_button[i].ForeColor = Color.White;
+                editEntry_button[i].Location = new Point(panelSize.Width - editEntry_button[i].Size.Width - defaultPadding, defaultPadding );
+                editEntry_button[i].Parent = panels[i];
+
+                // - delete entry button -
+                deleteEntry_button[i] = new Button();
+                deleteEntry_button[i].Text = "Delete";
+                deleteEntry_button[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                deleteEntry_button[i].ForeColor = Color.White;
+                deleteEntry_button[i].BackColor = Color.Red;
+                deleteEntry_button[i].Location = new Point(panelSize.Width - deleteEntry_button[i].Size.Width - defaultPadding, defaultPadding  + editEntry_button[i].Location.Y + editEntry_button[i].Size.Height);
+                deleteEntry_button[i].Parent = panels[i];
             }
         }
-
-        private void ClearViewStaff()
-        {
-
-        }
-
         #endregion
-        #endregion
-
+        //------------------------------------------------------------------
         #region - Stock -
         private void ViewStock_button_Click(object sender, EventArgs e)
         {
@@ -130,7 +434,7 @@ namespace RheolauArmsManagmentSystemPrototype
         }
 
         #endregion
-
+        //------------------------------------------------------------------
         #region - Sunday Bookings -
         private void ViewSunBookings_button_Click(object sender, EventArgs e)
         {
@@ -145,7 +449,7 @@ namespace RheolauArmsManagmentSystemPrototype
             View_panel.Location = new Point(navigationPanel.Width, navigationPanel.Location.Y); // reset location of view panel
         }
         #endregion
-
+        //------------------------------------------------------------------
         #region - Thursday Bookings -
         private void ViewThuBookings_button_Click(object sender, EventArgs e)
         {
@@ -160,6 +464,35 @@ namespace RheolauArmsManagmentSystemPrototype
             View_panel.Location = new Point(navigationPanel.Width, navigationPanel.Location.Y); // reset location of view panel
         }
         #endregion
+        //------------------------------------------------------------------
+        #region - settings -
 
+        private void EncryptString_Button_Click(object sender, EventArgs e)
+        {
+            Cryptography cryptography = new Cryptography();
+            EncryptString_TxtBox.Text = cryptography.encryptStr(EncryptString_TxtBox.Text);
+        }
+        private void DecryptString_Button_Click(object sender, EventArgs e)
+        {
+            Cryptography cryptography = new Cryptography();
+            EncryptString_TxtBox.Text = cryptography.decryptStr(EncryptString_TxtBox.Text);
+        }
+        private void SettingsReturn_Button_Click(object sender, EventArgs e)
+        {
+            navigationPanel.BringToFront(); // bring main nav panel to front 
+            SettingsControls_panel.Hide(); // hide current nav panel
+            navigationPanel.Show(); // show main nav panel
+            View_panel.Location = new Point(navigationPanel.Width, navigationPanel.Location.Y); // reset location of view panel
+
+            // remove all children of view panel to clear old information
+            while (View_panel.Controls.Count > 0)
+            {
+                View_panel.Controls[0].Dispose();
+            }
+        }
+
+        #endregion
+        //------------------------------------------------------------------
     }
 }
+ 
