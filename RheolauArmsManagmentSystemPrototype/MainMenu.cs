@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,9 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
-
-
 namespace RheolauArmsManagmentSystemPrototype
 {
 
@@ -406,6 +404,7 @@ namespace RheolauArmsManagmentSystemPrototype
                 editEntry_button[i].ForeColor = Color.White;
                 editEntry_button[i].Location = new Point(panelSize.Width - editEntry_button[i].Size.Width - defaultPadding, defaultPadding );
                 editEntry_button[i].Parent = panels[i];
+                editEntry_button[i].Click += delegate (object sender, EventArgs e) { staffEditDeleteEntry(sender, e, i); }; // delegate function to be run on click and pass i to later refer to witch button was pressed
 
                 // - delete entry button -
                 deleteEntry_button[i] = new Button();
@@ -415,6 +414,11 @@ namespace RheolauArmsManagmentSystemPrototype
                 deleteEntry_button[i].BackColor = Color.Red;
                 deleteEntry_button[i].Location = new Point(panelSize.Width - deleteEntry_button[i].Size.Width - defaultPadding, defaultPadding  + editEntry_button[i].Location.Y + editEntry_button[i].Size.Height);
                 deleteEntry_button[i].Parent = panels[i];
+            }
+
+            void staffEditDeleteEntry (object sender, EventArgs e,  int id)
+            {
+                MessageBox.Show(id.ToString());
             }
         }
         #endregion
