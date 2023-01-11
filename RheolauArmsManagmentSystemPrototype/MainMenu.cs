@@ -105,6 +105,15 @@ namespace RheolauArmsManagmentSystemPrototype
             }
             EditStaff();
         }
+        private void createStaff_button_Click(object sender, EventArgs e)
+        {
+            // remove all children of view panel to clear old information
+            while (View_panel.Controls.Count > 0)
+            {
+                View_panel.Controls[0].Dispose();
+            }
+            CreateStaff();
+        }
         private void StaffReturn_button_Click(object sender, EventArgs e)
         {
             navigationPanel.BringToFront(); // bring main nav panel to front 
@@ -419,12 +428,12 @@ namespace RheolauArmsManagmentSystemPrototype
             }
 
             #region - mess -
-            void editEntryButtonAddCallBack(int i)
+            void editEntryButtonAddCallBack(int i) // not sure why this function is neccasary dosnt work if not in function
             {
                 editEntry_button[i].Click += delegate (object sender, EventArgs e) { staffEditSaveEntry(sender, e, i); }; // delegate function to be run on click and pass i to later refer to witch button was pressed
             }
 
-            void deleteEntryButtonAddCallBack(int i)
+            void deleteEntryButtonAddCallBack(int i) // not sure why this function is neccasary dosnt work if not in function
             {
                 deleteEntry_button[i].Click += delegate (object sender, EventArgs e) { staffEditDeleteEntry(sender, e, i); }; // delegate function to be run on click and pass i to later refer to witch button was pressed
             }
@@ -439,6 +448,148 @@ namespace RheolauArmsManagmentSystemPrototype
                 MessageBox.Show("Edit: " + id.ToString());
             }
             #endregion
+
+        }
+        private void CreateStaff()
+        {
+
+            Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 2, 80);
+            Size textSize = new Size(250, 24);
+
+            LoginSettings settings = new LoginSettings(); //create nenw instance of login settings
+            Cryptography cryptography = new Cryptography();
+            Graphics graphics = CreateGraphics();
+
+            Panel panels = new Panel();
+            TextBox Forename_TxtBox = new TextBox();
+            TextBox surname_TxtBox = new TextBox();
+            TextBox staffID_TxtBox = new TextBox();
+            TextBox userID_TxtBox = new TextBox();
+            TextBox adress_TxtBox = new TextBox();
+            TextBox PhoneNumber_TxtBox = new TextBox();
+            TextBox Dob_TxtBox = new TextBox();
+            TextBox email_TxtBox = new TextBox();
+            Button createEntry_button = new Button();
+
+            // - Panel -
+            panels = new Panel();
+            panels.Parent = View_panel;
+            panels.Location = new Point(defaultPadding, defaultPadding);
+            panels.Size = panelSize;
+            panels.BackColor = Color.FromArgb(66, 96, 138);
+
+            // - forename -
+            Forename_TxtBox = new TextBox();
+            Forename_TxtBox.Parent = panels;
+            Forename_TxtBox.PlaceholderText = "Forename";
+            Forename_TxtBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            Forename_TxtBox.Location = new Point(defaultPadding, defaultPadding);
+            Forename_TxtBox.ForeColor = Color.Black;
+
+
+            // - Surname -
+            surname_TxtBox = new TextBox();
+            surname_TxtBox.Parent = panels;
+            surname_TxtBox.PlaceholderText = "Surname";
+            surname_TxtBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            surname_TxtBox.Location = new Point(Forename_TxtBox.Location.X + Forename_TxtBox.Size.Width, defaultPadding);
+            surname_TxtBox.ForeColor = Color.Black;
+
+            // - staff ID -
+            staffID_TxtBox = new TextBox();
+            staffID_TxtBox.Parent = panels;
+            staffID_TxtBox.PlaceholderText = "Staff ID";
+            staffID_TxtBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            staffID_TxtBox.Location = new Point(defaultPadding, Forename_TxtBox.Location.Y + Forename_TxtBox.Size.Height);
+            staffID_TxtBox.ForeColor = Color.Black;
+
+            // - user ID -
+            userID_TxtBox = new TextBox();
+            userID_TxtBox.Parent = panels;
+            userID_TxtBox.PlaceholderText = "User ID";
+            userID_TxtBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            userID_TxtBox.Location = new Point(defaultPadding, staffID_TxtBox.Location.Y + staffID_TxtBox.Size.Height);
+            userID_TxtBox.ForeColor = Color.Black;
+
+            // - adress  -
+            adress_TxtBox = new TextBox();
+            adress_TxtBox.Parent = panels;
+            adress_TxtBox.PlaceholderText = "Adress";
+            adress_TxtBox.Size = textSize;
+            adress_TxtBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            adress_TxtBox.Location = new Point(staffID_TxtBox.Location.X + staffID_TxtBox.Size.Width, Forename_TxtBox.Location.Y + Forename_TxtBox.Size.Height);
+            adress_TxtBox.ForeColor = Color.Black;
+
+            // - phonenumber -
+            PhoneNumber_TxtBox = new TextBox();
+            PhoneNumber_TxtBox.Parent = panels;
+            PhoneNumber_TxtBox.PlaceholderText = "Phone Number";
+            PhoneNumber_TxtBox.Size = textSize;
+            PhoneNumber_TxtBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            PhoneNumber_TxtBox.Location = new Point(userID_TxtBox.Location.X + userID_TxtBox.Size.Width, staffID_TxtBox.Location.Y + staffID_TxtBox.Size.Height);
+            PhoneNumber_TxtBox.ForeColor = Color.Black;
+
+            // - DOB  -
+            Dob_TxtBox = new TextBox();
+            Dob_TxtBox.Parent = panels;
+            Dob_TxtBox.PlaceholderText = "DOB";
+            Dob_TxtBox.Size = textSize;
+            Dob_TxtBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            Dob_TxtBox.Location = new Point(adress_TxtBox.Location.X + adress_TxtBox.Size.Width, Forename_TxtBox.Location.Y + Forename_TxtBox.Size.Height);
+            Dob_TxtBox.ForeColor = Color.Black;
+
+            // - Email  -
+            email_TxtBox = new TextBox();
+            email_TxtBox.Parent = panels;
+            email_TxtBox.PlaceholderText = "Email";
+            email_TxtBox.Size = textSize;
+            email_TxtBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            email_TxtBox.Location = new Point(PhoneNumber_TxtBox.Location.X + PhoneNumber_TxtBox.Size.Width, staffID_TxtBox.Location.Y + staffID_TxtBox.Size.Height);
+            email_TxtBox.ForeColor = Color.Black;
+
+            // - Create Entry button -
+            createEntry_button = new Button();
+            createEntry_button.Text = "Save Changes!";
+            createEntry_button.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            createEntry_button.BackColor = Color.FromArgb(64, 199, 73);
+            createEntry_button.ForeColor = Color.White;
+            createEntry_button.Location = new Point(panelSize.Width - createEntry_button.Size.Width - defaultPadding, defaultPadding);
+            createEntry_button.Parent = panels;
+            createEntry_button.Click += delegate (object sender, EventArgs e) { staffCreateEntry(sender, e); }; // delegate function to be run on click and pass i to later refer to witch button was pressed
+
+            void staffCreateEntry(object sender, EventArgs e)
+            {
+                StaffInfo staffInfo = new StaffInfo();
+
+                staffInfo.staffID = int.Parse(staffID_TxtBox.Text);
+                staffInfo.userID = int.Parse(userID_TxtBox.Text);
+                staffInfo.forename = Forename_TxtBox.Text;
+                staffInfo.surname = surname_TxtBox.Text;
+                staffInfo.adress = adress_TxtBox.Text;
+                staffInfo.phonenumber = PhoneNumber_TxtBox.Text;
+                staffInfo.DOB = Dob_TxtBox.Text;
+                staffInfo.email = email_TxtBox.Text;
+
+                // construct string to be saved to file 
+
+                string finalString = cryptography.encryptStr(
+                    staffInfo.staffID.ToString() + "," +
+                    staffInfo.userID.ToString() + "," +
+                    staffInfo.surname + "," +
+                    staffInfo.forename + "," +
+                    staffInfo.adress + "," +
+                    staffInfo.phonenumber + "," +
+                    staffInfo.DOB + "," +
+                    staffInfo.email
+                    );
+
+
+                using (StreamWriter sw = File.AppendText(settings.staffDetailsFile))
+                {
+                    sw.WriteLine(finalString);
+
+                }
+            }
 
         }
         #endregion
@@ -514,6 +665,8 @@ namespace RheolauArmsManagmentSystemPrototype
                 View_panel.Controls[0].Dispose();
             }
         }
+
+
 
         #endregion
         //------------------------------------------------------------------
