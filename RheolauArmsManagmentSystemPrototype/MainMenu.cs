@@ -86,7 +86,7 @@ namespace RheolauArmsManagmentSystemPrototype
 
         #endregion
         //------------------------------------------------------------------
-        #region - Staff menu  -
+        #region - Staff -
         private void ViewStaff_button_Click(object sender, EventArgs e)
         {
             // remove all children of view panel to clear old information
@@ -404,7 +404,8 @@ namespace RheolauArmsManagmentSystemPrototype
                 editEntry_button[i].ForeColor = Color.White;
                 editEntry_button[i].Location = new Point(panelSize.Width - editEntry_button[i].Size.Width - defaultPadding, defaultPadding );
                 editEntry_button[i].Parent = panels[i];
-                editEntry_button[i].Click += delegate (object sender, EventArgs e) { staffEditDeleteEntry(sender, e, i); }; // delegate function to be run on click and pass i to later refer to witch button was pressed
+                editEntryButtonAddCallBack(i);
+                
 
                 // - delete entry button -
                 deleteEntry_button[i] = new Button();
@@ -414,12 +415,31 @@ namespace RheolauArmsManagmentSystemPrototype
                 deleteEntry_button[i].BackColor = Color.Red;
                 deleteEntry_button[i].Location = new Point(panelSize.Width - deleteEntry_button[i].Size.Width - defaultPadding, defaultPadding  + editEntry_button[i].Location.Y + editEntry_button[i].Size.Height);
                 deleteEntry_button[i].Parent = panels[i];
+                deleteEntryButtonAddCallBack(i);
             }
 
-            void staffEditDeleteEntry (object sender, EventArgs e,  int id)
+            #region - mess -
+            void editEntryButtonAddCallBack(int i)
             {
-                MessageBox.Show(id.ToString());
+                editEntry_button[i].Click += delegate (object sender, EventArgs e) { staffEditSaveEntry(sender, e, i); }; // delegate function to be run on click and pass i to later refer to witch button was pressed
             }
+
+            void deleteEntryButtonAddCallBack(int i)
+            {
+                deleteEntry_button[i].Click += delegate (object sender, EventArgs e) { staffEditDeleteEntry(sender, e, i); }; // delegate function to be run on click and pass i to later refer to witch button was pressed
+            }
+
+            void staffEditDeleteEntry(object sender, EventArgs e,  int id)
+            {
+                MessageBox.Show("delete: " + id.ToString());
+            }
+
+            void staffEditSaveEntry(object sender, EventArgs e, int id)
+            {
+                MessageBox.Show("Edit: " + id.ToString());
+            }
+            #endregion
+
         }
         #endregion
         //------------------------------------------------------------------
