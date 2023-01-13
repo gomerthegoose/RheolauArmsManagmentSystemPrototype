@@ -40,6 +40,7 @@
             this.EncryptString_Button = new System.Windows.Forms.Button();
             this.EncryptString_TxtBox = new System.Windows.Forms.TextBox();
             this.StaffControls_panel = new System.Windows.Forms.Panel();
+            this.createStaff_button = new System.Windows.Forms.Button();
             this.EditStaff_button = new System.Windows.Forms.Button();
             this.StaffReturn_button = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -72,7 +73,6 @@
             this.button10 = new System.Windows.Forms.Button();
             this.SettingsControl_label = new System.Windows.Forms.Label();
             this.SettingsEditFileLocationss_button = new System.Windows.Forms.Button();
-            this.createStaff_button = new System.Windows.Forms.Button();
             this.navigationPanel.SuspendLayout();
             this.StaffControls_panel.SuspendLayout();
             this.StockControls_panel.SuspendLayout();
@@ -221,6 +221,16 @@
             this.StaffControls_panel.Size = new System.Drawing.Size(177, 727);
             this.StaffControls_panel.TabIndex = 6;
             this.StaffControls_panel.Visible = false;
+            // 
+            // createStaff_button
+            // 
+            this.createStaff_button.Location = new System.Drawing.Point(3, 101);
+            this.createStaff_button.Name = "createStaff_button";
+            this.createStaff_button.Size = new System.Drawing.Size(171, 29);
+            this.createStaff_button.TabIndex = 9;
+            this.createStaff_button.Text = "Create Staff";
+            this.createStaff_button.UseVisualStyleBackColor = true;
+            this.createStaff_button.Click += new System.EventHandler(this.createStaff_button_Click);
             // 
             // EditStaff_button
             // 
@@ -510,11 +520,13 @@
             // 
             // View_panel
             // 
+            this.View_panel.AutoScroll = true;
             this.View_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.View_panel.Location = new System.Drawing.Point(1167, 5);
             this.View_panel.Name = "View_panel";
             this.View_panel.Size = new System.Drawing.Size(194, 202);
             this.View_panel.TabIndex = 11;
+
             // 
             // SettingsControls_panel
             // 
@@ -620,22 +632,12 @@
             this.SettingsEditFileLocationss_button.Text = "Edit File Locations";
             this.SettingsEditFileLocationss_button.UseVisualStyleBackColor = true;
             // 
-            // createStaff_button
-            // 
-            this.createStaff_button.Location = new System.Drawing.Point(3, 101);
-            this.createStaff_button.Name = "createStaff_button";
-            this.createStaff_button.Size = new System.Drawing.Size(171, 29);
-            this.createStaff_button.TabIndex = 9;
-            this.createStaff_button.Text = "Create Staff";
-            this.createStaff_button.UseVisualStyleBackColor = true;
-            this.createStaff_button.Click += new System.EventHandler(this.createStaff_button_Click);
-            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(40)))), ((int)(((byte)(41)))));
-            this.ClientSize = new System.Drawing.Size(1164, 727);
+            this.ClientSize = new System.Drawing.Size(1234, 727);
             this.Controls.Add(this.SettingsControls_panel);
             this.Controls.Add(this.View_panel);
             this.Controls.Add(this.ThursdayControls_panel);

@@ -37,7 +37,7 @@ namespace RheolauArmsManagmentSystemPrototype
         }
         //------------------------------------------------------------------
         #region - Main menu  -
-
+        
         private void StockMenuBtn_Click(object sender, EventArgs e)
         {
             navigationPanel.Hide();
@@ -53,6 +53,7 @@ namespace RheolauArmsManagmentSystemPrototype
             StaffControls_panel.BringToFront();
             View_panel.Location = new Point(StaffControls_panel.Width, StaffControls_panel.Location.Y);
             View_panel.Size = new Size(this.Width - StaffControls_panel.Size.Width - 15  , StaffControls_panel.Size.Height);
+
         }
         private void ThursdayBookingsBtn_Click(object sender, EventArgs e)
         {
@@ -135,7 +136,7 @@ namespace RheolauArmsManagmentSystemPrototype
             Cryptography cryptography = new Cryptography();
             Graphics graphics = CreateGraphics();
 
-            Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 2, 80);
+            Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 6, 80);
             Size textSize = new Size(250, 24);
 
 
@@ -225,7 +226,7 @@ namespace RheolauArmsManagmentSystemPrototype
                 userID_Label[i].ForeColor = Color.White;
 
                 // - adress  -
-                adress_Label[i] = new Label();
+                adress_Label[i] = new Label(); // new label
                 adress_Label[i].Parent = panels[i];
                 adress_Label[i].Text = "Adress: " + staffInfo[i].adress;
                 adress_Label[i].Size = textSize;
@@ -268,8 +269,8 @@ namespace RheolauArmsManagmentSystemPrototype
             Cryptography cryptography = new Cryptography();
             Graphics graphics = CreateGraphics();
 
-            Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 2, 80);
             Size textSize = new Size(250, 24);
+            Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 6, 80);
 
             StreamReader SrLineCount = new StreamReader(settings.staffDetailsFile);      // create new stream reader         
             int NumLines = 0; // number of lines in file
@@ -453,9 +454,8 @@ namespace RheolauArmsManagmentSystemPrototype
         private void CreateStaff()
         {
 
-            Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 2, 80);
             Size textSize = new Size(250, 24);
-
+            Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 6, 80);
             LoginSettings settings = new LoginSettings(); //create nenw instance of login settings
             Cryptography cryptography = new Cryptography();
             Graphics graphics = CreateGraphics();
@@ -560,6 +560,7 @@ namespace RheolauArmsManagmentSystemPrototype
             void staffCreateEntry(object sender, EventArgs e)
             {
                 StaffInfo staffInfo = new StaffInfo();
+                Validator validator = new Validator();
 
                 staffInfo.staffID = int.Parse(staffID_TxtBox.Text);
                 staffInfo.userID = int.Parse(userID_TxtBox.Text);
@@ -570,25 +571,35 @@ namespace RheolauArmsManagmentSystemPrototype
                 staffInfo.DOB = Dob_TxtBox.Text;
                 staffInfo.email = email_TxtBox.Text;
 
+                // validate string
+                if (!validator.validateStaff(staffInfo).IsError)
+                {
+                    string finalString = cryptography.encryptStr(
+                                        staffInfo.staffID.ToString() + "," +
+                                        staffInfo.userID.ToString() + "," +
+                                        staffInfo.surname + "," +
+                                        staffInfo.forename + "," +
+                                        staffInfo.adress + "," +
+                                        staffInfo.phonenumber + "," +
+                                        staffInfo.DOB + "," +
+                                        staffInfo.email
+                                        );
+
+
+                    using (StreamWriter sw = File.AppendText(settings.staffDetailsFile))
+                    {
+                        sw.WriteLine(finalString);
+
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(validator.validateStaff(staffInfo).Message);
+                }
+
                 // construct string to be saved to file 
 
-                string finalString = cryptography.encryptStr(
-                    staffInfo.staffID.ToString() + "," +
-                    staffInfo.userID.ToString() + "," +
-                    staffInfo.surname + "," +
-                    staffInfo.forename + "," +
-                    staffInfo.adress + "," +
-                    staffInfo.phonenumber + "," +
-                    staffInfo.DOB + "," +
-                    staffInfo.email
-                    );
-
-
-                using (StreamWriter sw = File.AppendText(settings.staffDetailsFile))
-                {
-                    sw.WriteLine(finalString);
-
-                }
+                
             }
 
         }
