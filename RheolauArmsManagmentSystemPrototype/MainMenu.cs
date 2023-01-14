@@ -2,12 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
+
 namespace RheolauArmsManagmentSystemPrototype
 {
 
@@ -303,7 +306,7 @@ namespace RheolauArmsManagmentSystemPrototype
                 }
             }
             #endregion
-
+            #region controls
             Panel[] panels = new Panel[staffInfo.Length];
             TextBox[] Forename_TxtBox = new TextBox[staffInfo.Length];
             TextBox[] surname_TxtBox = new TextBox[staffInfo.Length];
@@ -315,8 +318,7 @@ namespace RheolauArmsManagmentSystemPrototype
             TextBox[] email_TxtBox = new TextBox[staffInfo.Length];
             Button[] editEntry_button = new Button[staffInfo.Length];
             Button[] deleteEntry_button = new Button[staffInfo.Length];
-
-
+            #endregion
 
 
             for (int i = 0; i < staffInfo.Length; i++)
@@ -416,7 +418,7 @@ namespace RheolauArmsManagmentSystemPrototype
                 editEntry_button[i].ForeColor = Color.White;
                 editEntry_button[i].Location = new Point(panelSize.Width - editEntry_button[i].Size.Width - defaultPadding, defaultPadding );
                 editEntry_button[i].Parent = panels[i];
-                editEntryButtonAddCallBack(i);
+                editEntryButtonAddCallBack(i,staffInfo);
                 
 
                 // - delete entry button -
@@ -427,28 +429,92 @@ namespace RheolauArmsManagmentSystemPrototype
                 deleteEntry_button[i].BackColor = Color.Red;
                 deleteEntry_button[i].Location = new Point(panelSize.Width - deleteEntry_button[i].Size.Width - defaultPadding, defaultPadding  + editEntry_button[i].Location.Y + editEntry_button[i].Size.Height);
                 deleteEntry_button[i].Parent = panels[i];
-                deleteEntryButtonAddCallBack(i);
+                deleteEntryButtonAddCallBack(i,staffInfo);
             }
 
             #region - mess -
-            void editEntryButtonAddCallBack(int i) // not sure why this function is neccasary dosnt work if not in function
+            void editEntryButtonAddCallBack(int i,StaffInfo[] staffInfo) // not sure why this function is neccasary dosnt work if not in function
             {
-                editEntry_button[i].Click += delegate (object sender, EventArgs e) { staffEditSaveEntry(sender, e, i); }; // delegate function to be run on click and pass i to later refer to witch button was pressed
+                editEntry_button[i].Click += delegate (object sender, EventArgs e) { staffEditSaveEntry(sender, e, i,staffInfo); }; // delegate function to be run on click and pass i to later refer to witch button was pressed
             }
 
-            void deleteEntryButtonAddCallBack(int i) // not sure why this function is neccasary dosnt work if not in function
+            void deleteEntryButtonAddCallBack(int i, StaffInfo[] staffInfo) // not sure why this function is neccasary dosnt work if not in function
             {
-                deleteEntry_button[i].Click += delegate (object sender, EventArgs e) { staffEditDeleteEntry(sender, e, i); }; // delegate function to be run on click and pass i to later refer to witch button was pressed
+                deleteEntry_button[i].Click += delegate (object sender, EventArgs e) { staffEditDeleteEntry(sender, e, i, staffInfo); }; // delegate function to be run on click and pass i to later refer to witch button was pressed
             }
 
-            void staffEditDeleteEntry(object sender, EventArgs e,  int id)
+            void staffEditDeleteEntry(object sender, EventArgs e,  int id, StaffInfo[] staffInfo)
             {
-                MessageBox.Show("delete: " + id.ToString());
-            }
+                using (StreamWriter sw = new StreamWriter(settings.staffDetailsFile,false)) // create new stream writer in overwrite mode
+                {
+                    for (int i = 0; i < staffInfo.Length; i++)
+                    {
+                        if (i != id)
+                        {
+                            sw.WriteLine(cryptography.encryptStr(staffInfo[i].RawData)); // wrtie each line exept for the selected one 
+                        }
+                    }
 
-            void staffEditSaveEntry(object sender, EventArgs e, int id)
+                }
+                EditStaff_button.PerformClick(); // reload page
+            } 
+
+            void staffEditSaveEntry(object sender, EventArgs e, int id, StaffInfo[] staffInfo)
             {
-                MessageBox.Show("Edit: " + id.ToString());
+                using (StreamWriter sw = new StreamWriter(settings.staffDetailsFile, false)) // create new stream writer in overwrite mode
+                {
+                    for (int i = 0; i < staffInfo.Length; i++)
+                    {
+                        if (i != id)
+                        {
+                            sw.WriteLine(cryptography.encryptStr(staffInfo[i].RawData)); // wrtie each line exept for the selected one 
+                        }
+                        else
+                        {
+                            StaffInfo editedStaffInfo = new StaffInfo();
+                            Validator validator = new Validator();
+
+                            editedStaffInfo.staffID = int.Parse(staffID_TxtBox[id].Text);
+                            editedStaffInfo.userID = int.Parse(userID_TxtBox[id].Text);
+                            editedStaffInfo.forename = Forename_TxtBox[id].Text;
+                            editedStaffInfo.surname = surname_TxtBox[id].Text;
+                            editedStaffInfo.adress = adress_TxtBox[id].Text;
+                            editedStaffInfo.phonenumber = PhoneNumber_TxtBox[id].Text;
+                            editedStaffInfo.DOB = Dob_TxtBox[id].Text;
+                            editedStaffInfo.email = email_TxtBox[id].Text;
+
+                            // validate string
+                            if (!validator.validateStaff(editedStaffInfo).IsError)
+                            {
+                                string finalString = cryptography.encryptStr(
+                                                    editedStaffInfo.staffID.ToString() + "," +
+                                                    editedStaffInfo.userID.ToString() + "," +
+                                                    editedStaffInfo.surname + "," +
+                                                    editedStaffInfo.forename + "," +
+                                                    editedStaffInfo.adress + "," +
+                                                    editedStaffInfo.phonenumber + "," +
+                                                    editedStaffInfo.DOB + "," +
+                                                    editedStaffInfo.email
+                                                    );
+
+
+
+                                sw.WriteLine(finalString);
+
+                                MessageBox.Show("Succesfully saved change !");
+
+
+
+                            }
+                            else
+                              {
+                                MessageBox.Show(validator.validateStaff(editedStaffInfo).Message);
+                                sw.WriteLine(cryptography.encryptStr(staffInfo[id].RawData)); // write original data if validation fails to ensure that data is not lost 
+                            }
+                        }
+                    }
+                }
+                EditStaff_button.PerformClick(); // reload page
             }
             #endregion
 
