@@ -35,7 +35,7 @@ namespace RheolauArmsManagmentSystemPrototype
                 errorMessage.IsError = true;
                 errorMessage.Message = "Adress cannot be Empty !";
             }
-            if(staffInfo.phonenumber.Length == 11)
+            if(staffInfo.phonenumber.Length != 11)
             {
                 errorMessage.IsError = true;
                 errorMessage.Message = "phone number must be 11 characters long !";
@@ -43,7 +43,7 @@ namespace RheolauArmsManagmentSystemPrototype
             if (staffInfo.phonenumber == "")
             {
                 errorMessage.IsError = true;
-                errorMessage.Message = "Phone number cannot be Empty ! !";
+                errorMessage.Message = "Phone number cannot be Empty !";
             }
             return errorMessage;
         }

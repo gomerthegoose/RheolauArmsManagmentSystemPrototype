@@ -353,6 +353,7 @@ namespace RheolauArmsManagmentSystemPrototype
                 staffID_TxtBox[i].Parent = panels[i];
                 staffID_TxtBox[i].Text = staffInfo[i].staffID.ToString();
                 staffID_TxtBox[i].PlaceholderText = "Staff ID";
+                staffID_TxtBox[i].Enabled = false;
                 staffID_TxtBox[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
                 staffID_TxtBox[i].Location = new Point(defaultPadding, Forename_TxtBox[i].Location.Y + Forename_TxtBox[i].Size.Height);
                 staffID_TxtBox[i].ForeColor = Color.Black;
@@ -362,6 +363,7 @@ namespace RheolauArmsManagmentSystemPrototype
                 userID_TxtBox[i].Parent = panels[i];
                 userID_TxtBox[i].Text = staffInfo[i].userID.ToString();
                 userID_TxtBox[i].PlaceholderText = "User ID";
+                userID_TxtBox[i].Enabled = false;
                 userID_TxtBox[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
                 userID_TxtBox[i].Location = new Point(defaultPadding, staffID_TxtBox[i].Location.Y + staffID_TxtBox[i].Size.Height);
                 userID_TxtBox[i].ForeColor = Color.Black;
@@ -460,6 +462,17 @@ namespace RheolauArmsManagmentSystemPrototype
             Cryptography cryptography = new Cryptography();
             Graphics graphics = CreateGraphics();
 
+            StreamReader SrLineCount = new StreamReader(settings.staffDetailsFile);      // create new stream reader         
+            int NumLines = 0; // number of lines in file
+            while (SrLineCount.Peek() >= 0) // if not at end of file
+            {
+                SrLineCount.ReadLine(); //read line to advance file pointer 
+                NumLines++; // incriment number of lines 
+            }
+            SrLineCount.Close(); // close file
+
+
+
             Panel panels = new Panel();
             TextBox Forename_TxtBox = new TextBox();
             TextBox surname_TxtBox = new TextBox();
@@ -499,6 +512,8 @@ namespace RheolauArmsManagmentSystemPrototype
             staffID_TxtBox = new TextBox();
             staffID_TxtBox.Parent = panels;
             staffID_TxtBox.PlaceholderText = "Staff ID";
+            staffID_TxtBox.Text = NumLines.ToString();
+            staffID_TxtBox.Enabled = false;
             staffID_TxtBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             staffID_TxtBox.Location = new Point(defaultPadding, Forename_TxtBox.Location.Y + Forename_TxtBox.Size.Height);
             staffID_TxtBox.ForeColor = Color.Black;
@@ -507,6 +522,7 @@ namespace RheolauArmsManagmentSystemPrototype
             userID_TxtBox = new TextBox();
             userID_TxtBox.Parent = panels;
             userID_TxtBox.PlaceholderText = "User ID";
+            userID_TxtBox.Text = NumLines.ToString();
             userID_TxtBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             userID_TxtBox.Location = new Point(defaultPadding, staffID_TxtBox.Location.Y + staffID_TxtBox.Size.Height);
             userID_TxtBox.ForeColor = Color.Black;
@@ -591,6 +607,9 @@ namespace RheolauArmsManagmentSystemPrototype
                         sw.WriteLine(finalString);
 
                     }
+                    MessageBox.Show("Created New Staff Member !");
+
+                    ViewStaff_button.PerformClick();
                 }
                 else
                 {
