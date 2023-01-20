@@ -445,18 +445,23 @@ namespace RheolauArmsManagmentSystemPrototype
 
             void staffEditDeleteEntry(object sender, EventArgs e,  int id, StaffInfo[] staffInfo)
             {
-                using (StreamWriter sw = new StreamWriter(settings.staffDetailsFile,false)) // create new stream writer in overwrite mode
-                {
-                    for (int i = 0; i < staffInfo.Length; i++)
-                    {
-                        if (i != id)
-                        {
-                            sw.WriteLine(cryptography.encryptStr(staffInfo[i].RawData)); // wrtie each line exept for the selected one 
-                        }
-                    }
 
+                if (MessageBox.Show("Are you Sure you wish to delete this user ?", "Delete ?", MessageBoxButtons.YesNo) == DialogResult.Yes) // ensure that the user is sure to delete 
+                {
+                    using (StreamWriter sw = new StreamWriter(settings.staffDetailsFile, false)) // create new stream writer in overwrite mode
+                    {
+                        for (int i = 0; i < staffInfo.Length; i++)
+                        {
+                            if (i != id)
+                            {
+                                sw.WriteLine(cryptography.encryptStr(staffInfo[i].RawData)); // wrtie each line exept for the selected one 
+                            }
+                        }
+
+                    }
+                    EditStaff_button.PerformClick(); // reload page
                 }
-                EditStaff_button.PerformClick(); // reload page
+
             } 
 
             void staffEditSaveEntry(object sender, EventArgs e, int id, StaffInfo[] staffInfo)
@@ -514,7 +519,7 @@ namespace RheolauArmsManagmentSystemPrototype
                         }
                     }
                 }
-                EditStaff_button.PerformClick(); // reload page
+                EditStaff_button.PerformClick(); // reload page#
             }
             #endregion
 
