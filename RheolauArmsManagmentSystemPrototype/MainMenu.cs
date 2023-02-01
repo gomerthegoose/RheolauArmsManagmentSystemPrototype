@@ -14,18 +14,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 namespace RheolauArmsManagmentSystemPrototype
 {
 
-    struct StaffInfo
-    {
-        public string RawData;
-        public int staffID;
-        public int userID;
-        public string surname;
-        public string forename;
-        public string adress;
-        public string phonenumber;
-        public string DOB;
-        public string email;
-    }
+
 
 
     public partial class MainMenu : Form
@@ -37,6 +26,13 @@ namespace RheolauArmsManagmentSystemPrototype
         {
             InitializeComponent();
 
+        }
+        private void removeChildren(Panel panel)
+        {
+            while (panel.Controls.Count > 0)
+            {
+                panel.Controls[0].Dispose();
+            }
         }
         //------------------------------------------------------------------
         #region - Main menu  -
@@ -94,30 +90,21 @@ namespace RheolauArmsManagmentSystemPrototype
         private void ViewStaff_button_Click(object sender, EventArgs e)
         {
             // remove all children of view panel to clear old information
-            while (View_panel.Controls.Count > 0)
-            {
-                View_panel.Controls[0].Dispose();
-            }
+            removeChildren(View_panel);
             StaffMenu staffMenu = new StaffMenu();
             staffMenu.ViewStaff(View_panel);
         }
         private void EditStaff_button_Click(object sender, EventArgs e)
         {
             // remove all children of view panel to clear old information
-            while (View_panel.Controls.Count > 0)
-            {
-                View_panel.Controls[0].Dispose();
-            }
+            removeChildren(View_panel);
             StaffMenu staffMenu = new StaffMenu();
             staffMenu.EditStaff(View_panel);
         }
         private void createStaff_button_Click(object sender, EventArgs e)
         {
             // remove all children of view panel to clear old information
-            while (View_panel.Controls.Count > 0)
-            {
-                View_panel.Controls[0].Dispose();
-            }
+            removeChildren(View_panel);
             StaffMenu staffMenu = new StaffMenu();
             staffMenu.CreateStaff(View_panel); ;
         }
@@ -129,10 +116,7 @@ namespace RheolauArmsManagmentSystemPrototype
             View_panel.Location = new Point(navigationPanel.Width, navigationPanel.Location.Y); // reset location of view panel
 
             // remove all children of view panel to clear old information
-            while (View_panel.Controls.Count > 0)
-            {
-                View_panel.Controls[0].Dispose();
-            }
+            removeChildren(View_panel);
 
         }
 
@@ -157,7 +141,10 @@ namespace RheolauArmsManagmentSystemPrototype
         #region - Sunday Bookings -
         private void ViewSunBookings_button_Click(object sender, EventArgs e)
         {
-
+            removeChildren(View_panel);
+            SundayBookingsMenu sundayBookingsMenu = new SundayBookingsMenu();
+            sundayBookingsMenu.ViewStaff(View_panel);
+            
         }
 
         private void SundayReturn_button_Click(object sender, EventArgs e)
@@ -166,6 +153,7 @@ namespace RheolauArmsManagmentSystemPrototype
             SundayControlls_panel.Hide();
             navigationPanel.Show();
             View_panel.Location = new Point(navigationPanel.Width, navigationPanel.Location.Y); // reset location of view panel
+            removeChildren(View_panel);
         }
         #endregion
         //------------------------------------------------------------------

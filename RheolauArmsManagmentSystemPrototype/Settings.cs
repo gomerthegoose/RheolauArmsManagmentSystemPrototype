@@ -10,6 +10,7 @@ namespace RheolauArmsManagmentSystemPrototype
     {
         public string UsrDetailsFile { get; } = @"DataBase\UsrDetails.txt";
         public string staffDetailsFile { get; } = @"DataBase\StaffDetails.txt";
+        public string SundayBookingsFile { get; } = @"DataBase\SundayBookingDetails.txt";
 
     }
 }

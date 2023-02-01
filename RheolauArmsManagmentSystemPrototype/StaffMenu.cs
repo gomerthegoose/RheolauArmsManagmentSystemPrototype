@@ -14,6 +14,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace RheolauArmsManagmentSystemPrototype
 {
+    
     internal class StaffMenu
     {
         static int defaultPadding = 5;

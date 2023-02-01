@@ -10,15 +10,6 @@ namespace RheolauArmsManagmentSystemPrototype
     internal class LoginHandle
     {
 
-        public struct UsrInfo //used to store usr info
-        {
-            public int ID;
-            public string Username;
-            public string password;
-            public int accessLevel;
-            public string RawData;
-        }
-
         public bool Login(string Username , string Password) //handle login returns true if successfull login
         {
             LoginSettings loginSettings = new LoginSettings(); //create nenw instance of login settings
