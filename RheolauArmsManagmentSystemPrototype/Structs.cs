@@ -17,7 +17,7 @@ namespace RheolauArmsManagmentSystemPrototype
     }
     struct CustomerInfo
     {
-        public string rawData;
+        public string RawData;
         public int customerID;
         public string surname;
         public string forename;

@@ -12,28 +12,48 @@ namespace RheolauArmsManagmentSystemPrototype
         static int defaultPadding = 5;
         public void ViewBookings(Panel View_panel)
         {
-            #region - file garbage ish mostly idk -
+
+            // - variables --------------------------------------------------------------------------------------------------------------------
             LoginSettings settings = new LoginSettings(); //create nenw instance of login settings
             Cryptography cryptography = new Cryptography();
 
-            Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 6, 80);
+            Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 6, 100);
             Size textSize = new Size(250, 24);
+            // --------------------------------------------------------------------------------------------------------------------------------
 
 
-            StreamReader SrLineCount = new StreamReader(settings.staffDetailsFile);      // create new stream reader         
-            int NumLines = 0; // number of lines in file
-            while (SrLineCount.Peek() >= 0) // if not at end of file
+            // - get number of entrys in file -------------------------------------------------------------------------------------------------
+
+            int NumberOfBookings = 0; // number of lines in file
+            int NumberOfCustomers = 0; // number of lines in file
+
+            using (StreamReader Sr = new StreamReader(settings.SundayBookingsFile)) // create new stream reader  
             {
-                SrLineCount.ReadLine(); //read line to advance file pointer 
-                NumLines++; // incriment number of lines 
+                while (Sr.Peek() >= 0) // if not at end of file
+                {
+                    Sr.ReadLine(); //read line to advance file pointer 
+                    NumberOfBookings++; // incriment number of lines 
+                }
             }
-            SrLineCount.Close(); // close file
 
-            BookingInfo[] bookingInfo = new BookingInfo[NumLines]; // create new usr info variable
-
-            using (StreamReader Sr = new StreamReader(settings.staffDetailsFile)) // create new stream reader
+            using (StreamReader Sr = new StreamReader(settings.SundayBookingsFile)) // create new stream reader  
             {
+                while (Sr.Peek() >= 0) // if not at end of file
+                {
+                    Sr.ReadLine(); //read line to advance file pointer 
+                    NumberOfCustomers++; // incriment number of lines 
+                }
+            }
+            // --------------------------------------------------------------------------------------------------------------------------------
 
+
+            // - get of entrys from file and store in array -----------------------------------------------------------------------------------
+
+            BookingInfo[] bookingInfo = new BookingInfo[NumberOfBookings];    
+            CustomerInfo[] customerInfo = new CustomerInfo[NumberOfCustomers]; 
+
+            using (StreamReader Sr = new StreamReader(settings.SundayBookingsFile)) // create new stream reader
+            {
                 int i = 0;
                 while (Sr.Peek() >= 0) // if not at end of file
                 {
@@ -47,19 +67,46 @@ namespace RheolauArmsManagmentSystemPrototype
                     i++;
                 }
             }
-            #endregion
 
+            using (StreamReader Sr2 = new StreamReader(settings.CustomersFile)) // create new stream reader
+            {
+                int i = 0;
+                while (Sr2.Peek() >= 0) // if not at end of file
+                {
+                    customerInfo[i].RawData = cryptography.decryptStr(Sr2.ReadLine());            //read line from file and decrypt
+                    string[] entry = customerInfo[i].RawData.Split(","); // split read line by ,
+                    customerInfo[i].customerID = int.Parse(entry[0]); // parse first field "Customer ID"
+                    customerInfo[i].surname = entry[1]; // parse second field "Surname"
+                    customerInfo[i].forename = entry[2]; // parse third field "Forename"
+                    customerInfo[i].phoneNumber = entry[3];// parse fourth field "PhoneNumber"
+                    customerInfo[i].email = entry[4];// parse fith field "Email"
+                    i++;
+                }
+            }
+            // --------------------------------------------------------------------------------------------------------------------------------
+
+
+            // - setup controls ---------------------------------------------------------------------------------------------------------------
+
+            // - booking information -
             Panel[] panels = new Panel[bookingInfo.Length];
             Label[] bookingID_Label = new Label[bookingInfo.Length];
             Label[] customerID_Label = new Label[bookingInfo.Length];
             Label[] numberOfPeople_Label = new Label[bookingInfo.Length];
             Label[] bookingDate_Label = new Label[bookingInfo.Length];
-
             Label[] bookingTime_Label = new Label[bookingInfo.Length];
+
+            // - customer information -
+            Label[] CustomerSurname_Label = new Label[bookingInfo.Length];
+            Label[] CustomerForename_Label = new Label[bookingInfo.Length];
+            Label[] CustomerPhonenumber_Label = new Label[bookingInfo.Length];
+            Label[] CustomerEmail_Label = new Label[bookingInfo.Length];
 
 
             for (int i = 0; i < bookingInfo.Length; i++)
             {
+
+                //setup controlls
 
                 // - Panel -
                 panels[i] = new Panel();
@@ -68,74 +115,94 @@ namespace RheolauArmsManagmentSystemPrototype
                 panels[i].Size = panelSize;
                 panels[i].BackColor = Color.FromArgb(66, 96, 138);
 
-                // - forename -
-                Forename_Label[i] = new Label();
-                Forename_Label[i].Parent = panels[i];
-                Forename_Label[i].Text = staffInfo[i].forename;
-                Forename_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-                Forename_Label[i].Location = new Point(defaultPadding, defaultPadding);
-                Forename_Label[i].ForeColor = Color.White;
+                // - Booking ID -
+                bookingID_Label[i] = new Label();
+                bookingID_Label[i].Parent = panels[i];
+                bookingID_Label[i].Text = "Booking ID: " + bookingInfo[i].bookingID.ToString();
+                bookingID_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                bookingID_Label[i].Location = new Point(defaultPadding, defaultPadding);
+                bookingID_Label[i].ForeColor = Color.White;
+
+                // - Customer ID -
+                customerID_Label[i] = new Label();
+                customerID_Label[i].Parent = panels[i];
+                customerID_Label[i].Text = "Customer ID: " + bookingInfo[i].customerID.ToString();
+                customerID_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                customerID_Label[i].Size = textSize;
+                customerID_Label[i].Location = new Point(defaultPadding*2 + 200 + bookingID_Label[i].Size.Width, defaultPadding);
+                customerID_Label[i].ForeColor = Color.White;
+
+                // - Number Of People -
+                numberOfPeople_Label[i] = new Label();
+                numberOfPeople_Label[i].Parent = panels[i];
+                numberOfPeople_Label[i].Text ="Number Of people: " + bookingInfo[i].numberOfPeople.ToString();
+                numberOfPeople_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                numberOfPeople_Label[i].Size = textSize;
+                numberOfPeople_Label[i].Location = new Point(defaultPadding, bookingID_Label[i].Location.Y + bookingID_Label[i].Size.Height);
+                numberOfPeople_Label[i].ForeColor = Color.White;
+
+                // - Booking Date -
+                bookingDate_Label[i] = new Label();
+                bookingDate_Label[i].Parent = panels[i];
+                bookingDate_Label[i].Text = "Date: " + bookingInfo[i].bookingDate;
+                bookingDate_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                bookingDate_Label[i].Location = new Point(defaultPadding, numberOfPeople_Label[i].Location.Y + numberOfPeople_Label[i].Size.Height);
+                bookingDate_Label[i].Size = textSize;
+                bookingDate_Label[i].ForeColor = Color.White;
+
+                // - Booking Time  -
+                bookingTime_Label[i] = new Label(); // new label
+                bookingTime_Label[i].Parent = panels[i];
+                bookingTime_Label[i].Text = "Time: " + bookingInfo[i].bookingTime;
+                bookingTime_Label[i].Size = textSize;
+                bookingTime_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                bookingTime_Label[i].Location = new Point(defaultPadding , bookingDate_Label[i].Location.Y + bookingDate_Label[i].Size.Height);
+                bookingDate_Label[i].Size = textSize;
+                bookingTime_Label[i].ForeColor = Color.White;
+
+                // - customer surname -
+                CustomerSurname_Label[i] = new Label(); // new label
+                CustomerSurname_Label[i].Parent = panels[i];
+                CustomerSurname_Label[i].Text = "Surname: " + customerInfo[bookingInfo[i].customerID].surname; // 
+                CustomerSurname_Label[i].Size = textSize;
+                CustomerSurname_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                CustomerSurname_Label[i].Location = new Point(defaultPadding * 2 + 200 + bookingID_Label[i].Size.Width, bookingID_Label[i].Location.Y + bookingID_Label[i].Size.Height);
+                CustomerSurname_Label[i].Size = textSize;
+                CustomerSurname_Label[i].ForeColor = Color.White;
+
+                // - customer ForeName -
+                CustomerForename_Label[i] = new Label(); // new label
+                CustomerForename_Label[i].Parent = panels[i];
+                CustomerForename_Label[i].Text = "Forename: " + customerInfo[bookingInfo[i].customerID].forename; // 
+                CustomerForename_Label[i].Size = textSize;
+                CustomerForename_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                CustomerForename_Label[i].Location = new Point(defaultPadding * 2 + 200 + bookingID_Label[i].Size.Width, CustomerSurname_Label[i].Location.Y + CustomerSurname_Label[i].Size.Height);
+                CustomerForename_Label[i].Size = textSize;
+                CustomerForename_Label[i].ForeColor = Color.White;
+
+                // - customer Phone Number -
+                CustomerPhonenumber_Label[i] = new Label(); // new label
+                CustomerPhonenumber_Label[i].Parent = panels[i];
+                CustomerPhonenumber_Label[i].Text = "PhoneNumber: " + customerInfo[bookingInfo[i].customerID].phoneNumber; // 
+                CustomerPhonenumber_Label[i].Size = textSize;
+                CustomerPhonenumber_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                CustomerPhonenumber_Label[i].Location = new Point(defaultPadding * 2 + 200 + bookingID_Label[i].Size.Width, CustomerForename_Label[i].Location.Y + CustomerForename_Label[i].Size.Height);
+                CustomerPhonenumber_Label[i].Size = textSize;
+                CustomerPhonenumber_Label[i].ForeColor = Color.White;
+
+                // - customer Email -
+                CustomerEmail_Label[i] = new Label(); // new label
+                CustomerEmail_Label[i].Parent = panels[i];
+                CustomerEmail_Label[i].Text = "Email: " + customerInfo[bookingInfo[i].customerID].email; // 
+                CustomerEmail_Label[i].Size = textSize;
+                CustomerEmail_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                CustomerEmail_Label[i].Location = new Point(defaultPadding * 2 + 200 + bookingID_Label[i].Size.Width, CustomerPhonenumber_Label[i].Location.Y + CustomerPhonenumber_Label[i].Size.Height);
+                CustomerEmail_Label[i].Size = textSize;
+                CustomerEmail_Label[i].ForeColor = Color.White;
 
 
-                // - Surname -
-                surname_Label[i] = new Label();
-                surname_Label[i].Parent = panels[i];
-                surname_Label[i].Text = staffInfo[i].surname;
-                surname_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-                surname_Label[i].Location = new Point(Forename_Label[i].Location.X + Forename_Label[i].Size.Width, defaultPadding);
-                surname_Label[i].ForeColor = Color.White;
 
-                // - staff ID -
-                staffID_Label[i] = new Label();
-                staffID_Label[i].Parent = panels[i];
-                staffID_Label[i].Text = "Staff ID: " + staffInfo[i].staffID.ToString();
-                staffID_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-                staffID_Label[i].Location = new Point(defaultPadding, Forename_Label[i].Location.Y + Forename_Label[i].Size.Height);
-                staffID_Label[i].ForeColor = Color.White;
-
-                // - user ID -
-                userID_Label[i] = new Label();
-                userID_Label[i].Parent = panels[i];
-                userID_Label[i].Text = "User ID: " + staffInfo[i].userID.ToString();
-                userID_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-                userID_Label[i].Location = new Point(defaultPadding, staffID_Label[i].Location.Y + staffID_Label[i].Size.Height);
-                userID_Label[i].ForeColor = Color.White;
-
-                // - adress  -
-                adress_Label[i] = new Label(); // new label
-                adress_Label[i].Parent = panels[i];
-                adress_Label[i].Text = "Adress: " + staffInfo[i].adress;
-                adress_Label[i].Size = textSize;
-                adress_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-                adress_Label[i].Location = new Point(staffID_Label[i].Location.X + staffID_Label[i].Size.Width, Forename_Label[i].Location.Y + Forename_Label[i].Size.Height);
-                adress_Label[i].ForeColor = Color.White;
-
-                // - phonenumber -
-                PhoneNumber_Label[i] = new Label();
-                PhoneNumber_Label[i].Parent = panels[i];
-                PhoneNumber_Label[i].Text = "Phone Number: " + staffInfo[i].phonenumber;
-                PhoneNumber_Label[i].Size = textSize;
-                PhoneNumber_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-                PhoneNumber_Label[i].Location = new Point(userID_Label[i].Location.X + userID_Label[i].Size.Width, staffID_Label[i].Location.Y + staffID_Label[i].Size.Height);
-                PhoneNumber_Label[i].ForeColor = Color.White;
-
-                // - DOB  -
-                Dob_label[i] = new Label();
-                Dob_label[i].Parent = panels[i];
-                Dob_label[i].Text = "DOB: " + staffInfo[i].DOB;
-                Dob_label[i].Size = textSize;
-                Dob_label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-                Dob_label[i].Location = new Point(adress_Label[i].Location.X + adress_Label[i].Size.Width, Forename_Label[i].Location.Y + Forename_Label[i].Size.Height);
-                Dob_label[i].ForeColor = Color.White;
-
-                // - Email  -
-                email_label[i] = new Label();
-                email_label[i].Parent = panels[i];
-                email_label[i].Text = "Email: " + staffInfo[i].email;
-                email_label[i].Size = textSize;
-                email_label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-                email_label[i].Location = new Point(PhoneNumber_Label[i].Location.X + PhoneNumber_Label[i].Size.Width, staffID_Label[i].Location.Y + staffID_Label[i].Size.Height);
-                email_label[i].ForeColor = Color.White;
+                // --------------------------------------------------------------------------------------------------------------------------------
             }
         }
     }

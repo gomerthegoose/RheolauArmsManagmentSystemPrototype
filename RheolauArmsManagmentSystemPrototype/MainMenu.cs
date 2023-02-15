@@ -13,10 +13,6 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace RheolauArmsManagmentSystemPrototype
 {
-
-
-
-
     public partial class MainMenu : Form
     {
         //------------------------------------------------------------------
@@ -143,7 +139,7 @@ namespace RheolauArmsManagmentSystemPrototype
         {
             removeChildren(View_panel);
             SundayBookingsMenu sundayBookingsMenu = new SundayBookingsMenu();
-            sundayBookingsMenu.ViewStaff(View_panel);
+            sundayBookingsMenu.ViewBookings(View_panel);
             
         }
 
