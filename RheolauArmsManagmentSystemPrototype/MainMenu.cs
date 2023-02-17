@@ -23,11 +23,11 @@ namespace RheolauArmsManagmentSystemPrototype
             InitializeComponent();
 
         }
-        private void removeChildren(Panel panel)
+        private void KillChildren(Panel panel) // yes, does what it syas on the tin
         {
             while (panel.Controls.Count > 0)
             {
-                panel.Controls[0].Dispose();
+                panel.Controls[0].Dispose(); // remove child if there is one remaining
             }
         }
         //------------------------------------------------------------------
@@ -86,21 +86,21 @@ namespace RheolauArmsManagmentSystemPrototype
         private void ViewStaff_button_Click(object sender, EventArgs e)
         {
             // remove all children of view panel to clear old information
-            removeChildren(View_panel);
+            KillChildren(View_panel);
             StaffMenu staffMenu = new StaffMenu();
             staffMenu.ViewStaff(View_panel);
         }
         private void EditStaff_button_Click(object sender, EventArgs e)
         {
             // remove all children of view panel to clear old information
-            removeChildren(View_panel);
+            KillChildren(View_panel);
             StaffMenu staffMenu = new StaffMenu();
             staffMenu.EditStaff(View_panel);
         }
         private void createStaff_button_Click(object sender, EventArgs e)
         {
             // remove all children of view panel to clear old information
-            removeChildren(View_panel);
+            KillChildren(View_panel);
             StaffMenu staffMenu = new StaffMenu();
             staffMenu.CreateStaff(View_panel); ;
         }
@@ -112,7 +112,7 @@ namespace RheolauArmsManagmentSystemPrototype
             View_panel.Location = new Point(navigationPanel.Width, navigationPanel.Location.Y); // reset location of view panel
 
             // remove all children of view panel to clear old information
-            removeChildren(View_panel);
+            KillChildren(View_panel);
 
         }
 
@@ -137,7 +137,7 @@ namespace RheolauArmsManagmentSystemPrototype
         #region - Sunday Bookings -
         private void ViewSunBookings_button_Click(object sender, EventArgs e)
         {
-            removeChildren(View_panel);
+            KillChildren(View_panel);
             SundayBookingsMenu sundayBookingsMenu = new SundayBookingsMenu();
             sundayBookingsMenu.ViewBookings(View_panel);
             
@@ -149,7 +149,13 @@ namespace RheolauArmsManagmentSystemPrototype
             SundayControlls_panel.Hide();
             navigationPanel.Show();
             View_panel.Location = new Point(navigationPanel.Width, navigationPanel.Location.Y); // reset location of view panel
-            removeChildren(View_panel);
+            KillChildren(View_panel);
+        }
+        private void EditBookings_Button_Click(object sender, EventArgs e)
+        {
+            KillChildren(View_panel);
+            SundayBookingsMenu sundayBookingsMenu = new SundayBookingsMenu();
+            sundayBookingsMenu.ViewBookings(View_panel);
         }
         #endregion
         //------------------------------------------------------------------
@@ -193,6 +199,8 @@ namespace RheolauArmsManagmentSystemPrototype
                 View_panel.Controls[0].Dispose();
             }
         }
+
+
 
 
 
