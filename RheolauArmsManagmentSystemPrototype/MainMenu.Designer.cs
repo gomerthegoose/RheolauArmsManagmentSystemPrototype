@@ -53,6 +53,7 @@
             this.StockControls_label = new System.Windows.Forms.Label();
             this.ViewStock_button = new System.Windows.Forms.Button();
             this.SundayControlls_panel = new System.Windows.Forms.Panel();
+            this.EditBookings_Button = new System.Windows.Forms.Button();
             this.SundayReturn_button = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
@@ -73,7 +74,7 @@
             this.button10 = new System.Windows.Forms.Button();
             this.SettingsControl_label = new System.Windows.Forms.Label();
             this.SettingsEditFileLocationss_button = new System.Windows.Forms.Button();
-            this.EditBookings_Button = new System.Windows.Forms.Button();
+            this.CreateBookings_Button = new System.Windows.Forms.Button();
             this.navigationPanel.SuspendLayout();
             this.StaffControls_panel.SuspendLayout();
             this.StockControls_panel.SuspendLayout();
@@ -370,6 +371,7 @@
             // SundayControlls_panel
             // 
             this.SundayControlls_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.SundayControlls_panel.Controls.Add(this.CreateBookings_Button);
             this.SundayControlls_panel.Controls.Add(this.EditBookings_Button);
             this.SundayControlls_panel.Controls.Add(this.SundayReturn_button);
             this.SundayControlls_panel.Controls.Add(this.button5);
@@ -382,6 +384,16 @@
             this.SundayControlls_panel.Size = new System.Drawing.Size(208, 727);
             this.SundayControlls_panel.TabIndex = 9;
             this.SundayControlls_panel.Visible = false;
+            // 
+            // EditBookings_Button
+            // 
+            this.EditBookings_Button.Location = new System.Drawing.Point(3, 66);
+            this.EditBookings_Button.Name = "EditBookings_Button";
+            this.EditBookings_Button.Size = new System.Drawing.Size(198, 29);
+            this.EditBookings_Button.TabIndex = 10;
+            this.EditBookings_Button.Text = "Edit Bookings";
+            this.EditBookings_Button.UseVisualStyleBackColor = true;
+            this.EditBookings_Button.Click += new System.EventHandler(this.EditBookings_Button_Click);
             // 
             // SundayReturn_button
             // 
@@ -633,15 +645,14 @@
             this.SettingsEditFileLocationss_button.Text = "Edit File Locations";
             this.SettingsEditFileLocationss_button.UseVisualStyleBackColor = true;
             // 
-            // EditBookings_Button
+            // CreateBookings_Button
             // 
-            this.EditBookings_Button.Location = new System.Drawing.Point(3, 66);
-            this.EditBookings_Button.Name = "EditBookings_Button";
-            this.EditBookings_Button.Size = new System.Drawing.Size(198, 29);
-            this.EditBookings_Button.TabIndex = 10;
-            this.EditBookings_Button.Text = "View Bookings";
-            this.EditBookings_Button.UseVisualStyleBackColor = true;
-            this.EditBookings_Button.Click += new System.EventHandler(this.EditBookings_Button_Click);
+            this.CreateBookings_Button.Location = new System.Drawing.Point(3, 101);
+            this.CreateBookings_Button.Name = "CreateBookings_Button";
+            this.CreateBookings_Button.Size = new System.Drawing.Size(198, 29);
+            this.CreateBookings_Button.TabIndex = 11;
+            this.CreateBookings_Button.Text = "Create Bookings";
+            this.CreateBookings_Button.UseVisualStyleBackColor = true;
             // 
             // MainMenu
             // 
@@ -722,5 +733,6 @@
         private Button DecryptString_Button;
         private Button createStaff_button;
         private Button EditBookings_Button;
+        private Button CreateBookings_Button;
     }
 }

@@ -142,7 +142,12 @@ namespace RheolauArmsManagmentSystemPrototype
             sundayBookingsMenu.ViewBookings(View_panel);
             
         }
-
+        private void EditBookings_Button_Click(object sender, EventArgs e)
+        {
+            KillChildren(View_panel);
+            SundayBookingsMenu sundayBookingsMenu = new SundayBookingsMenu();
+            sundayBookingsMenu.EditBookings(View_panel);
+        }
         private void SundayReturn_button_Click(object sender, EventArgs e)
         {
             navigationPanel.BringToFront();
@@ -150,12 +155,6 @@ namespace RheolauArmsManagmentSystemPrototype
             navigationPanel.Show();
             View_panel.Location = new Point(navigationPanel.Width, navigationPanel.Location.Y); // reset location of view panel
             KillChildren(View_panel);
-        }
-        private void EditBookings_Button_Click(object sender, EventArgs e)
-        {
-            KillChildren(View_panel);
-            SundayBookingsMenu sundayBookingsMenu = new SundayBookingsMenu();
-            sundayBookingsMenu.ViewBookings(View_panel);
         }
         #endregion
         //------------------------------------------------------------------
