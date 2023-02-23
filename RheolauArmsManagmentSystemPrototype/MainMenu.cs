@@ -17,6 +17,7 @@ namespace RheolauArmsManagmentSystemPrototype
     {
         //------------------------------------------------------------------
         static int defaultPadding = 5;
+        bool[] staffSearchResult;
         //------------------------------------------------------------------
         public MainMenu()
         {
@@ -102,8 +103,9 @@ namespace RheolauArmsManagmentSystemPrototype
             // remove all children of view panel to clear old information
             KillChildren(View_panel);
             StaffMenu staffMenu = new StaffMenu();
-            staffMenu.CreateStaff(View_panel); ;
+            staffMenu.CreateStaff(View_panel);
         }
+
         private void StaffReturn_button_Click(object sender, EventArgs e)
         {
             navigationPanel.BringToFront(); // bring main nav panel to front 
@@ -167,11 +169,25 @@ namespace RheolauArmsManagmentSystemPrototype
         #region - Thursday Bookings -
         private void ViewThuBookings_button_Click(object sender, EventArgs e)
         {
-
+            KillChildren(View_panel);
+            ThursdayBookingsMenu thursdayBookingsMenu = new ThursdayBookingsMenu();           
+            thursdayBookingsMenu.ViewBookings(View_panel);
         }
-
+        private void ThursdayEditBookings_button_Click(object sender, EventArgs e)
+        {
+            KillChildren(View_panel);
+            ThursdayBookingsMenu thursdayBookingsMenu = new ThursdayBookingsMenu();          
+            thursdayBookingsMenu.EditBookings(View_panel);
+        }
+        private void ThursdayCreateBookings_button_Click(object sender, EventArgs e)
+        {
+            KillChildren(View_panel);
+            ThursdayBookingsMenu thursdayBookingsMenu = new ThursdayBookingsMenu();
+            thursdayBookingsMenu.CreateBooking(View_panel);
+        }
         private void ThursdayReturn_button_Click(object sender, EventArgs e)
         {
+            KillChildren(View_panel);
             navigationPanel.BringToFront();
             ThursdayControls_panel.Hide();
             navigationPanel.Show();
@@ -205,13 +221,6 @@ namespace RheolauArmsManagmentSystemPrototype
                 View_panel.Controls[0].Dispose();
             }
         }
-
-
-
-
-
-
-
         #endregion
         //------------------------------------------------------------------
     }

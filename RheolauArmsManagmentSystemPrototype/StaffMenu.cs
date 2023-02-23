@@ -20,45 +20,14 @@ namespace RheolauArmsManagmentSystemPrototype
         static int defaultPadding = 5;
         public void ViewStaff(Panel View_panel)
         {
-            #region - file garbage ish mostly idk -
             Settings settings = new Settings(); //create nenw instance of login settings
             Cryptography cryptography = new Cryptography();
 
             Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 6, 80);
             Size textSize = new Size(250, 24);
 
+            StaffInfo[] staffInfo = GetStaffInfo();
 
-            StreamReader SrLineCount = new StreamReader(settings.staffDetailsFile);      // create new stream reader         
-            int NumLines = 0; // number of lines in file
-            while (SrLineCount.Peek() >= 0) // if not at end of file
-            {
-                SrLineCount.ReadLine(); //read line to advance file pointer 
-                NumLines++; // incriment number of lines 
-            }
-            SrLineCount.Close(); // close file
-
-            StaffInfo[] staffInfo = new StaffInfo[NumLines]; // create new usr info variable
-
-            using (StreamReader Sr = new StreamReader(settings.staffDetailsFile)) // create new stream reader
-            {
-
-                int i = 0;
-                while (Sr.Peek() >= 0) // if not at end of file
-                {
-                    staffInfo[i].RawData = cryptography.decryptStr(Sr.ReadLine());            //read line from file and decrypt
-                    string[] usrDataSingleLine = staffInfo[i].RawData.Split(","); // split read line by ,
-                    staffInfo[i].staffID = int.Parse(usrDataSingleLine[0]); // parse first segment staffID
-                    staffInfo[i].userID = int.Parse(usrDataSingleLine[1]); // parse second segment userID
-                    staffInfo[i].surname = usrDataSingleLine[2]; // parse 3rd secmend surname
-                    staffInfo[i].forename = usrDataSingleLine[3]; // parse 4th segment forename
-                    staffInfo[i].adress = usrDataSingleLine[4]; // parse 5th segment adress
-                    staffInfo[i].phonenumber = usrDataSingleLine[5]; // parse 6th segment phonenumber
-                    staffInfo[i].DOB = usrDataSingleLine[6]; // parse 7th segment DOB
-                    staffInfo[i].email = usrDataSingleLine[7]; // parse 8th segment email
-                    i++;
-                }
-            }
-            #endregion
 
             Panel[] panels = new Panel[staffInfo.Length];
             Label[] Forename_Label = new Label[staffInfo.Length];
@@ -152,45 +121,15 @@ namespace RheolauArmsManagmentSystemPrototype
         }
         public void EditStaff(Panel View_panel)
         {
-            #region - file garbage ish mostly idk -
+
             Settings settings = new Settings(); //create nenw instance of login settings
             Cryptography cryptography = new Cryptography();
 
             Size textSize = new Size(250, 24);
             Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 6, 80);
 
-            StreamReader SrLineCount = new StreamReader(settings.staffDetailsFile);      // create new stream reader         
-            int NumLines = 0; // number of lines in file
-            while (SrLineCount.Peek() >= 0) // if not at end of file
-            {
-                SrLineCount.ReadLine(); //read line to advance file pointer 
-                NumLines++; // incriment number of lines 
-            }
-            SrLineCount.Close(); // close file
+            StaffInfo[] staffInfo = GetStaffInfo();
 
-            StaffInfo[] staffInfo = new StaffInfo[NumLines]; // create new usr info variable
-
-            using (StreamReader Sr = new StreamReader(settings.staffDetailsFile)) // create new stream reader
-            {
-
-                int i = 0;
-                while (Sr.Peek() >= 0) // if not at end of file
-                {
-                    staffInfo[i].RawData = cryptography.decryptStr(Sr.ReadLine());            //read line from file and decrypt
-                    string[] usrDataSingleLine = staffInfo[i].RawData.Split(","); // split read line by ,
-                    staffInfo[i].staffID = int.Parse(usrDataSingleLine[0]); // parse first segment staffID
-                    staffInfo[i].userID = int.Parse(usrDataSingleLine[1]); // parse second segment userID
-                    staffInfo[i].surname = usrDataSingleLine[2]; // parse 3rd secmend surname
-                    staffInfo[i].forename = usrDataSingleLine[3]; // parse 4th segment forename
-                    staffInfo[i].adress = usrDataSingleLine[4]; // parse 5th segment adress
-                    staffInfo[i].phonenumber = usrDataSingleLine[5]; // parse 6th segment phonenumber
-                    staffInfo[i].DOB = usrDataSingleLine[6]; // parse 7th segment DOB
-                    staffInfo[i].email = usrDataSingleLine[7]; // parse 8th segment email
-                    i++;
-                }
-            }
-            #endregion
-            #region controls
             Panel[] panels = new Panel[staffInfo.Length];
             TextBox[] Forename_TxtBox = new TextBox[staffInfo.Length];
             TextBox[] surname_TxtBox = new TextBox[staffInfo.Length];
@@ -202,7 +141,7 @@ namespace RheolauArmsManagmentSystemPrototype
             TextBox[] email_TxtBox = new TextBox[staffInfo.Length];
             Button[] editEntry_button = new Button[staffInfo.Length];
             Button[] deleteEntry_button = new Button[staffInfo.Length];
-            #endregion
+
 
 
             for (int i = 0; i < staffInfo.Length; i++)
@@ -416,15 +355,6 @@ namespace RheolauArmsManagmentSystemPrototype
             Settings settings = new Settings(); //create nenw instance of login settings
             Cryptography cryptography = new Cryptography();
 
-            StreamReader SrLineCount = new StreamReader(settings.staffDetailsFile);      // create new stream reader         
-            int NumLines = 0; // number of lines in file
-            while (SrLineCount.Peek() >= 0) // if not at end of file
-            {
-                SrLineCount.ReadLine(); //read line to advance file pointer 
-                NumLines++; // incriment number of lines 
-            }
-            SrLineCount.Close(); // close file
-
 
 
             Panel panels = new Panel();
@@ -466,7 +396,7 @@ namespace RheolauArmsManagmentSystemPrototype
             staffID_TxtBox = new TextBox();
             staffID_TxtBox.Parent = panels;
             staffID_TxtBox.PlaceholderText = "Staff ID";
-            staffID_TxtBox.Text = NumLines.ToString();
+            staffID_TxtBox.Text = (GetStaffInfo()[GetStaffInfo().Length - 1].staffID + 1).ToString();
             staffID_TxtBox.Enabled = false;
             staffID_TxtBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             staffID_TxtBox.Location = new Point(defaultPadding, Forename_TxtBox.Location.Y + Forename_TxtBox.Size.Height);
@@ -476,7 +406,7 @@ namespace RheolauArmsManagmentSystemPrototype
             userID_TxtBox = new TextBox();
             userID_TxtBox.Parent = panels;
             userID_TxtBox.PlaceholderText = "User ID";
-            userID_TxtBox.Text = NumLines.ToString();
+            userID_TxtBox.Text = (GetStaffInfo()[GetStaffInfo().Length - 1].staffID + 1).ToString();
             userID_TxtBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             userID_TxtBox.Location = new Point(defaultPadding, staffID_TxtBox.Location.Y + staffID_TxtBox.Size.Height);
             userID_TxtBox.ForeColor = Color.Black;
@@ -575,6 +505,43 @@ namespace RheolauArmsManagmentSystemPrototype
 
             }
 
+        }
+        private StaffInfo[] GetStaffInfo()
+        {
+            Settings settings = new Settings();
+            Cryptography cryptography = new Cryptography();
+
+            StreamReader SrLineCount = new StreamReader(settings.staffDetailsFile);      // create new stream reader         
+            int NumLines = 0; // number of lines in file
+            while (SrLineCount.Peek() >= 0) // if not at end of file
+            {
+                SrLineCount.ReadLine(); //read line to advance file pointer 
+                NumLines++; // incriment number of lines 
+            }
+            SrLineCount.Close(); // close file
+
+            StaffInfo[] staffInfo = new StaffInfo[NumLines]; // create new usr info variable
+
+            using (StreamReader Sr = new StreamReader(settings.staffDetailsFile)) // create new stream reader
+            {
+
+                int i = 0;
+                while (Sr.Peek() >= 0) // if not at end of file
+                {
+                    staffInfo[i].RawData = cryptography.decryptStr(Sr.ReadLine());            //read line from file and decrypt
+                    string[] usrDataSingleLine = staffInfo[i].RawData.Split(","); // split read line by ,
+                    staffInfo[i].staffID = int.Parse(usrDataSingleLine[0]); // parse first segment staffID
+                    staffInfo[i].userID = int.Parse(usrDataSingleLine[1]); // parse second segment userID
+                    staffInfo[i].surname = usrDataSingleLine[2]; // parse 3rd secmend surname
+                    staffInfo[i].forename = usrDataSingleLine[3]; // parse 4th segment forename
+                    staffInfo[i].adress = usrDataSingleLine[4]; // parse 5th segment adress
+                    staffInfo[i].phonenumber = usrDataSingleLine[5]; // parse 6th segment phonenumber
+                    staffInfo[i].DOB = usrDataSingleLine[6]; // parse 7th segment DOB
+                    staffInfo[i].email = usrDataSingleLine[7]; // parse 8th segment email
+                    i++;
+                }
+            }
+            return staffInfo;
         }
     }
 }

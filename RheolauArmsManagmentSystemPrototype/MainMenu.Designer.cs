@@ -53,14 +53,16 @@
             this.StockControls_label = new System.Windows.Forms.Label();
             this.ViewStock_button = new System.Windows.Forms.Button();
             this.SundayControlls_panel = new System.Windows.Forms.Panel();
-            this.CreateBookings_Button = new System.Windows.Forms.Button();
-            this.EditBookings_Button = new System.Windows.Forms.Button();
+            this.SundayCreateBookings_Button = new System.Windows.Forms.Button();
+            this.SundayEditBookings_Button = new System.Windows.Forms.Button();
             this.SundayReturn_button = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.SundayControls_label = new System.Windows.Forms.Label();
             this.ViewSunBookings_button = new System.Windows.Forms.Button();
             this.ThursdayControls_panel = new System.Windows.Forms.Panel();
+            this.ThursdayCreateBookings_button = new System.Windows.Forms.Button();
+            this.ThursdayEditBookings_button = new System.Windows.Forms.Button();
             this.ThursdayReturn_button = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
@@ -371,8 +373,8 @@
             // SundayControlls_panel
             // 
             this.SundayControlls_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.SundayControlls_panel.Controls.Add(this.CreateBookings_Button);
-            this.SundayControlls_panel.Controls.Add(this.EditBookings_Button);
+            this.SundayControlls_panel.Controls.Add(this.SundayCreateBookings_Button);
+            this.SundayControlls_panel.Controls.Add(this.SundayEditBookings_Button);
             this.SundayControlls_panel.Controls.Add(this.SundayReturn_button);
             this.SundayControlls_panel.Controls.Add(this.button5);
             this.SundayControlls_panel.Controls.Add(this.button6);
@@ -385,25 +387,25 @@
             this.SundayControlls_panel.TabIndex = 9;
             this.SundayControlls_panel.Visible = false;
             // 
-            // CreateBookings_Button
+            // SundayCreateBookings_Button
             // 
-            this.CreateBookings_Button.Location = new System.Drawing.Point(3, 101);
-            this.CreateBookings_Button.Name = "CreateBookings_Button";
-            this.CreateBookings_Button.Size = new System.Drawing.Size(198, 29);
-            this.CreateBookings_Button.TabIndex = 11;
-            this.CreateBookings_Button.Text = "Create Bookings";
-            this.CreateBookings_Button.UseVisualStyleBackColor = true;
-            this.CreateBookings_Button.Click += new System.EventHandler(this.CreateBookings_Button_Click);
+            this.SundayCreateBookings_Button.Location = new System.Drawing.Point(3, 101);
+            this.SundayCreateBookings_Button.Name = "SundayCreateBookings_Button";
+            this.SundayCreateBookings_Button.Size = new System.Drawing.Size(198, 29);
+            this.SundayCreateBookings_Button.TabIndex = 11;
+            this.SundayCreateBookings_Button.Text = "Create Bookings";
+            this.SundayCreateBookings_Button.UseVisualStyleBackColor = true;
+            this.SundayCreateBookings_Button.Click += new System.EventHandler(this.CreateBookings_Button_Click);
             // 
-            // EditBookings_Button
+            // SundayEditBookings_Button
             // 
-            this.EditBookings_Button.Location = new System.Drawing.Point(3, 66);
-            this.EditBookings_Button.Name = "EditBookings_Button";
-            this.EditBookings_Button.Size = new System.Drawing.Size(198, 29);
-            this.EditBookings_Button.TabIndex = 10;
-            this.EditBookings_Button.Text = "Edit Bookings";
-            this.EditBookings_Button.UseVisualStyleBackColor = true;
-            this.EditBookings_Button.Click += new System.EventHandler(this.EditBookings_Button_Click);
+            this.SundayEditBookings_Button.Location = new System.Drawing.Point(3, 66);
+            this.SundayEditBookings_Button.Name = "SundayEditBookings_Button";
+            this.SundayEditBookings_Button.Size = new System.Drawing.Size(198, 29);
+            this.SundayEditBookings_Button.TabIndex = 10;
+            this.SundayEditBookings_Button.Text = "Edit Bookings";
+            this.SundayEditBookings_Button.UseVisualStyleBackColor = true;
+            this.SundayEditBookings_Button.Click += new System.EventHandler(this.EditBookings_Button_Click);
             // 
             // SundayReturn_button
             // 
@@ -469,6 +471,8 @@
             // ThursdayControls_panel
             // 
             this.ThursdayControls_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ThursdayControls_panel.Controls.Add(this.ThursdayCreateBookings_button);
+            this.ThursdayControls_panel.Controls.Add(this.ThursdayEditBookings_button);
             this.ThursdayControls_panel.Controls.Add(this.ThursdayReturn_button);
             this.ThursdayControls_panel.Controls.Add(this.button8);
             this.ThursdayControls_panel.Controls.Add(this.button9);
@@ -480,6 +484,26 @@
             this.ThursdayControls_panel.Size = new System.Drawing.Size(211, 727);
             this.ThursdayControls_panel.TabIndex = 10;
             this.ThursdayControls_panel.Visible = false;
+            // 
+            // ThursdayCreateBookings_button
+            // 
+            this.ThursdayCreateBookings_button.Location = new System.Drawing.Point(3, 102);
+            this.ThursdayCreateBookings_button.Name = "ThursdayCreateBookings_button";
+            this.ThursdayCreateBookings_button.Size = new System.Drawing.Size(203, 29);
+            this.ThursdayCreateBookings_button.TabIndex = 12;
+            this.ThursdayCreateBookings_button.Text = "Create Bookings";
+            this.ThursdayCreateBookings_button.UseVisualStyleBackColor = true;
+            this.ThursdayCreateBookings_button.Click += new System.EventHandler(this.ThursdayCreateBookings_button_Click);
+            // 
+            // ThursdayEditBookings_button
+            // 
+            this.ThursdayEditBookings_button.Location = new System.Drawing.Point(3, 66);
+            this.ThursdayEditBookings_button.Name = "ThursdayEditBookings_button";
+            this.ThursdayEditBookings_button.Size = new System.Drawing.Size(203, 29);
+            this.ThursdayEditBookings_button.TabIndex = 12;
+            this.ThursdayEditBookings_button.Text = "Edit Bookings";
+            this.ThursdayEditBookings_button.UseVisualStyleBackColor = true;
+            this.ThursdayEditBookings_button.Click += new System.EventHandler(this.ThursdayEditBookings_button_Click);
             // 
             // ThursdayReturn_button
             // 
@@ -660,7 +684,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(40)))), ((int)(((byte)(41)))));
-            this.ClientSize = new System.Drawing.Size(1234, 727);
+            this.ClientSize = new System.Drawing.Size(1163, 727);
             this.Controls.Add(this.SettingsControls_panel);
             this.Controls.Add(this.View_panel);
             this.Controls.Add(this.ThursdayControls_panel);
@@ -733,7 +757,9 @@
         private Button SettingsMenu_button;
         private Button DecryptString_Button;
         private Button createStaff_button;
-        private Button EditBookings_Button;
-        private Button CreateBookings_Button;
+        private Button SundayEditBookings_Button;
+        private Button SundayCreateBookings_Button;
+        private Button ThursdayCreateBookings_button;
+        private Button ThursdayEditBookings_button;
     }
 }
