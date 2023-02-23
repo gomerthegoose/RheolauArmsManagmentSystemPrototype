@@ -53,6 +53,7 @@
             this.StockControls_label = new System.Windows.Forms.Label();
             this.ViewStock_button = new System.Windows.Forms.Button();
             this.SundayControlls_panel = new System.Windows.Forms.Panel();
+            this.CreateBookings_Button = new System.Windows.Forms.Button();
             this.EditBookings_Button = new System.Windows.Forms.Button();
             this.SundayReturn_button = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
@@ -74,7 +75,6 @@
             this.button10 = new System.Windows.Forms.Button();
             this.SettingsControl_label = new System.Windows.Forms.Label();
             this.SettingsEditFileLocationss_button = new System.Windows.Forms.Button();
-            this.CreateBookings_Button = new System.Windows.Forms.Button();
             this.navigationPanel.SuspendLayout();
             this.StaffControls_panel.SuspendLayout();
             this.StockControls_panel.SuspendLayout();
@@ -385,6 +385,16 @@
             this.SundayControlls_panel.TabIndex = 9;
             this.SundayControlls_panel.Visible = false;
             // 
+            // CreateBookings_Button
+            // 
+            this.CreateBookings_Button.Location = new System.Drawing.Point(3, 101);
+            this.CreateBookings_Button.Name = "CreateBookings_Button";
+            this.CreateBookings_Button.Size = new System.Drawing.Size(198, 29);
+            this.CreateBookings_Button.TabIndex = 11;
+            this.CreateBookings_Button.Text = "Create Bookings";
+            this.CreateBookings_Button.UseVisualStyleBackColor = true;
+            this.CreateBookings_Button.Click += new System.EventHandler(this.CreateBookings_Button_Click);
+            // 
             // EditBookings_Button
             // 
             this.EditBookings_Button.Location = new System.Drawing.Point(3, 66);
@@ -644,15 +654,6 @@
             this.SettingsEditFileLocationss_button.TabIndex = 1;
             this.SettingsEditFileLocationss_button.Text = "Edit File Locations";
             this.SettingsEditFileLocationss_button.UseVisualStyleBackColor = true;
-            // 
-            // CreateBookings_Button
-            // 
-            this.CreateBookings_Button.Location = new System.Drawing.Point(3, 101);
-            this.CreateBookings_Button.Name = "CreateBookings_Button";
-            this.CreateBookings_Button.Size = new System.Drawing.Size(198, 29);
-            this.CreateBookings_Button.TabIndex = 11;
-            this.CreateBookings_Button.Text = "Create Bookings";
-            this.CreateBookings_Button.UseVisualStyleBackColor = true;
             // 
             // MainMenu
             // 

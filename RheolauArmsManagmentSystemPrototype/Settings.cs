@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace RheolauArmsManagmentSystemPrototype
 {
     //constant file locations
-    internal class LoginSettings
+    internal class Settings
     {
         public string UsrDetailsFile { get; } = @"DataBase\User.txt";
         public string staffDetailsFile { get; } = @"DataBase\Staff.txt";

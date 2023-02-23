@@ -137,16 +137,22 @@ namespace RheolauArmsManagmentSystemPrototype
         #region - Sunday Bookings -
         private void ViewSunBookings_button_Click(object sender, EventArgs e)
         {
-            KillChildren(View_panel);
-            SundayBookingsMenu sundayBookingsMenu = new SundayBookingsMenu();
+            KillChildren(View_panel); // remove all previeous controlls from panel
+            SundayBookingsMenu sundayBookingsMenu = new SundayBookingsMenu();// create new instance of sunday bookings
             sundayBookingsMenu.ViewBookings(View_panel);
             
         }
         private void EditBookings_Button_Click(object sender, EventArgs e)
         {
-            KillChildren(View_panel);
-            SundayBookingsMenu sundayBookingsMenu = new SundayBookingsMenu();
+            KillChildren(View_panel);// remove all previeous controlls from panel
+            SundayBookingsMenu sundayBookingsMenu = new SundayBookingsMenu();// create new instance of sunday bookings
             sundayBookingsMenu.EditBookings(View_panel);
+        }
+        private void CreateBookings_Button_Click(object sender, EventArgs e)
+        {
+            KillChildren(View_panel);// remove all previeous controlls from panel
+            SundayBookingsMenu sundayBookingsMenu = new SundayBookingsMenu(); // create new instance of sunday bookings
+            sundayBookingsMenu.CreateBooking(View_panel);
         }
         private void SundayReturn_button_Click(object sender, EventArgs e)
         {
@@ -185,6 +191,7 @@ namespace RheolauArmsManagmentSystemPrototype
             Cryptography cryptography = new Cryptography();
             EncryptString_TxtBox.Text = cryptography.decryptStr(EncryptString_TxtBox.Text);
         }
+
         private void SettingsReturn_Button_Click(object sender, EventArgs e)
         {
             navigationPanel.BringToFront(); // bring main nav panel to front 
@@ -198,6 +205,8 @@ namespace RheolauArmsManagmentSystemPrototype
                 View_panel.Controls[0].Dispose();
             }
         }
+
+
 
 
 

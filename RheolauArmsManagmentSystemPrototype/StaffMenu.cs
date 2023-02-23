@@ -21,7 +21,7 @@ namespace RheolauArmsManagmentSystemPrototype
         public void ViewStaff(Panel View_panel)
         {
             #region - file garbage ish mostly idk -
-            LoginSettings settings = new LoginSettings(); //create nenw instance of login settings
+            Settings settings = new Settings(); //create nenw instance of login settings
             Cryptography cryptography = new Cryptography();
 
             Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 6, 80);
@@ -153,7 +153,7 @@ namespace RheolauArmsManagmentSystemPrototype
         public void EditStaff(Panel View_panel)
         {
             #region - file garbage ish mostly idk -
-            LoginSettings settings = new LoginSettings(); //create nenw instance of login settings
+            Settings settings = new Settings(); //create nenw instance of login settings
             Cryptography cryptography = new Cryptography();
 
             Size textSize = new Size(250, 24);
@@ -413,7 +413,7 @@ namespace RheolauArmsManagmentSystemPrototype
 
             Size textSize = new Size(250, 24);
             Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 6, 80);
-            LoginSettings settings = new LoginSettings(); //create nenw instance of login settings
+            Settings settings = new Settings(); //create nenw instance of login settings
             Cryptography cryptography = new Cryptography();
 
             StreamReader SrLineCount = new StreamReader(settings.staffDetailsFile);      // create new stream reader         

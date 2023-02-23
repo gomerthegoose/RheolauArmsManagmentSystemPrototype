@@ -12,7 +12,7 @@ namespace RheolauArmsManagmentSystemPrototype
 
         public bool Login(string Username , string Password) //handle login returns true if successfull login
         {
-            LoginSettings loginSettings = new LoginSettings(); //create nenw instance of login settings
+            Settings loginSettings = new Settings(); //create nenw instance of login settings
 
             UsrInfo[] usrInfo = getUsrData(loginSettings.UsrDetailsFile); // get usr data from file 
 
