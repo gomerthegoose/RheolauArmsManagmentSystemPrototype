@@ -459,7 +459,7 @@ namespace RheolauArmsManagmentSystemPrototype
             // - Booking ID -
             bookingID_TextBox = new TextBox();
             bookingID_TextBox.Parent = panels;
-            bookingID_TextBox.Text = (GetBookingInfo()[GetBookingInfo().Length - 1].bookingID + 1).ToString(); // get next availabele booking ID, i hate this but ohh well it stays
+            bookingID_TextBox.Text = (GetBookingInfo().Length != 0) ? (GetBookingInfo()[GetBookingInfo().Length - 1].bookingID + 1).ToString() : "0"; // get next availabele booking ID, i hate this but ohh well it stays
             bookingID_TextBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             bookingID_TextBox.Location = new Point(defaultPadding, defaultPadding);
             bookingID_TextBox.ForeColor = Color.Black;
@@ -467,7 +467,7 @@ namespace RheolauArmsManagmentSystemPrototype
             // - Customer ID -
             customerID_TextBox = new TextBox();
             customerID_TextBox.Parent = panels;
-            customerID_TextBox.Text = (GetCustomerInfo()[GetCustomerInfo().Length - 1].customerID + 1).ToString(); // get next availabele customer ID, i also hate this but my ability has not changed since 6 lines ago 
+            customerID_TextBox.Text = (GetCustomerInfo().Length != 0 ) ? (GetCustomerInfo()[GetCustomerInfo().Length - 1].customerID + 1).ToString(): "0"; // get next availabele customer ID, i also hate this but my ability has not changed since 6 lines ago 
             customerID_TextBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             customerID_TextBox.Enabled = false;
             customerID_TextBox.Size = textSize;
