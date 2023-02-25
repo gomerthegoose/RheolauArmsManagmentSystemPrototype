@@ -1,30 +1,14 @@
-﻿using Microsoft.VisualBasic.ApplicationServices;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
-
-namespace RheolauArmsManagmentSystemPrototype
+﻿namespace RheolauArmsManagmentSystemPrototype
 {
+
     public partial class MainMenu : Form
     {
-        //------------------------------------------------------------------
-        static int defaultPadding = 5;
-        bool[] staffSearchResult;
         //------------------------------------------------------------------
         public MainMenu()
         {
             InitializeComponent();
-
         }
-        private void KillChildren(Panel panel) // yes, does what it syas on the tin
+        private void RemoveControlls(Panel panel)
         {
             while (panel.Controls.Count > 0)
             {
@@ -33,7 +17,7 @@ namespace RheolauArmsManagmentSystemPrototype
         }
         //------------------------------------------------------------------
         #region - Main menu  -
-        
+
         private void StockMenuBtn_Click(object sender, EventArgs e)
         {
             navigationPanel.Hide();
@@ -48,7 +32,7 @@ namespace RheolauArmsManagmentSystemPrototype
             StaffControls_panel.Show();
             StaffControls_panel.BringToFront();
             View_panel.Location = new Point(StaffControls_panel.Width, StaffControls_panel.Location.Y);
-            View_panel.Size = new Size(this.Width - StaffControls_panel.Size.Width - 15  , StaffControls_panel.Size.Height);
+            View_panel.Size = new Size(this.Width - StaffControls_panel.Size.Width - 15, StaffControls_panel.Size.Height);
 
         }
         private void ThursdayBookingsBtn_Click(object sender, EventArgs e)
@@ -56,7 +40,7 @@ namespace RheolauArmsManagmentSystemPrototype
             navigationPanel.Hide();
             ThursdayControls_panel.Show();
             ThursdayControls_panel.BringToFront();
-            View_panel.Location = new Point(ThursdayControls_panel.Width , ThursdayControls_panel.Location.Y);
+            View_panel.Location = new Point(ThursdayControls_panel.Width, ThursdayControls_panel.Location.Y);
             View_panel.Size = new Size(this.Width - ThursdayControls_panel.Size.Width - 15, ThursdayControls_panel.Size.Height);
         }
         private void SundayBookingsBtn_Click(object sender, EventArgs e)
@@ -86,22 +70,16 @@ namespace RheolauArmsManagmentSystemPrototype
         #region - Staff -
         private void ViewStaff_button_Click(object sender, EventArgs e)
         {
-            // remove all children of view panel to clear old information
-            KillChildren(View_panel);
             StaffMenu staffMenu = new StaffMenu();
             staffMenu.ViewStaff(View_panel);
         }
         private void EditStaff_button_Click(object sender, EventArgs e)
         {
-            // remove all children of view panel to clear old information
-            KillChildren(View_panel);
             StaffMenu staffMenu = new StaffMenu();
             staffMenu.EditStaff(View_panel);
         }
         private void createStaff_button_Click(object sender, EventArgs e)
         {
-            // remove all children of view panel to clear old information
-            KillChildren(View_panel);
             StaffMenu staffMenu = new StaffMenu();
             staffMenu.CreateStaff(View_panel);
         }
@@ -114,7 +92,7 @@ namespace RheolauArmsManagmentSystemPrototype
             View_panel.Location = new Point(navigationPanel.Width, navigationPanel.Location.Y); // reset location of view panel
 
             // remove all children of view panel to clear old information
-            KillChildren(View_panel);
+            RemoveControlls(View_panel);
 
         }
 
@@ -123,15 +101,27 @@ namespace RheolauArmsManagmentSystemPrototype
         #region - Stock -
         private void ViewStock_button_Click(object sender, EventArgs e)
         {
-
+            stockMenu stockMenu = new stockMenu();
+            stockMenu.ViewStock(View_panel);
         }
-
+        private void StockEdit_Button_Click(object sender, EventArgs e)
+        {
+            stockMenu stockMenu = new stockMenu();
+            stockMenu.EditStock(View_panel);
+        }
+        private void CreateStock_Button_Click(object sender, EventArgs e)
+        {
+            stockMenu stockMenu = new stockMenu();
+            stockMenu.CreateBooking(View_panel);
+        }
         private void StockReturn_button_Click(object sender, EventArgs e)
         {
+
             navigationPanel.BringToFront();
             StockControls_panel.Hide();
             navigationPanel.Show();
             View_panel.Location = new Point(navigationPanel.Width, navigationPanel.Location.Y); // reset location of view panel
+            RemoveControlls(View_panel);
         }
 
         #endregion
@@ -139,20 +129,16 @@ namespace RheolauArmsManagmentSystemPrototype
         #region - Sunday Bookings -
         private void ViewSunBookings_button_Click(object sender, EventArgs e)
         {
-            KillChildren(View_panel); // remove all previeous controlls from panel
             SundayBookingsMenu sundayBookingsMenu = new SundayBookingsMenu();// create new instance of sunday bookings
             sundayBookingsMenu.ViewBookings(View_panel);
-            
         }
         private void EditBookings_Button_Click(object sender, EventArgs e)
         {
-            KillChildren(View_panel);// remove all previeous controlls from panel
             SundayBookingsMenu sundayBookingsMenu = new SundayBookingsMenu();// create new instance of sunday bookings
             sundayBookingsMenu.EditBookings(View_panel);
         }
         private void CreateBookings_Button_Click(object sender, EventArgs e)
         {
-            KillChildren(View_panel);// remove all previeous controlls from panel
             SundayBookingsMenu sundayBookingsMenu = new SundayBookingsMenu(); // create new instance of sunday bookings
             sundayBookingsMenu.CreateBooking(View_panel);
         }
@@ -162,32 +148,29 @@ namespace RheolauArmsManagmentSystemPrototype
             SundayControlls_panel.Hide();
             navigationPanel.Show();
             View_panel.Location = new Point(navigationPanel.Width, navigationPanel.Location.Y); // reset location of view panel
-            KillChildren(View_panel);
+            RemoveControlls(View_panel);
         }
         #endregion
         //------------------------------------------------------------------
         #region - Thursday Bookings -
         private void ViewThuBookings_button_Click(object sender, EventArgs e)
         {
-            KillChildren(View_panel);
-            ThursdayBookingsMenu thursdayBookingsMenu = new ThursdayBookingsMenu();           
+            ThursdayBookingsMenu thursdayBookingsMenu = new ThursdayBookingsMenu();
             thursdayBookingsMenu.ViewBookings(View_panel);
         }
         private void ThursdayEditBookings_button_Click(object sender, EventArgs e)
         {
-            KillChildren(View_panel);
-            ThursdayBookingsMenu thursdayBookingsMenu = new ThursdayBookingsMenu();          
+            ThursdayBookingsMenu thursdayBookingsMenu = new ThursdayBookingsMenu();
             thursdayBookingsMenu.EditBookings(View_panel);
         }
         private void ThursdayCreateBookings_button_Click(object sender, EventArgs e)
         {
-            KillChildren(View_panel);
             ThursdayBookingsMenu thursdayBookingsMenu = new ThursdayBookingsMenu();
             thursdayBookingsMenu.CreateBooking(View_panel);
         }
         private void ThursdayReturn_button_Click(object sender, EventArgs e)
         {
-            KillChildren(View_panel);
+            RemoveControlls(View_panel);
             navigationPanel.BringToFront();
             ThursdayControls_panel.Hide();
             navigationPanel.Show();
@@ -214,15 +197,9 @@ namespace RheolauArmsManagmentSystemPrototype
             SettingsControls_panel.Hide(); // hide current nav panel
             navigationPanel.Show(); // show main nav panel
             View_panel.Location = new Point(navigationPanel.Width, navigationPanel.Location.Y); // reset location of view panel
-
-            // remove all children of view panel to clear old information
-            while (View_panel.Controls.Count > 0)
-            {
-                View_panel.Controls[0].Dispose();
-            }
+            RemoveControlls(View_panel);
         }
         #endregion
         //------------------------------------------------------------------
     }
 }
- 

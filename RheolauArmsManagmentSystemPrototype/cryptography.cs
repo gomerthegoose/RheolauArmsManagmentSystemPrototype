@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace RheolauArmsManagmentSystemPrototype
 {
@@ -30,9 +26,9 @@ namespace RheolauArmsManagmentSystemPrototype
             byte[] asciiValues = Encoding.ASCII.GetBytes(inputCharArray);
             string output = "";
 
-            for (int i =0; i < asciiValues.Length; i++)
+            for (int i = 0; i < asciiValues.Length; i++)
             {
-                asciiValues[i] = (byte)(asciiValues[i] - (byte) 3);
+                asciiValues[i] = (byte)(asciiValues[i] - (byte)3);
                 output += (char)asciiValues[i];
             }
             return output;

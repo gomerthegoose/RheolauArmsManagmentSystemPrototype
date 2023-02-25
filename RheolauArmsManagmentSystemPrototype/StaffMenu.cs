@@ -1,25 +1,12 @@
-﻿using Microsoft.VisualBasic.ApplicationServices;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
-
-
-namespace RheolauArmsManagmentSystemPrototype
+﻿namespace RheolauArmsManagmentSystemPrototype
 {
-    
+
     internal class StaffMenu
     {
         static int defaultPadding = 5;
         public void ViewStaff(Panel View_panel)
         {
+
             Settings settings = new Settings(); //create nenw instance of login settings
             Cryptography cryptography = new Cryptography();
 
@@ -38,6 +25,8 @@ namespace RheolauArmsManagmentSystemPrototype
             Label[] PhoneNumber_Label = new Label[staffInfo.Length];
             Label[] Dob_label = new Label[staffInfo.Length];
             Label[] email_label = new Label[staffInfo.Length];
+
+            RemoveControlls(View_panel);
 
             for (int i = 0; i < staffInfo.Length; i++)
             {
@@ -142,7 +131,7 @@ namespace RheolauArmsManagmentSystemPrototype
             Button[] editEntry_button = new Button[staffInfo.Length];
             Button[] deleteEntry_button = new Button[staffInfo.Length];
 
-
+            RemoveControlls(View_panel);
 
             for (int i = 0; i < staffInfo.Length; i++)
             {
@@ -271,7 +260,7 @@ namespace RheolauArmsManagmentSystemPrototype
 
                 if (MessageBox.Show("Are you Sure you wish to delete this user ?", "Delete ?", MessageBoxButtons.YesNo) == DialogResult.Yes) // ensure that the user is sure to delete 
                 {
-                    using (StreamWriter sw = new StreamWriter(settings.staffDetailsFile, false)) // create new stream writer in overwrite mode
+                    using (StreamWriter sw = new StreamWriter(settings.StaffDetailsFile, false)) // create new stream writer in overwrite mode
                     {
                         for (int i = 0; i < staffInfo.Length; i++)
                         {
@@ -289,7 +278,7 @@ namespace RheolauArmsManagmentSystemPrototype
 
             void staffEditSaveEntry(object sender, EventArgs e, int id, StaffInfo[] staffInfo)
             {
-                using (StreamWriter sw = new StreamWriter(settings.staffDetailsFile, false)) // create new stream writer in overwrite mode
+                using (StreamWriter sw = new StreamWriter(settings.StaffDetailsFile, false)) // create new stream writer in overwrite mode
                 {
                     for (int i = 0; i < staffInfo.Length; i++)
                     {
@@ -368,6 +357,8 @@ namespace RheolauArmsManagmentSystemPrototype
             TextBox email_TxtBox = new TextBox();
             Button createEntry_button = new Button();
 
+            RemoveControlls(View_panel);
+
             // - Panel -
             panels = new Panel();
             panels.Parent = View_panel;
@@ -396,7 +387,7 @@ namespace RheolauArmsManagmentSystemPrototype
             staffID_TxtBox = new TextBox();
             staffID_TxtBox.Parent = panels;
             staffID_TxtBox.PlaceholderText = "Staff ID";
-            staffID_TxtBox.Text = (GetStaffInfo()[GetStaffInfo().Length - 1].staffID + 1).ToString();
+            staffID_TxtBox.Text = (GetStaffInfo().Length != 0) ? (GetStaffInfo()[GetStaffInfo().Length - 1].staffID + 1).ToString() : "0";
             staffID_TxtBox.Enabled = false;
             staffID_TxtBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             staffID_TxtBox.Location = new Point(defaultPadding, Forename_TxtBox.Location.Y + Forename_TxtBox.Size.Height);
@@ -406,7 +397,7 @@ namespace RheolauArmsManagmentSystemPrototype
             userID_TxtBox = new TextBox();
             userID_TxtBox.Parent = panels;
             userID_TxtBox.PlaceholderText = "User ID";
-            userID_TxtBox.Text = (GetStaffInfo()[GetStaffInfo().Length - 1].staffID + 1).ToString();
+            userID_TxtBox.Text = (GetStaffInfo().Length != 0) ? (GetStaffInfo()[GetStaffInfo().Length - 1].staffID + 1).ToString() : "0";
             userID_TxtBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             userID_TxtBox.Location = new Point(defaultPadding, staffID_TxtBox.Location.Y + staffID_TxtBox.Size.Height);
             userID_TxtBox.ForeColor = Color.Black;
@@ -461,15 +452,22 @@ namespace RheolauArmsManagmentSystemPrototype
             {
                 StaffInfo staffInfo = new StaffInfo();
                 Validator validator = new Validator();
+                try
+                {
+                    staffInfo.staffID = int.Parse(staffID_TxtBox.Text);
+                    staffInfo.userID = int.Parse(userID_TxtBox.Text);
+                    staffInfo.forename = Forename_TxtBox.Text;
+                    staffInfo.surname = surname_TxtBox.Text;
+                    staffInfo.adress = adress_TxtBox.Text;
+                    staffInfo.phonenumber = PhoneNumber_TxtBox.Text;
+                    staffInfo.DOB = Dob_TxtBox.Text;
+                    staffInfo.email = email_TxtBox.Text;
+                }
+                catch
+                {
+                    MessageBox.Show("ERROR !\n Please Ensure All Enterd Information is correct !");
+                }
 
-                staffInfo.staffID = int.Parse(staffID_TxtBox.Text);
-                staffInfo.userID = int.Parse(userID_TxtBox.Text);
-                staffInfo.forename = Forename_TxtBox.Text;
-                staffInfo.surname = surname_TxtBox.Text;
-                staffInfo.adress = adress_TxtBox.Text;
-                staffInfo.phonenumber = PhoneNumber_TxtBox.Text;
-                staffInfo.DOB = Dob_TxtBox.Text;
-                staffInfo.email = email_TxtBox.Text;
 
                 // validate string
                 if (!validator.validateStaff(staffInfo).IsError)
@@ -486,7 +484,7 @@ namespace RheolauArmsManagmentSystemPrototype
                                         );
 
 
-                    using (StreamWriter sw = File.AppendText(settings.staffDetailsFile))
+                    using (StreamWriter sw = File.AppendText(settings.StaffDetailsFile))
                     {
                         sw.WriteLine(finalString);
 
@@ -511,7 +509,7 @@ namespace RheolauArmsManagmentSystemPrototype
             Settings settings = new Settings();
             Cryptography cryptography = new Cryptography();
 
-            StreamReader SrLineCount = new StreamReader(settings.staffDetailsFile);      // create new stream reader         
+            StreamReader SrLineCount = new StreamReader(settings.StaffDetailsFile);      // create new stream reader         
             int NumLines = 0; // number of lines in file
             while (SrLineCount.Peek() >= 0) // if not at end of file
             {
@@ -522,7 +520,7 @@ namespace RheolauArmsManagmentSystemPrototype
 
             StaffInfo[] staffInfo = new StaffInfo[NumLines]; // create new usr info variable
 
-            using (StreamReader Sr = new StreamReader(settings.staffDetailsFile)) // create new stream reader
+            using (StreamReader Sr = new StreamReader(settings.StaffDetailsFile)) // create new stream reader
             {
 
                 int i = 0;
@@ -542,6 +540,13 @@ namespace RheolauArmsManagmentSystemPrototype
                 }
             }
             return staffInfo;
+        }
+        private void RemoveControlls(Panel panel)
+        {
+            while (panel.Controls.Count > 0)
+            {
+                panel.Controls[0].Dispose(); // remove child if there is one remaining
+            }
         }
     }
 }

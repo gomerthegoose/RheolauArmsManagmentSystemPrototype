@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-
-namespace RheolauArmsManagmentSystemPrototype
+﻿namespace RheolauArmsManagmentSystemPrototype
 {
     internal class LoginHandle
     {
 
-        public bool Login(string Username , string Password) //handle login returns true if successfull login
+        public bool Login(string Username, string Password) //handle login returns true if successfull login
         {
             Settings loginSettings = new Settings(); //create nenw instance of login settings
 
-            UsrInfo[] usrInfo = getUsrData(loginSettings.UsrDetailsFile); // get usr data from file 
+            UsrInfo[] usrInfo = getUsrData(loginSettings.UserDetailsFile); // get usr data from file 
 
 
 
@@ -30,7 +23,7 @@ namespace RheolauArmsManagmentSystemPrototype
 
         private UsrInfo[] getUsrData(string fileLocation)
         {
-            
+
             Cryptography cryptography = new Cryptography(); // instanciate new cryptography class
 
 
@@ -42,14 +35,14 @@ namespace RheolauArmsManagmentSystemPrototype
                 NumLines++; // incriment number of lines 
             }
             SrLineCount.Close(); // close file
-            
+
 
             using (StreamReader Sr = new StreamReader(fileLocation)) // create new stream reader
             {
                 UsrInfo[] usrInfo = new UsrInfo[NumLines]; // create new usr info variable
                 int i = 0;
                 while (Sr.Peek() >= 0) // if not at end of file
-                {           
+                {
                     usrInfo[i].RawData = cryptography.decryptStr(Sr.ReadLine());            //read line from file and decrypt
                     string[] usrDataSingleLine = usrInfo[i].RawData.Split(","); // split read line by ,
                     usrInfo[i].ID = int.Parse(usrDataSingleLine[0]); // parse first segment ID
@@ -59,7 +52,7 @@ namespace RheolauArmsManagmentSystemPrototype
                     i++;
                 }
                 return usrInfo; // return usr info
-            }                  
+            }
         }
     }
 }

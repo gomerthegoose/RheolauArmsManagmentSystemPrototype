@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RheolauArmsManagmentSystemPrototype
+﻿namespace RheolauArmsManagmentSystemPrototype
 {
-    
     internal class SundayBookingsMenu
     {
         static int defaultPadding = 5;
@@ -41,6 +33,8 @@ namespace RheolauArmsManagmentSystemPrototype
 
             // - setup controls ---------------------------------------------------------------------------------------------------------------
 
+            RemoveControlls(View_panel);
+
             for (int i = 0; i < bookingInfo.Length; i++)
             {
 
@@ -67,13 +61,13 @@ namespace RheolauArmsManagmentSystemPrototype
                 customerID_Label[i].Text = "Customer ID: " + bookingInfo[i].customerID.ToString();
                 customerID_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
                 customerID_Label[i].Size = textSize;
-                customerID_Label[i].Location = new Point(defaultPadding*2 + 200 + bookingID_Label[i].Size.Width, defaultPadding);
+                customerID_Label[i].Location = new Point(defaultPadding * 2 + 200 + bookingID_Label[i].Size.Width, defaultPadding);
                 customerID_Label[i].ForeColor = Color.White;
 
                 // - Number Of People -
                 numberOfPeople_Label[i] = new Label();
                 numberOfPeople_Label[i].Parent = panels[i];
-                numberOfPeople_Label[i].Text ="Number Of people: " + bookingInfo[i].numberOfPeople.ToString();
+                numberOfPeople_Label[i].Text = "Number Of people: " + bookingInfo[i].numberOfPeople.ToString();
                 numberOfPeople_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
                 numberOfPeople_Label[i].Size = textSize;
                 numberOfPeople_Label[i].Location = new Point(defaultPadding, bookingID_Label[i].Location.Y + bookingID_Label[i].Size.Height);
@@ -94,7 +88,7 @@ namespace RheolauArmsManagmentSystemPrototype
                 bookingTime_Label[i].Text = "Time: " + bookingInfo[i].bookingTime;
                 bookingTime_Label[i].Size = textSize;
                 bookingTime_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-                bookingTime_Label[i].Location = new Point(defaultPadding , bookingDate_Label[i].Location.Y + bookingDate_Label[i].Size.Height);
+                bookingTime_Label[i].Location = new Point(defaultPadding, bookingDate_Label[i].Location.Y + bookingDate_Label[i].Size.Height);
                 bookingDate_Label[i].Size = textSize;
                 bookingTime_Label[i].ForeColor = Color.White;
 
@@ -171,12 +165,17 @@ namespace RheolauArmsManagmentSystemPrototype
 
             Button[] editEntry_button = new Button[bookingInfo.Length];
             Button[] deleteEntry_button = new Button[bookingInfo.Length];
+
+            RemoveControlls(View_panel);
+
             // --------------------------------------------------------------------------------------------------------------------------------
 
             for (int i = 0; i < bookingInfo.Length; i++)
             {
 
                 //setup controlls
+
+
 
                 // - Panel -
                 panels[i] = new Panel();
@@ -288,7 +287,7 @@ namespace RheolauArmsManagmentSystemPrototype
                 editEntry_button[i].ForeColor = Color.White;
                 editEntry_button[i].Location = new Point(panelSize.Width - editEntry_button[i].Size.Width - defaultPadding, defaultPadding);
                 editEntry_button[i].Parent = panels[i];
-                editEntryButtonAddCallBack(i, bookingInfo[i].customerID, customerInfo,bookingInfo);
+                editEntryButtonAddCallBack(i, bookingInfo[i].customerID, customerInfo, bookingInfo);
 
 
                 // - delete entry button -
@@ -299,7 +298,7 @@ namespace RheolauArmsManagmentSystemPrototype
                 deleteEntry_button[i].BackColor = Color.Red;
                 deleteEntry_button[i].Location = new Point(panelSize.Width - deleteEntry_button[i].Size.Width - defaultPadding, defaultPadding + editEntry_button[i].Location.Y + editEntry_button[i].Size.Height);
                 deleteEntry_button[i].Parent = panels[i];
-                deleteEntryButtonAddCallBack(i, bookingInfo[i].customerID, customerInfo,bookingInfo);
+                deleteEntryButtonAddCallBack(i, bookingInfo[i].customerID, customerInfo, bookingInfo);
 
 
 
@@ -307,7 +306,7 @@ namespace RheolauArmsManagmentSystemPrototype
 
                 // - Save and edit buttons --------------------------------------------------------------------------------------------------------
 
-                void editEntryButtonAddCallBack(int BookingID,int customerID, CustomerInfo[] customerInfo, BookingInfo[] bookingInfo) // not sure why this function is neccasary dosnt work if not in function
+                void editEntryButtonAddCallBack(int BookingID, int customerID, CustomerInfo[] customerInfo, BookingInfo[] bookingInfo) // not sure why this function is neccasary dosnt work if not in function
                 {
                     editEntry_button[i].Click += delegate (object sender, EventArgs e) { SaveEntry(sender, e, BookingID, customerID, customerInfo, bookingInfo); }; // delegate function to be run on click and pass i to later refer to witch button was pressed
                 }
@@ -380,15 +379,15 @@ namespace RheolauArmsManagmentSystemPrototype
                                 }
                                 else
                                 {
-                                        string finalString = cryptography.encryptStr(
-                                                            editedCustomerInfo.customerID.ToString() + "," +
-                                                            editedCustomerInfo.surname + "," +
-                                                            editedCustomerInfo.forename + "," +
-                                                            editedCustomerInfo.phoneNumber + "," +
-                                                            editedCustomerInfo.email
-                                                            );
+                                    string finalString = cryptography.encryptStr(
+                                                        editedCustomerInfo.customerID.ToString() + "," +
+                                                        editedCustomerInfo.surname + "," +
+                                                        editedCustomerInfo.forename + "," +
+                                                        editedCustomerInfo.phoneNumber + "," +
+                                                        editedCustomerInfo.email
+                                                        );
 
-                                        sw.WriteLine(finalString);                              
+                                    sw.WriteLine(finalString);
                                 }
                             }
                         }
@@ -423,7 +422,7 @@ namespace RheolauArmsManagmentSystemPrototype
                         MessageBox.Show(validator.validateBooking(editedBookingInfo).Message);
                         MessageBox.Show(validator.validateCustomer(editedCustomerInfo).Message);
                     }
-                } 
+                }
             }
         }
         public void CreateBooking(Panel View_panel)
@@ -433,17 +432,6 @@ namespace RheolauArmsManagmentSystemPrototype
             Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 6, 125);
             Settings settings = new Settings(); //create nenw instance of login settings
             Cryptography cryptography = new Cryptography();
-
-            StreamReader SrLineCount = new StreamReader(settings.staffDetailsFile);      // create new stream reader         
-            int NumLines = 0; // number of lines in file
-            while (SrLineCount.Peek() >= 0) // if not at end of file
-            {
-                SrLineCount.ReadLine(); //read line to advance file pointer 
-                NumLines++; // incriment number of lines 
-            }
-            SrLineCount.Close(); // close file
-
-
 
             Panel panels = new Panel();
             TextBox bookingID_TextBox = new TextBox();
@@ -461,6 +449,8 @@ namespace RheolauArmsManagmentSystemPrototype
             Button createEntry_button = new Button();
 
             //setup controlls
+
+            RemoveControlls(View_panel);
 
             // - Panel -
             panels = new Panel();
@@ -564,7 +554,7 @@ namespace RheolauArmsManagmentSystemPrototype
             createEntry_button.Location = new Point(panelSize.Width - createEntry_button.Size.Width - defaultPadding, defaultPadding);
             createEntry_button.Parent = panels;
             createEntry_button.Click += delegate (object sender, EventArgs e) { CreateEntry(sender, e); }; // delegate function to be run on click and pass i to later refer to witch button was pressed
-            
+
             void CreateEntry(object sender, EventArgs e)
             {
                 BookingInfo bookingInfo = new BookingInfo();
@@ -584,7 +574,8 @@ namespace RheolauArmsManagmentSystemPrototype
                     bookingInfo.numberOfPeople = int.Parse(numberOfPeople_TextBox.Text);
                     bookingInfo.bookingDate = bookingDate_TextBox.Text;
                     bookingInfo.bookingTime = bookingTime_TextBox.Text;
-                }catch
+                }
+                catch
                 {
                     MessageBox.Show("Error! please ensure that all information is corrent !");
                     return;
@@ -601,12 +592,12 @@ namespace RheolauArmsManagmentSystemPrototype
                                         bookingInfo.bookingDate + "," +
                                         bookingInfo.bookingTime
                                         );
-                
-                
+
+
                     using (StreamWriter sw = File.AppendText(settings.SundayBookingsFile))
                     {
                         sw.WriteLine(finalString);
-                
+
                     }
 
                     finalString = cryptography.encryptStr(
@@ -627,7 +618,7 @@ namespace RheolauArmsManagmentSystemPrototype
 
 
                     MessageBox.Show("Created New Booking !");
-                
+
                 }
                 else
                 {
@@ -644,7 +635,6 @@ namespace RheolauArmsManagmentSystemPrototype
             // - get number of entrys in file -------------------------------------------------------------------------------------------------
 
             int NumberOfBookings = 0; // number of lines in file
-            int NumberOfCustomers = 0; // number of lines in file
 
             using (StreamReader Sr = new StreamReader(settings.SundayBookingsFile)) // create new stream reader  
             {
@@ -653,7 +643,7 @@ namespace RheolauArmsManagmentSystemPrototype
                     Sr.ReadLine(); //read line to advance file pointer 
                     NumberOfBookings++; // incriment number of lines 
                 }
-            }      
+            }
             // --------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -690,7 +680,6 @@ namespace RheolauArmsManagmentSystemPrototype
 
             // - get number of entrys in file -------------------------------------------------------------------------------------------------
 
-            int NumberOfBookings = 0; // number of lines in file
             int NumberOfCustomers = 0; // number of lines in file
 
             using (StreamReader Sr = new StreamReader(settings.CustomersFile)) // create new stream reader  
@@ -725,6 +714,13 @@ namespace RheolauArmsManagmentSystemPrototype
             }
 
             return customerInfo;
+        }
+        private void RemoveControlls(Panel panel)
+        {
+            while (panel.Controls.Count > 0)
+            {
+                panel.Controls[0].Dispose(); // remove child if there is one remaining
+            }
         }
     }
 }

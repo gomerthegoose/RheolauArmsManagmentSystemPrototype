@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RheolauArmsManagmentSystemPrototype
+﻿namespace RheolauArmsManagmentSystemPrototype
 {
     internal class ThursdayBookingsMenu
     {
@@ -38,6 +32,8 @@ namespace RheolauArmsManagmentSystemPrototype
             // --------------------------------------------------------------------------------------------------------------------------------
 
             // - setup controls ---------------------------------------------------------------------------------------------------------------
+
+            RemoveControlls(View_panel);
 
             for (int i = 0; i < bookingInfo.Length; i++)
             {
@@ -169,6 +165,9 @@ namespace RheolauArmsManagmentSystemPrototype
 
             Button[] editEntry_button = new Button[bookingInfo.Length];
             Button[] deleteEntry_button = new Button[bookingInfo.Length];
+
+            RemoveControlls(View_panel);
+
             // --------------------------------------------------------------------------------------------------------------------------------
 
             for (int i = 0; i < bookingInfo.Length; i++)
@@ -449,6 +448,8 @@ namespace RheolauArmsManagmentSystemPrototype
 
             //setup controlls
 
+            RemoveControlls(View_panel);
+
             // - Panel -
             panels = new Panel();
             panels.Parent = View_panel;
@@ -467,7 +468,7 @@ namespace RheolauArmsManagmentSystemPrototype
             // - Customer ID -
             customerID_TextBox = new TextBox();
             customerID_TextBox.Parent = panels;
-            customerID_TextBox.Text = (GetCustomerInfo().Length != 0 ) ? (GetCustomerInfo()[GetCustomerInfo().Length - 1].customerID + 1).ToString(): "0"; // get next availabele customer ID, i also hate this but my ability has not changed since 6 lines ago 
+            customerID_TextBox.Text = (GetCustomerInfo().Length != 0) ? (GetCustomerInfo()[GetCustomerInfo().Length - 1].customerID + 1).ToString() : "0"; // get next availabele customer ID, i also hate this but my ability has not changed since 6 lines ago 
             customerID_TextBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             customerID_TextBox.Enabled = false;
             customerID_TextBox.Size = textSize;
@@ -632,7 +633,6 @@ namespace RheolauArmsManagmentSystemPrototype
             // - get number of entrys in file -------------------------------------------------------------------------------------------------
 
             int NumberOfBookings = 0; // number of lines in file
-            int NumberOfCustomers = 0; // number of lines in file
 
             using (StreamReader Sr = new StreamReader(settings.ThursdayBookingsFile)) // create new stream reader  
             {
@@ -678,7 +678,6 @@ namespace RheolauArmsManagmentSystemPrototype
 
             // - get number of entrys in file -------------------------------------------------------------------------------------------------
 
-            int NumberOfBookings = 0; // number of lines in file
             int NumberOfCustomers = 0; // number of lines in file
 
             using (StreamReader Sr = new StreamReader(settings.CustomersFile)) // create new stream reader  
@@ -713,6 +712,13 @@ namespace RheolauArmsManagmentSystemPrototype
             }
 
             return customerInfo;
+        }
+        private void RemoveControlls(Panel panel)
+        {
+            while (panel.Controls.Count > 0)
+            {
+                panel.Controls[0].Dispose(); // remove child if there is one remaining
+            }
         }
     }
 }

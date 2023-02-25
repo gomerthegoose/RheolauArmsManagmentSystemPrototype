@@ -47,6 +47,8 @@
             this.StaffControls_label = new System.Windows.Forms.Label();
             this.ViewStaff_button = new System.Windows.Forms.Button();
             this.StockControls_panel = new System.Windows.Forms.Panel();
+            this.CreateStock_Button = new System.Windows.Forms.Button();
+            this.StockEdit_Button = new System.Windows.Forms.Button();
             this.StockReturn_button = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -104,7 +106,7 @@
             // SettingsMenu_button
             // 
             this.SettingsMenu_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.SettingsMenu_button.Location = new System.Drawing.Point(3, 655);
+            this.SettingsMenu_button.Location = new System.Drawing.Point(3, 657);
             this.SettingsMenu_button.Name = "SettingsMenu_button";
             this.SettingsMenu_button.Size = new System.Drawing.Size(171, 29);
             this.SettingsMenu_button.TabIndex = 6;
@@ -118,7 +120,7 @@
             this.ExitBtn.BackColor = System.Drawing.Color.Maroon;
             this.ExitBtn.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.ExitBtn.ForeColor = System.Drawing.Color.White;
-            this.ExitBtn.Location = new System.Drawing.Point(3, 690);
+            this.ExitBtn.Location = new System.Drawing.Point(3, 692);
             this.ExitBtn.Name = "ExitBtn";
             this.ExitBtn.Size = new System.Drawing.Size(171, 29);
             this.ExitBtn.TabIndex = 5;
@@ -183,7 +185,7 @@
             this.encryptString_label.AutoSize = true;
             this.encryptString_label.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.encryptString_label.ForeColor = System.Drawing.Color.White;
-            this.encryptString_label.Location = new System.Drawing.Point(17, 363);
+            this.encryptString_label.Location = new System.Drawing.Point(17, 365);
             this.encryptString_label.Name = "encryptString_label";
             this.encryptString_label.Size = new System.Drawing.Size(173, 24);
             this.encryptString_label.TabIndex = 8;
@@ -192,7 +194,7 @@
             // EncryptString_Button
             // 
             this.EncryptString_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.EncryptString_Button.Location = new System.Drawing.Point(3, 571);
+            this.EncryptString_Button.Location = new System.Drawing.Point(3, 573);
             this.EncryptString_Button.Name = "EncryptString_Button";
             this.EncryptString_Button.Size = new System.Drawing.Size(201, 29);
             this.EncryptString_Button.TabIndex = 7;
@@ -203,7 +205,7 @@
             // EncryptString_TxtBox
             // 
             this.EncryptString_TxtBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.EncryptString_TxtBox.Location = new System.Drawing.Point(3, 390);
+            this.EncryptString_TxtBox.Location = new System.Drawing.Point(3, 392);
             this.EncryptString_TxtBox.Multiline = true;
             this.EncryptString_TxtBox.Name = "EncryptString_TxtBox";
             this.EncryptString_TxtBox.Size = new System.Drawing.Size(201, 175);
@@ -252,7 +254,7 @@
             this.StaffReturn_button.BackColor = System.Drawing.Color.Maroon;
             this.StaffReturn_button.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.StaffReturn_button.ForeColor = System.Drawing.Color.White;
-            this.StaffReturn_button.Location = new System.Drawing.Point(3, 689);
+            this.StaffReturn_button.Location = new System.Drawing.Point(3, 691);
             this.StaffReturn_button.Name = "StaffReturn_button";
             this.StaffReturn_button.Size = new System.Drawing.Size(171, 29);
             this.StaffReturn_button.TabIndex = 7;
@@ -266,7 +268,7 @@
             this.button1.BackColor = System.Drawing.Color.Maroon;
             this.button1.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(3, 736);
+            this.button1.Location = new System.Drawing.Point(3, 738);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(171, 29);
             this.button1.TabIndex = 5;
@@ -297,6 +299,8 @@
             // StockControls_panel
             // 
             this.StockControls_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.StockControls_panel.Controls.Add(this.CreateStock_Button);
+            this.StockControls_panel.Controls.Add(this.StockEdit_Button);
             this.StockControls_panel.Controls.Add(this.StockReturn_button);
             this.StockControls_panel.Controls.Add(this.button2);
             this.StockControls_panel.Controls.Add(this.button3);
@@ -309,13 +313,33 @@
             this.StockControls_panel.TabIndex = 8;
             this.StockControls_panel.Visible = false;
             // 
+            // CreateStock_Button
+            // 
+            this.CreateStock_Button.Location = new System.Drawing.Point(3, 102);
+            this.CreateStock_Button.Name = "CreateStock_Button";
+            this.CreateStock_Button.Size = new System.Drawing.Size(171, 29);
+            this.CreateStock_Button.TabIndex = 10;
+            this.CreateStock_Button.Text = "Create Stock";
+            this.CreateStock_Button.UseVisualStyleBackColor = true;
+            this.CreateStock_Button.Click += new System.EventHandler(this.CreateStock_Button_Click);
+            // 
+            // StockEdit_Button
+            // 
+            this.StockEdit_Button.Location = new System.Drawing.Point(3, 66);
+            this.StockEdit_Button.Name = "StockEdit_Button";
+            this.StockEdit_Button.Size = new System.Drawing.Size(171, 29);
+            this.StockEdit_Button.TabIndex = 9;
+            this.StockEdit_Button.Text = "Edit Stock";
+            this.StockEdit_Button.UseVisualStyleBackColor = true;
+            this.StockEdit_Button.Click += new System.EventHandler(this.StockEdit_Button_Click);
+            // 
             // StockReturn_button
             // 
             this.StockReturn_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.StockReturn_button.BackColor = System.Drawing.Color.Maroon;
             this.StockReturn_button.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.StockReturn_button.ForeColor = System.Drawing.Color.White;
-            this.StockReturn_button.Location = new System.Drawing.Point(3, 689);
+            this.StockReturn_button.Location = new System.Drawing.Point(3, 691);
             this.StockReturn_button.Name = "StockReturn_button";
             this.StockReturn_button.Size = new System.Drawing.Size(171, 29);
             this.StockReturn_button.TabIndex = 8;
@@ -329,7 +353,7 @@
             this.button2.BackColor = System.Drawing.Color.Maroon;
             this.button2.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(3, 735);
+            this.button2.Location = new System.Drawing.Point(3, 737);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(171, 29);
             this.button2.TabIndex = 7;
@@ -342,7 +366,7 @@
             this.button3.BackColor = System.Drawing.Color.Maroon;
             this.button3.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(3, 1084);
+            this.button3.Location = new System.Drawing.Point(3, 1086);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(171, 29);
             this.button3.TabIndex = 5;
@@ -413,7 +437,7 @@
             this.SundayReturn_button.BackColor = System.Drawing.Color.Maroon;
             this.SundayReturn_button.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.SundayReturn_button.ForeColor = System.Drawing.Color.White;
-            this.SundayReturn_button.Location = new System.Drawing.Point(3, 689);
+            this.SundayReturn_button.Location = new System.Drawing.Point(3, 691);
             this.SundayReturn_button.Name = "SundayReturn_button";
             this.SundayReturn_button.Size = new System.Drawing.Size(198, 29);
             this.SundayReturn_button.TabIndex = 9;
@@ -427,7 +451,7 @@
             this.button5.BackColor = System.Drawing.Color.Maroon;
             this.button5.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button5.ForeColor = System.Drawing.Color.White;
-            this.button5.Location = new System.Drawing.Point(3, 1083);
+            this.button5.Location = new System.Drawing.Point(3, 1085);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(171, 29);
             this.button5.TabIndex = 7;
@@ -440,7 +464,7 @@
             this.button6.BackColor = System.Drawing.Color.Maroon;
             this.button6.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button6.ForeColor = System.Drawing.Color.White;
-            this.button6.Location = new System.Drawing.Point(3, 1432);
+            this.button6.Location = new System.Drawing.Point(3, 1434);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(171, 29);
             this.button6.TabIndex = 5;
@@ -511,7 +535,7 @@
             this.ThursdayReturn_button.BackColor = System.Drawing.Color.Maroon;
             this.ThursdayReturn_button.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.ThursdayReturn_button.ForeColor = System.Drawing.Color.White;
-            this.ThursdayReturn_button.Location = new System.Drawing.Point(3, 689);
+            this.ThursdayReturn_button.Location = new System.Drawing.Point(3, 691);
             this.ThursdayReturn_button.Name = "ThursdayReturn_button";
             this.ThursdayReturn_button.Size = new System.Drawing.Size(203, 29);
             this.ThursdayReturn_button.TabIndex = 10;
@@ -525,7 +549,7 @@
             this.button8.BackColor = System.Drawing.Color.Maroon;
             this.button8.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button8.ForeColor = System.Drawing.Color.White;
-            this.button8.Location = new System.Drawing.Point(3, 1431);
+            this.button8.Location = new System.Drawing.Point(3, 1433);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(171, 29);
             this.button8.TabIndex = 7;
@@ -538,7 +562,7 @@
             this.button9.BackColor = System.Drawing.Color.Maroon;
             this.button9.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button9.ForeColor = System.Drawing.Color.White;
-            this.button9.Location = new System.Drawing.Point(3, 1780);
+            this.button9.Location = new System.Drawing.Point(3, 1782);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(171, 29);
             this.button9.TabIndex = 5;
@@ -598,7 +622,7 @@
             // DecryptString_Button
             // 
             this.DecryptString_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DecryptString_Button.Location = new System.Drawing.Point(3, 606);
+            this.DecryptString_Button.Location = new System.Drawing.Point(3, 608);
             this.DecryptString_Button.Name = "DecryptString_Button";
             this.DecryptString_Button.Size = new System.Drawing.Size(201, 29);
             this.DecryptString_Button.TabIndex = 12;
@@ -612,7 +636,7 @@
             this.SettingsReturn_Button.BackColor = System.Drawing.Color.Maroon;
             this.SettingsReturn_Button.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.SettingsReturn_Button.ForeColor = System.Drawing.Color.White;
-            this.SettingsReturn_Button.Location = new System.Drawing.Point(3, 689);
+            this.SettingsReturn_Button.Location = new System.Drawing.Point(3, 691);
             this.SettingsReturn_Button.Name = "SettingsReturn_Button";
             this.SettingsReturn_Button.Size = new System.Drawing.Size(203, 29);
             this.SettingsReturn_Button.TabIndex = 11;
@@ -626,7 +650,7 @@
             this.button4.BackColor = System.Drawing.Color.Maroon;
             this.button4.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button4.ForeColor = System.Drawing.Color.White;
-            this.button4.Location = new System.Drawing.Point(3, 1204);
+            this.button4.Location = new System.Drawing.Point(3, 1206);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(203, 29);
             this.button4.TabIndex = 10;
@@ -639,7 +663,7 @@
             this.button7.BackColor = System.Drawing.Color.Maroon;
             this.button7.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button7.ForeColor = System.Drawing.Color.White;
-            this.button7.Location = new System.Drawing.Point(3, 1946);
+            this.button7.Location = new System.Drawing.Point(3, 1948);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(171, 29);
             this.button7.TabIndex = 7;
@@ -652,7 +676,7 @@
             this.button10.BackColor = System.Drawing.Color.Maroon;
             this.button10.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button10.ForeColor = System.Drawing.Color.White;
-            this.button10.Location = new System.Drawing.Point(3, 2295);
+            this.button10.Location = new System.Drawing.Point(3, 2297);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(171, 29);
             this.button10.TabIndex = 5;
@@ -761,5 +785,7 @@
         private Button SundayCreateBookings_Button;
         private Button ThursdayCreateBookings_button;
         private Button ThursdayEditBookings_button;
+        private Button CreateStock_Button;
+        private Button StockEdit_Button;
     }
 }
