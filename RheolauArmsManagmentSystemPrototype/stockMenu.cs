@@ -268,13 +268,21 @@
 
 
                     // gather edited information from textboxes and store in variable as all controlls are arrays we need to give it the stock id witch is the one that is currently being effected 
-                    editedItemInfo.ItemID = int.Parse(ItemID_TextBox[StockID].Text);
-                    editedItemInfo.Description = ItemDescription_TextBox[StockID].Text;
-                    editedItemInfo.location = ItemLocation_TextBox[StockID].Text;
+                    try
+                    {
+                        editedItemInfo.ItemID = int.Parse(ItemID_TextBox[StockID].Text);
+                        editedItemInfo.Description = ItemDescription_TextBox[StockID].Text;
+                        editedItemInfo.location = ItemLocation_TextBox[StockID].Text;
 
-                    editedStockInfo.StockID = int.Parse(StockID_TextBox[StockID].Text);
-                    editedStockInfo.ItemID = int.Parse(ItemID_TextBox[StockID].Text);
-                    editedStockInfo.Quantity = int.Parse(Quantity_TextBox[StockID].Text);
+                        editedStockInfo.StockID = int.Parse(StockID_TextBox[StockID].Text);
+                        editedStockInfo.ItemID = int.Parse(ItemID_TextBox[StockID].Text);
+                        editedStockInfo.Quantity = int.Parse(Quantity_TextBox[StockID].Text);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Please Enter Valid Information !");
+                    }
+
 
                     if (!validator.validateItem(editedItemInfo).IsError && !validator.ValidateStock(editedStockInfo).IsError)
                     {

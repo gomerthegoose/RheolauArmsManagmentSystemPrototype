@@ -49,7 +49,7 @@
         public string RawData; // raw single entry data from file
         public int StockID; // primary key for stock entry
         public int ItemID; // foreign key to identify related item 
-        public int Quantity; // quantity of stock
+        public int Quantity; //     
     }
     struct ItemInfo
     {
