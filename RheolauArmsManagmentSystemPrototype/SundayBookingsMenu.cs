@@ -14,7 +14,7 @@
             Size textSize = new Size(250, 24);
 
             BookingInfo[] bookingInfo = GetBookingInfo();
-             [] customerInfo = GetCustomerInfo();
+            CustomerInfo[] customerInfo = GetCustomerInfo();
 
             Panel[] panels = new Panel[bookingInfo.Length];
             Label[] bookingID_Label = new Label[bookingInfo.Length];
