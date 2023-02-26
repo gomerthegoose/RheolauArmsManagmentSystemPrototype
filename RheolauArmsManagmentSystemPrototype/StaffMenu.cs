@@ -507,9 +507,7 @@
         public void SearchStaff(Panel View_panel, string quieryString)
         {
             // - variables --------------------------------------------------------------------------------------------------------------------
-
             Search searcher = new Search();
-
             Size textSize = new Size(250, 24);
             Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 6, 72);
 

@@ -4,7 +4,7 @@ namespace RheolauArmsManagmentSystemPrototype
 {
     public partial class LgnFrm : Form
     {
-        public UserInfo CurrentUserInfo;
+        public static UserInfo CurrentUserInfo;
 
         public LgnFrm()
         {
@@ -24,6 +24,7 @@ namespace RheolauArmsManagmentSystemPrototype
 
             if (loginHandler.Login(UsernameTxt.Text, PasswordTxt.Text))
             {
+                CurrentUserInfo = loginHandler.getCurrentUser(UsernameTxt.Text, PasswordTxt.Text);
                 MainMenu mainMenu = new MainMenu();
                 this.Hide();
                 mainMenu.Show();

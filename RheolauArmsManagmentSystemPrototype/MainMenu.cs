@@ -15,6 +15,22 @@
                 panel.Controls[0].Dispose(); // remove child if there is one remaining
             }
         }
+        private void MainMenu_Load(object sender, EventArgs e)
+        {
+            // display correct access level to user 
+            switch (LgnFrm.CurrentUserInfo.accessLevel)
+            {
+                case 0:
+                    AccessLevel_Label.Text = "Access Level: Admin";
+                    break;
+                case 1:
+                    AccessLevel_Label.Text = "Access Level: Manager";
+                    break;
+                case 2:
+                    AccessLevel_Label.Text = "Access Level: Staff";
+                    break;
+            }
+        }
         //------------------------------------------------------------------
         #region - Main menu  -
 
@@ -53,11 +69,19 @@
         }
         private void SettingsMenu_button_Click(object sender, EventArgs e)
         {
-            navigationPanel.Hide();
-            SettingsControls_panel.Show();
-            SettingsControls_panel.BringToFront();
-            View_panel.Location = new Point(SettingsControls_panel.Width, SettingsControls_panel.Location.Y);
-            View_panel.Size = new Size(this.Width - SettingsControls_panel.Size.Width - 15, SettingsControls_panel.Size.Height);
+            if (LgnFrm.CurrentUserInfo.accessLevel == 0)
+            {
+                navigationPanel.Hide();
+                SettingsControls_panel.Show();
+                SettingsControls_panel.BringToFront();
+                View_panel.Location = new Point(SettingsControls_panel.Width, SettingsControls_panel.Location.Y);
+                View_panel.Size = new Size(this.Width - SettingsControls_panel.Size.Width - 15, SettingsControls_panel.Size.Height);
+            }
+            else
+            {
+                MessageBox.Show("Please Contact Administrator To change Settings !");
+            }
+
         }
 
         private void ExitBtn_Click(object sender, EventArgs e)
@@ -75,13 +99,27 @@
         }
         private void EditStaff_button_Click(object sender, EventArgs e)
         {
-            StaffMenu staffMenu = new StaffMenu();
-            staffMenu.EditStaff(View_panel);
+            if(LgnFrm.CurrentUserInfo.accessLevel < 2) // ensure only admin and manager can edit staff information
+            {
+                StaffMenu staffMenu = new StaffMenu();
+                staffMenu.EditStaff(View_panel);
+            }
+            else
+            {
+                MessageBox.Show("Access Level Too Low !");
+            }
         }
         private void createStaff_button_Click(object sender, EventArgs e)
         {
-            StaffMenu staffMenu = new StaffMenu();
-            staffMenu.CreateStaff(View_panel);
+            if (LgnFrm.CurrentUserInfo.accessLevel < 2)// ensure only admin and manager can edit staff information
+            {
+                StaffMenu staffMenu = new StaffMenu();
+                staffMenu.CreateStaff(View_panel);
+            }
+            else
+            {
+                MessageBox.Show("Access Level Too Low !");
+            }
         }
         private void StaffSearch_Button_Click(object sender, EventArgs e)
         {
@@ -235,15 +273,6 @@
             View_panel.Location = new Point(navigationPanel.Width, navigationPanel.Location.Y); // reset location of view panel
             RemoveControlls(View_panel);
         }
-
-
-
-
-
-
-
-
-
 
         #endregion
         //------------------------------------------------------------------

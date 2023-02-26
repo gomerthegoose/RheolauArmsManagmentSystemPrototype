@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.navigationPanel = new System.Windows.Forms.Panel();
+            this.AccessLevel_Label = new System.Windows.Forms.Label();
             this.SettingsMenu_button = new System.Windows.Forms.Button();
             this.ExitBtn = new System.Windows.Forms.Button();
             this.MenuLbl = new System.Windows.Forms.Label();
@@ -99,6 +100,7 @@
             // navigationPanel
             // 
             this.navigationPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.navigationPanel.Controls.Add(this.AccessLevel_Label);
             this.navigationPanel.Controls.Add(this.SettingsMenu_button);
             this.navigationPanel.Controls.Add(this.ExitBtn);
             this.navigationPanel.Controls.Add(this.MenuLbl);
@@ -111,6 +113,17 @@
             this.navigationPanel.Name = "navigationPanel";
             this.navigationPanel.Size = new System.Drawing.Size(177, 727);
             this.navigationPanel.TabIndex = 0;
+            // 
+            // AccessLevel_Label
+            // 
+            this.AccessLevel_Label.AutoSize = true;
+            this.AccessLevel_Label.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.AccessLevel_Label.ForeColor = System.Drawing.Color.White;
+            this.AccessLevel_Label.Location = new System.Drawing.Point(3, 636);
+            this.AccessLevel_Label.Name = "AccessLevel_Label";
+            this.AccessLevel_Label.Size = new System.Drawing.Size(105, 18);
+            this.AccessLevel_Label.TabIndex = 7;
+            this.AccessLevel_Label.Text = "Access Level:";
             // 
             // SettingsMenu_button
             // 
@@ -818,6 +831,7 @@
             this.Controls.Add(this.navigationPanel);
             this.Name = "MainMenu";
             this.Text = "Main Menu";
+            this.Load += new System.EventHandler(this.MainMenu_Load);
             this.navigationPanel.ResumeLayout(false);
             this.navigationPanel.PerformLayout();
             this.StaffControls_panel.ResumeLayout(false);
@@ -896,5 +910,6 @@
         private Button SundaySearch_Button;
         private TextBox ThursdaySearch_TextBox;
         private Button ThursdaySearch_Button;
+        private Label AccessLevel_Label;
     }
 }

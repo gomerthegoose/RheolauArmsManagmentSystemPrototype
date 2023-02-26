@@ -221,37 +221,43 @@
                 }
                 void deleteEntryButtonAddCallBack(int StockID, int ItemID, StockInfo[] stockInfo, ItemInfo[] itemInfo) // not sure why this function is neccasary dosnt work if not in function
                 {
-                    deleteEntry_button[i].Click += delegate (object sender, EventArgs e) { DeleteEntry(sender, e, StockID, ItemID, stockInfo, itemInfo); }; // delegate function to be run on click and pass i to later refer to witch button was pressed
+                    deleteEntry_button[i].Click += delegate (object sender, EventArgs e) { DeleteEntry(sender, e, StockID, ItemID, stockInfo, itemInfo); }; // delegate function to be run on click and pass i to later refer to witch button was pressed        
                 }
                 void DeleteEntry(object sender, EventArgs e, int StockID, int ItemID, StockInfo[] stockInfo, ItemInfo[] itemInfo)
                 {
-                    //delete entry in both customer and bookings file
-                    if (MessageBox.Show("Are you Sure you wish to delete this Stock ?", "Delete ?", MessageBoxButtons.YesNo) == DialogResult.Yes) // ensure that the user is sure to delete 
+                    if (LgnFrm.CurrentUserInfo.accessLevel < 2) // ensure access level is high enough to delete stock entrys
                     {
-                        using (StreamWriter sw = new StreamWriter(settings.ItemFile, false)) // items
+                        //delete entry in both customer and bookings file
+                        if (MessageBox.Show("Are you Sure you wish to delete this Stock ?", "Delete ?", MessageBoxButtons.YesNo) == DialogResult.Yes) // ensure that the user is sure to delete 
                         {
-                            for (int i = 0; i < itemInfo.Length; i++)
+                            using (StreamWriter sw = new StreamWriter(settings.ItemFile, false)) // items
                             {
-                                if (i != ItemID)
+                                for (int i = 0; i < itemInfo.Length; i++)
                                 {
-                                    sw.WriteLine(cryptography.encryptStr(itemInfo[i].RawData)); // wrtie each line exept for the selected one 
+                                    if (i != ItemID)
+                                    {
+                                        sw.WriteLine(cryptography.encryptStr(itemInfo[i].RawData)); // wrtie each line exept for the selected one 
+                                    }
                                 }
-                            }
 
-                        }
-                        using (StreamWriter sw = new StreamWriter(settings.StockFile, false)) // stock 
-                        {
-                            for (int i = 0; i < stockInfo.Length; i++)
+                            }
+                            using (StreamWriter sw = new StreamWriter(settings.StockFile, false)) // stock 
                             {
-                                if (i != StockID)
+                                for (int i = 0; i < stockInfo.Length; i++)
                                 {
-                                    sw.WriteLine(cryptography.encryptStr(stockInfo[i].RawData)); // wrtie each line exept for the selected one 
+                                    if (i != StockID)
+                                    {
+                                        sw.WriteLine(cryptography.encryptStr(stockInfo[i].RawData)); // wrtie each line exept for the selected one 
+                                    }
                                 }
-                            }
 
+                            }
                         }
                     }
-
+                    else
+                    {
+                        MessageBox.Show("Access Level Too Low !");
+                    }                 
                 }
                 void SaveEntry(object sender, EventArgs e, int StockID, int ItemID, StockInfo[] stockInfo, ItemInfo[] itemInfo)
                 {

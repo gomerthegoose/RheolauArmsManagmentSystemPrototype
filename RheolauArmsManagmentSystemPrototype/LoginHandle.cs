@@ -1,4 +1,6 @@
-﻿namespace RheolauArmsManagmentSystemPrototype
+﻿using System.Drawing.Printing;
+
+namespace RheolauArmsManagmentSystemPrototype
 {
     internal class LoginHandle
     {
@@ -16,6 +18,21 @@
             }
             return false; // return false if no match found 
         }
+
+        public UserInfo getCurrentUser(string Username, string Password) //get current user to be able to use access levels
+        {
+            UserInfo[] usrInfo = getUsrData(); // get usr data from file 
+
+            for (int i = 0; i < usrInfo.Length; i++)
+            {
+                if (usrInfo[i].Username == Username && usrInfo[i].password == Password) // check if username and password match usr enterd data 
+                {
+                    return usrInfo[i]; // return current users information if match found 
+                }
+            }
+            return new UserInfo(); // return empty if no match found will never happen under normal conditions
+        }
+
 
         private UserInfo[] getUsrData()
         {
