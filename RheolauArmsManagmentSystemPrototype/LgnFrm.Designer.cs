@@ -30,7 +30,6 @@
         {
             this.lgnPnl = new System.Windows.Forms.Panel();
             this.LoginLbl = new System.Windows.Forms.Label();
-            this.ForgotPasswordLbl = new System.Windows.Forms.Label();
             this.PasswordTxt = new System.Windows.Forms.TextBox();
             this.UsernameTxt = new System.Windows.Forms.TextBox();
             this.LoginBtn = new System.Windows.Forms.Button();
@@ -41,7 +40,6 @@
             // 
             this.lgnPnl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lgnPnl.Controls.Add(this.LoginLbl);
-            this.lgnPnl.Controls.Add(this.ForgotPasswordLbl);
             this.lgnPnl.Controls.Add(this.PasswordTxt);
             this.lgnPnl.Controls.Add(this.UsernameTxt);
             this.lgnPnl.Controls.Add(this.LoginBtn);
@@ -60,17 +58,6 @@
             this.LoginLbl.Size = new System.Drawing.Size(222, 32);
             this.LoginLbl.TabIndex = 4;
             this.LoginLbl.Text = "- Login -------------";
-            // 
-            // ForgotPasswordLbl
-            // 
-            this.ForgotPasswordLbl.AutoSize = true;
-            this.ForgotPasswordLbl.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ForgotPasswordLbl.ForeColor = System.Drawing.Color.White;
-            this.ForgotPasswordLbl.Location = new System.Drawing.Point(3, 88);
-            this.ForgotPasswordLbl.Name = "ForgotPasswordLbl";
-            this.ForgotPasswordLbl.Size = new System.Drawing.Size(111, 15);
-            this.ForgotPasswordLbl.TabIndex = 3;
-            this.ForgotPasswordLbl.Text = "Forgot Password ?";
             // 
             // PasswordTxt
             // 
@@ -129,7 +116,6 @@
         #endregion
 
         private Panel lgnPnl;
-        private Label ForgotPasswordLbl;
         private TextBox PasswordTxt;
         private TextBox UsernameTxt;
         private Button LoginBtn;

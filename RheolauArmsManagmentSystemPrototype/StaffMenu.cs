@@ -504,6 +504,145 @@
             }
 
         }
+        public void SearchStaff(Panel View_panel, string quieryString)
+        {
+            // - variables --------------------------------------------------------------------------------------------------------------------
+
+            Search searcher = new Search();
+
+            Size textSize = new Size(250, 24);
+            Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 6, 72);
+
+            StaffInfo[] staffInfo = GetStaffInfo();
+            int[] staffID = new int[staffInfo.Length];
+
+            Panel panels = new Panel();
+            Label Forename_Label = new Label();
+            Label surname_Label = new Label();
+            Label staffID_Label = new Label();
+            Label userID_Label = new Label();
+            Label adress_Label = new Label();
+            Label PhoneNumber_Label = new Label();
+            Label Dob_label = new Label();
+            Label email_label = new Label();
+
+            int quiery = -1; // if parsing enterd quiery fails it will still proceed to search for something so by default
+                             // search for -1 as it never be found so there is a constistant ouctput in wierd cases 
+            int quieryLocation;
+
+            RemoveControlls(View_panel);
+
+            // --------------------------------------------------------------------------------------------------------------------------------
+
+            // - Search For Enterd Quiery -----------------------------------------------------------------------------------------------------
+
+            try
+            {
+                quiery = int.Parse(quieryString);
+            }
+            catch
+            {
+                MessageBox.Show("Error! please ensure searh quiery is a valid ID (Numbers Only)");
+            }
+            for (int i = 0; i < staffInfo.Length; i++)
+            {
+                staffID[i] = staffInfo[i].staffID;
+            }
+
+            quieryLocation = searcher.binarySearch(staffID, 0, staffID.Length - 1, quiery);
+            if (quieryLocation == -1)
+            {
+                MessageBox.Show("Quiery Not Found!");
+            }
+
+            // --------------------------------------------------------------------------------------------------------------------------------
+
+            // - Setup Controlls --------------------------------------------------------------------------------------------------------------
+
+            else
+            {
+                // - Panel -
+                panels = new Panel();
+                panels.Parent = View_panel;
+                panels.Location = new Point(defaultPadding, defaultPadding);
+                panels.Size = panelSize;
+                panels.BackColor = Color.FromArgb(66, 96, 138);
+
+                // - forename -
+                Forename_Label = new Label();
+                Forename_Label.Parent = panels;
+                Forename_Label.Text = staffInfo[quieryLocation].forename;
+                Forename_Label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                Forename_Label.Location = new Point(defaultPadding, defaultPadding);
+                Forename_Label.ForeColor = Color.White;
+
+
+                // - Surname -
+                surname_Label = new Label();
+                surname_Label.Parent = panels;
+                surname_Label.Text = staffInfo[quieryLocation].surname;
+                surname_Label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                surname_Label.Location = new Point(Forename_Label.Location.X + Forename_Label.Size.Width, defaultPadding);
+                surname_Label.ForeColor = Color.White;
+
+                // - staff ID -
+                staffID_Label = new Label();
+                staffID_Label.Parent = panels;
+                staffID_Label.Text = "Staff ID: " + staffInfo[quieryLocation].staffID.ToString();
+                staffID_Label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                staffID_Label.Location = new Point(defaultPadding, Forename_Label.Location.Y + Forename_Label.Size.Height);
+                staffID_Label.ForeColor = Color.White;
+
+                // - user ID -
+                userID_Label = new Label();
+                userID_Label.Parent = panels;
+                userID_Label.Text = "User ID: " + staffInfo[quieryLocation].userID.ToString();
+                userID_Label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                userID_Label.Location = new Point(defaultPadding, staffID_Label.Location.Y + staffID_Label.Size.Height);
+                userID_Label.ForeColor = Color.White;
+
+                // - adress  -
+                adress_Label = new Label(); // new label
+                adress_Label.Parent = panels;
+                adress_Label.Text = "Adress: " + staffInfo[quieryLocation].adress;
+                adress_Label.Size = textSize;
+                adress_Label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                adress_Label.Location = new Point(staffID_Label.Location.X + staffID_Label.Size.Width, Forename_Label.Location.Y + Forename_Label.Size.Height);
+                adress_Label.ForeColor = Color.White;
+
+                // - phonenumber -
+                PhoneNumber_Label = new Label();
+                PhoneNumber_Label.Parent = panels;
+                PhoneNumber_Label.Text = "Phone Number: " + staffInfo[quieryLocation].phonenumber;
+                PhoneNumber_Label.Size = textSize;
+                PhoneNumber_Label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                PhoneNumber_Label.Location = new Point(userID_Label.Location.X + userID_Label.Size.Width, staffID_Label.Location.Y + staffID_Label.Size.Height);
+                PhoneNumber_Label.ForeColor = Color.White;
+
+                // - DOB  -
+                Dob_label = new Label();
+                Dob_label.Parent = panels;
+                Dob_label.Text = "DOB: " + staffInfo[quieryLocation].DOB;
+                Dob_label.Size = textSize;
+                Dob_label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                Dob_label.Location = new Point(adress_Label.Location.X + adress_Label.Size.Width, Forename_Label.Location.Y + Forename_Label.Size.Height);
+                Dob_label.ForeColor = Color.White;
+
+                // - Email  -
+                email_label = new Label();
+                email_label.Parent = panels;
+                email_label.Text = "Email: " + staffInfo[quieryLocation].email;
+                email_label.Size = textSize;
+                email_label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                email_label.Location = new Point(PhoneNumber_Label.Location.X + PhoneNumber_Label.Size.Width, staffID_Label.Location.Y + staffID_Label.Size.Height);
+                email_label.ForeColor = Color.White;
+
+                // --------------------------------------------------------------------------------------------------------------------------------
+            }
+
+
+
+        }
         private StaffInfo[] GetStaffInfo()
         {
             Settings settings = new Settings();

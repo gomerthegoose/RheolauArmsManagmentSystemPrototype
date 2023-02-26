@@ -627,6 +627,160 @@
                 }
             }
         }
+        public void SearchBooking(Panel View_panel, string quieryString)
+        {
+            // - variables --------------------------------------------------------------------------------------------------------------------
+
+            Search searcher = new Search();
+
+            Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 6, 125);
+            Size textSize = new Size(250, 24);
+
+            BookingInfo[] bookingInfo = GetBookingInfo();
+            CustomerInfo[] customerInfo = GetCustomerInfo();
+            int[] BookingID = new int[bookingInfo.Length];
+
+            Panel panels = new Panel(); ;
+            Label bookingID_Label = new Label();
+            Label customerID_Label = new Label();
+            Label numberOfPeople_Label = new Label();
+            Label bookingDate_Label = new Label();
+            Label bookingTime_Label = new Label();
+
+            // - customer information -
+            Label CustomerSurname_Label = new Label();
+            Label CustomerForename_Label = new Label();
+            Label CustomerPhonenumber_Label = new Label();
+            Label CustomerEmail_Label = new Label();
+
+            int quiery = -1; // if parsing enterd quiery fails it will still proceed to search for something so by default
+                             // search for -1 as it never be found so there is a constistant ouctput in wierd cases 
+            int quieryLocation;
+
+            RemoveControlls(View_panel);
+
+            // --------------------------------------------------------------------------------------------------------------------------------
+
+            // - Search For Enterd Quiery -----------------------------------------------------------------------------------------------------
+
+            try
+            {
+                quiery = int.Parse(quieryString);
+            }
+            catch
+            {
+                MessageBox.Show("Error! please ensure searh quiery is a valid ID (Numbers Only)");
+            }
+            for (int i = 0; i < bookingInfo.Length; i++)
+            {
+                BookingID[i] = bookingInfo[i].bookingID;
+            }
+
+            quieryLocation = searcher.binarySearch(BookingID, 0, BookingID.Length - 1, quiery);
+            if (quieryLocation == -1)
+            {
+                MessageBox.Show("Quiery Not Found!");
+            }
+            else
+            // --------------------------------------------------------------------------------------------------------------------------------
+
+            // - Setup Controlls --------------------------------------------------------------------------------------------------------------
+            {
+                // - Panel -
+                panels = new Panel();
+                panels.Parent = View_panel;
+                panels.Location = new Point(defaultPadding, defaultPadding);
+                panels.Size = panelSize;
+                panels.BackColor = Color.FromArgb(66, 96, 138);
+
+                // - Booking ID -
+                bookingID_Label = new Label();
+                bookingID_Label.Parent = panels;
+                bookingID_Label.Text = "Booking ID: " + bookingInfo[quieryLocation].bookingID.ToString();
+                bookingID_Label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                bookingID_Label.Location = new Point(defaultPadding, defaultPadding);
+                bookingID_Label.ForeColor = Color.White;
+
+                // - Customer ID -
+                customerID_Label = new Label();
+                customerID_Label.Parent = panels;
+                customerID_Label.Text = "Customer ID: " + bookingInfo[quieryLocation].customerID.ToString();
+                customerID_Label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                customerID_Label.Size = textSize;
+                customerID_Label.Location = new Point(defaultPadding * 2 + 200 + bookingID_Label.Size.Width, defaultPadding);
+                customerID_Label.ForeColor = Color.White;
+
+                // - Number Of People -
+                numberOfPeople_Label = new Label();
+                numberOfPeople_Label.Parent = panels;
+                numberOfPeople_Label.Text = "Number Of people: " + bookingInfo[quieryLocation].numberOfPeople.ToString();
+                numberOfPeople_Label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                numberOfPeople_Label.Size = textSize;
+                numberOfPeople_Label.Location = new Point(defaultPadding, bookingID_Label.Location.Y + bookingID_Label.Size.Height);
+                numberOfPeople_Label.ForeColor = Color.White;
+
+                // - Booking Date -
+                bookingDate_Label = new Label();
+                bookingDate_Label.Parent = panels;
+                bookingDate_Label.Text = "Date: " + bookingInfo[quieryLocation].bookingDate;
+                bookingDate_Label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                bookingDate_Label.Location = new Point(defaultPadding, numberOfPeople_Label.Location.Y + numberOfPeople_Label.Size.Height);
+                bookingDate_Label.Size = textSize;
+                bookingDate_Label.ForeColor = Color.White;
+
+                // - Booking Time  -
+                bookingTime_Label = new Label(); // new label
+                bookingTime_Label.Parent = panels;
+                bookingTime_Label.Text = "Time: " + bookingInfo[quieryLocation].bookingTime;
+                bookingTime_Label.Size = textSize;
+                bookingTime_Label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                bookingTime_Label.Location = new Point(defaultPadding, bookingDate_Label.Location.Y + bookingDate_Label.Size.Height);
+                bookingDate_Label.Size = textSize;
+                bookingTime_Label.ForeColor = Color.White;
+
+                // - customer surname -
+                CustomerSurname_Label = new Label(); // new label
+                CustomerSurname_Label.Parent = panels;
+                CustomerSurname_Label.Text = "Surname: " + customerInfo[bookingInfo[quieryLocation].customerID].surname; // 
+                CustomerSurname_Label.Size = textSize;
+                CustomerSurname_Label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                CustomerSurname_Label.Location = new Point(defaultPadding * 2 + 200 + bookingID_Label.Size.Width, bookingID_Label.Location.Y + bookingID_Label.Size.Height);
+                CustomerSurname_Label.Size = textSize;
+                CustomerSurname_Label.ForeColor = Color.White;
+
+                // - customer ForeName -
+                CustomerForename_Label = new Label(); // new label
+                CustomerForename_Label.Parent = panels;
+                CustomerForename_Label.Text = "Forename: " + customerInfo[bookingInfo[quieryLocation].customerID].forename; // 
+                CustomerForename_Label.Size = textSize;
+                CustomerForename_Label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                CustomerForename_Label.Location = new Point(defaultPadding * 2 + 200 + bookingID_Label.Size.Width, CustomerSurname_Label.Location.Y + CustomerSurname_Label.Size.Height);
+                CustomerForename_Label.Size = textSize;
+                CustomerForename_Label.ForeColor = Color.White;
+
+                // - customer Phone Number -
+                CustomerPhonenumber_Label = new Label(); // new label
+                CustomerPhonenumber_Label.Parent = panels;
+                CustomerPhonenumber_Label.Text = "PhoneNumber: " + customerInfo[bookingInfo[quieryLocation].customerID].phoneNumber; // 
+                CustomerPhonenumber_Label.Size = textSize;
+                CustomerPhonenumber_Label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                CustomerPhonenumber_Label.Location = new Point(defaultPadding * 2 + 200 + bookingID_Label.Size.Width, CustomerForename_Label.Location.Y + CustomerForename_Label.Size.Height);
+                CustomerPhonenumber_Label.Size = textSize;
+                CustomerPhonenumber_Label.ForeColor = Color.White;
+
+                // - customer Email -
+                CustomerEmail_Label = new Label(); // new label
+                CustomerEmail_Label.Parent = panels;
+                CustomerEmail_Label.Text = "Email: " + customerInfo[bookingInfo[quieryLocation].customerID].email; // 
+                CustomerEmail_Label.Size = textSize;
+                CustomerEmail_Label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                CustomerEmail_Label.Location = new Point(defaultPadding * 2 + 200 + bookingID_Label.Size.Width, CustomerPhonenumber_Label.Location.Y + CustomerPhonenumber_Label.Size.Height);
+                CustomerEmail_Label.Size = textSize;
+                CustomerEmail_Label.ForeColor = Color.White;
+            }
+            // --------------------------------------------------------------------------------------------------------------------------------
+
+        }
         private BookingInfo[] GetBookingInfo()
         {
 

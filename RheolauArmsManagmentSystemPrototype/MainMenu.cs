@@ -83,6 +83,11 @@
             StaffMenu staffMenu = new StaffMenu();
             staffMenu.CreateStaff(View_panel);
         }
+        private void StaffSearch_Button_Click(object sender, EventArgs e)
+        {
+            StaffMenu staffMenu = new StaffMenu();
+            staffMenu.SearchStaff(View_panel, StaffSearch_TextBox.Text);
+        }
 
         private void StaffReturn_button_Click(object sender, EventArgs e)
         {
@@ -112,8 +117,14 @@
         private void CreateStock_Button_Click(object sender, EventArgs e)
         {
             stockMenu stockMenu = new stockMenu();
-            stockMenu.CreateBooking(View_panel);
+            stockMenu.CreateStock(View_panel);
         }
+        private void SearchStock_Button_Click(object sender, EventArgs e)
+        {
+            stockMenu stockMenu = new stockMenu();
+            stockMenu.SearchStock(View_panel, StockSearch_textBox.Text);
+        }
+
         private void StockReturn_button_Click(object sender, EventArgs e)
         {
 
@@ -142,6 +153,11 @@
             SundayBookingsMenu sundayBookingsMenu = new SundayBookingsMenu(); // create new instance of sunday bookings
             sundayBookingsMenu.CreateBooking(View_panel);
         }
+        private void SundaySearch_Button_Click(object sender, EventArgs e)
+        {
+            SundayBookingsMenu sundayBookingsMenu = new SundayBookingsMenu();
+            sundayBookingsMenu.SearchBooking(View_panel, SundaySearch_TextBox.Text);
+        }
         private void SundayReturn_button_Click(object sender, EventArgs e)
         {
             navigationPanel.BringToFront();
@@ -168,6 +184,11 @@
             ThursdayBookingsMenu thursdayBookingsMenu = new ThursdayBookingsMenu();
             thursdayBookingsMenu.CreateBooking(View_panel);
         }
+        private void ThursdaySearch_Button_Click(object sender, EventArgs e)
+        {
+            ThursdayBookingsMenu thursdayBookingsMenu = new ThursdayBookingsMenu();
+            thursdayBookingsMenu.SearchBooking(View_panel, ThursdaySearch_TextBox.Text);
+        }
         private void ThursdayReturn_button_Click(object sender, EventArgs e)
         {
             RemoveControlls(View_panel);
@@ -190,6 +211,21 @@
             Cryptography cryptography = new Cryptography();
             EncryptString_TxtBox.Text = cryptography.decryptStr(EncryptString_TxtBox.Text);
         }
+        private void SearchTest_Button_Click(object sender, EventArgs e)
+        {
+            // test of search algorythm
+
+            Search searcher = new Search(); // instanciate nmew searcher
+            int[] SearchArray = { 2, 2, 3, 4, 8, 9, 10, 35, 40, 100, 200 }; // array to search through, must be in order 
+            int Quiery = 10; // what we are looking for
+
+            int result = searcher.binarySearch(SearchArray, 0, SearchArray.Length - 1, Quiery); // call search function
+
+            if (result == -1) // -1 represents result not found
+                MessageBox.Show("Element not present");
+            else
+                MessageBox.Show("Element found at index " + result);
+        }
 
         private void SettingsReturn_Button_Click(object sender, EventArgs e)
         {
@@ -199,6 +235,16 @@
             View_panel.Location = new Point(navigationPanel.Width, navigationPanel.Location.Y); // reset location of view panel
             RemoveControlls(View_panel);
         }
+
+
+
+
+
+
+
+
+
+
         #endregion
         //------------------------------------------------------------------
     }

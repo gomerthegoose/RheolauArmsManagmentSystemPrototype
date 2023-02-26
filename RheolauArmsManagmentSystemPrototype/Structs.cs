@@ -2,7 +2,8 @@
 {
     /// <summary>
     /// 
-    /// each struct is usually used to store a single enty 
+    /// each struct is used to store a single enty 
+    /// an array will then be used to store the file in a easier way to access
     /// 
     /// </summary>
     struct BookingInfo
@@ -35,10 +36,10 @@
         public string DOB; // staff date of birth 
         public string email; // staff email
     }
-    struct UsrInfo //used to store usr info
+    public struct UserInfo //used to store usr info
     {
         public string RawData; // raw single entry data from file
-        public int ID; // primary key for user entry
+        public int UserID; // primary key for user entry
         public string Username; // users password
         public string password; // users password
         public int accessLevel; // users access level

@@ -50,6 +50,7 @@
                 StockID_Label[i].Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
                 StockID_Label[i].Location = new Point(defaultPadding, defaultPadding);
                 StockID_Label[i].ForeColor = Color.White;
+                
 
                 // - Customer ID -
                 ItemID_Label[i] = new Label();
@@ -325,12 +326,12 @@
                 // --------------------------------------------------------------------------------------------------------------------------------
             }
         }
-        public void CreateBooking(Panel View_panel)
+        public void CreateStock(Panel View_panel)
         {
             // - variables --------------------------------------------------------------------------------------------------------------------
 
             Size textSize = new Size(250, 24);
-            Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 6, 125);
+            Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 6, 80);
             Settings settings = new Settings(); //create nenw instance of login settings
             Cryptography cryptography = new Cryptography();
 
@@ -486,6 +487,120 @@
                 }
             }
             // --------------------------------------------------------------------------------------------------------------------------------
+        }
+        public void SearchStock(Panel View_panel, string quieryString)
+        {
+            // - variables --------------------------------------------------------------------------------------------------------------------
+
+            Search searcher = new Search();
+
+            Size textSize = new Size(250, 24);
+            Size panelSize = new Size(View_panel.Size.Width - defaultPadding * 6, 72);
+
+            ItemInfo[] itemInfo = getItemInfo();
+            StockInfo[] stockInfo = GetStockInfo();
+            int[] stockID = new int[stockInfo.Length];
+
+            // - Stock Controlls - 
+            Panel panels = new Panel();
+            Label StockID_Label = new Label();
+            Label ItemID_Label = new Label();
+            Label Quantity_Label = new Label();
+
+            // - item Controlls -
+            Label ItemDescription_Label = new Label();
+            Label ItemLocation_Label = new Label();
+
+            int quiery = -1; // if parsing enterd quiery fails it will still proceed to search for something so by default
+                             // search for -1 as it never be found so there is a constistant ouctput in wierd cases 
+            int quieryLocation;
+
+            RemoveControlls(View_panel);
+
+            // --------------------------------------------------------------------------------------------------------------------------------
+
+            // - Search For Enterd Quiery -----------------------------------------------------------------------------------------------------
+
+            try
+            {
+                quiery = int.Parse(quieryString);
+            }
+            catch
+            {
+                MessageBox.Show("Error! please ensure searh quiery is a valid ID (Numbers Only)");
+            }
+            for (int i =0; i < stockInfo.Length; i++)
+            {
+                stockID[i] = stockInfo[i].StockID;
+            }
+
+            quieryLocation = searcher.binarySearch(stockID, 0, stockID.Length - 1, quiery);
+            if(quieryLocation == -1)
+            {
+                MessageBox.Show("Quiery Not Found!");
+            }
+
+            // --------------------------------------------------------------------------------------------------------------------------------
+
+            // - Setup Controlls --------------------------------------------------------------------------------------------------------------
+
+            else
+            {
+                
+
+                // - Panel -
+                panels.Parent = View_panel;
+                panels.Location = new Point(defaultPadding, defaultPadding);
+                panels.Size = panelSize;
+                panels.BackColor = Color.FromArgb(66, 96, 138);
+
+                // - stock ID -
+                StockID_Label.Parent = panels;
+                StockID_Label.Text = "Stock ID: " + stockInfo[quieryLocation].StockID.ToString();
+                StockID_Label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                StockID_Label.Location = new Point(defaultPadding, defaultPadding);
+                StockID_Label.ForeColor = Color.White;
+
+                // - item ID -
+                ItemID_Label.Parent = panels;
+                ItemID_Label.Text = "Item ID: " + stockInfo[(quieryLocation)].ItemID.ToString();    
+                ItemID_Label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                ItemID_Label.Size = textSize;
+                ItemID_Label.Location = new Point(defaultPadding * 2 + 200 + StockID_Label.Size.Width, defaultPadding);
+                ItemID_Label.ForeColor = Color.White;
+
+                // - stock quantity -
+                Quantity_Label.Parent = panels;
+                Quantity_Label.Text = "Quantity: " + stockInfo[quieryLocation].Quantity.ToString();
+                Quantity_Label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                Quantity_Label.Size = textSize;
+                Quantity_Label.Location = new Point(defaultPadding, StockID_Label.Location.Y + StockID_Label.Size.Height);
+                Quantity_Label.ForeColor = Color.White;
+
+                // - item description -
+                ItemDescription_Label.Parent = panels;
+                ItemDescription_Label.Size = textSize;
+                ItemDescription_Label.Text = "Description: " + itemInfo[stockInfo[quieryLocation].ItemID].Description; // item description at the item id of the stock entry searched for
+                                                                                                       // this is not nessacerilt needed as in most cases item id = stock id but there are cases where it is possible 
+                ItemDescription_Label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                ItemDescription_Label.Location = new Point(defaultPadding * 2 + 200 + StockID_Label.Size.Width, StockID_Label.Location.Y + StockID_Label.Size.Height);
+                ItemDescription_Label.Size = textSize;
+                ItemDescription_Label.ForeColor = Color.White;
+
+                // - Item Location -
+                ItemLocation_Label.Parent = panels;
+                ItemLocation_Label.Size = textSize;
+                ItemLocation_Label.Text = "Location: " + itemInfo[stockInfo[quieryLocation].ItemID].location;
+                ItemLocation_Label.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+                ItemLocation_Label.Location = new Point(defaultPadding * 2 + 200 + StockID_Label.Size.Width, ItemDescription_Label.Location.Y + ItemDescription_Label.Size.Height);
+                ItemLocation_Label.Size = textSize;
+                ItemLocation_Label.ForeColor = Color.White;
+
+                // --------------------------------------------------------------------------------------------------------------------------------
+            }
+
+
+
         }
         StockInfo[] GetStockInfo()
         {

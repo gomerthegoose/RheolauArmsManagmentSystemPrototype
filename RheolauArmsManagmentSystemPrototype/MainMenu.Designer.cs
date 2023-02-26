@@ -40,13 +40,17 @@
             this.EncryptString_Button = new System.Windows.Forms.Button();
             this.EncryptString_TxtBox = new System.Windows.Forms.TextBox();
             this.StaffControls_panel = new System.Windows.Forms.Panel();
+            this.StaffSearch_TextBox = new System.Windows.Forms.TextBox();
             this.createStaff_button = new System.Windows.Forms.Button();
+            this.StaffSearch_Button = new System.Windows.Forms.Button();
             this.EditStaff_button = new System.Windows.Forms.Button();
             this.StaffReturn_button = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.StaffControls_label = new System.Windows.Forms.Label();
             this.ViewStaff_button = new System.Windows.Forms.Button();
             this.StockControls_panel = new System.Windows.Forms.Panel();
+            this.StockSearch_textBox = new System.Windows.Forms.TextBox();
+            this.SearchStock_Button = new System.Windows.Forms.Button();
             this.CreateStock_Button = new System.Windows.Forms.Button();
             this.StockEdit_Button = new System.Windows.Forms.Button();
             this.StockReturn_button = new System.Windows.Forms.Button();
@@ -55,7 +59,9 @@
             this.StockControls_label = new System.Windows.Forms.Label();
             this.ViewStock_button = new System.Windows.Forms.Button();
             this.SundayControlls_panel = new System.Windows.Forms.Panel();
+            this.SundaySearch_TextBox = new System.Windows.Forms.TextBox();
             this.SundayCreateBookings_Button = new System.Windows.Forms.Button();
+            this.SundaySearch_Button = new System.Windows.Forms.Button();
             this.SundayEditBookings_Button = new System.Windows.Forms.Button();
             this.SundayReturn_button = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
@@ -63,7 +69,9 @@
             this.SundayControls_label = new System.Windows.Forms.Label();
             this.ViewSunBookings_button = new System.Windows.Forms.Button();
             this.ThursdayControls_panel = new System.Windows.Forms.Panel();
+            this.ThursdaySearch_TextBox = new System.Windows.Forms.TextBox();
             this.ThursdayCreateBookings_button = new System.Windows.Forms.Button();
+            this.ThursdaySearch_Button = new System.Windows.Forms.Button();
             this.ThursdayEditBookings_button = new System.Windows.Forms.Button();
             this.ThursdayReturn_button = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
@@ -72,6 +80,7 @@
             this.ViewThuBookings_button = new System.Windows.Forms.Button();
             this.View_panel = new System.Windows.Forms.Panel();
             this.SettingsControls_panel = new System.Windows.Forms.Panel();
+            this.SearchTest_Button = new System.Windows.Forms.Button();
             this.DecryptString_Button = new System.Windows.Forms.Button();
             this.SettingsReturn_Button = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
@@ -215,7 +224,9 @@
             // StaffControls_panel
             // 
             this.StaffControls_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.StaffControls_panel.Controls.Add(this.StaffSearch_TextBox);
             this.StaffControls_panel.Controls.Add(this.createStaff_button);
+            this.StaffControls_panel.Controls.Add(this.StaffSearch_Button);
             this.StaffControls_panel.Controls.Add(this.EditStaff_button);
             this.StaffControls_panel.Controls.Add(this.StaffReturn_button);
             this.StaffControls_panel.Controls.Add(this.button1);
@@ -228,6 +239,14 @@
             this.StaffControls_panel.TabIndex = 6;
             this.StaffControls_panel.Visible = false;
             // 
+            // StaffSearch_TextBox
+            // 
+            this.StaffSearch_TextBox.Location = new System.Drawing.Point(3, 245);
+            this.StaffSearch_TextBox.Name = "StaffSearch_TextBox";
+            this.StaffSearch_TextBox.PlaceholderText = "Staff ID";
+            this.StaffSearch_TextBox.Size = new System.Drawing.Size(171, 23);
+            this.StaffSearch_TextBox.TabIndex = 17;
+            // 
             // createStaff_button
             // 
             this.createStaff_button.Location = new System.Drawing.Point(3, 101);
@@ -237,6 +256,16 @@
             this.createStaff_button.Text = "Create Staff";
             this.createStaff_button.UseVisualStyleBackColor = true;
             this.createStaff_button.Click += new System.EventHandler(this.createStaff_button_Click);
+            // 
+            // StaffSearch_Button
+            // 
+            this.StaffSearch_Button.Location = new System.Drawing.Point(3, 274);
+            this.StaffSearch_Button.Name = "StaffSearch_Button";
+            this.StaffSearch_Button.Size = new System.Drawing.Size(171, 29);
+            this.StaffSearch_Button.TabIndex = 16;
+            this.StaffSearch_Button.Text = "Search";
+            this.StaffSearch_Button.UseVisualStyleBackColor = true;
+            this.StaffSearch_Button.Click += new System.EventHandler(this.StaffSearch_Button_Click);
             // 
             // EditStaff_button
             // 
@@ -299,6 +328,8 @@
             // StockControls_panel
             // 
             this.StockControls_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.StockControls_panel.Controls.Add(this.StockSearch_textBox);
+            this.StockControls_panel.Controls.Add(this.SearchStock_Button);
             this.StockControls_panel.Controls.Add(this.CreateStock_Button);
             this.StockControls_panel.Controls.Add(this.StockEdit_Button);
             this.StockControls_panel.Controls.Add(this.StockReturn_button);
@@ -312,6 +343,24 @@
             this.StockControls_panel.Size = new System.Drawing.Size(177, 727);
             this.StockControls_panel.TabIndex = 8;
             this.StockControls_panel.Visible = false;
+            // 
+            // StockSearch_textBox
+            // 
+            this.StockSearch_textBox.Location = new System.Drawing.Point(3, 245);
+            this.StockSearch_textBox.Name = "StockSearch_textBox";
+            this.StockSearch_textBox.PlaceholderText = "Stock ID";
+            this.StockSearch_textBox.Size = new System.Drawing.Size(171, 23);
+            this.StockSearch_textBox.TabIndex = 11;
+            // 
+            // SearchStock_Button
+            // 
+            this.SearchStock_Button.Location = new System.Drawing.Point(3, 274);
+            this.SearchStock_Button.Name = "SearchStock_Button";
+            this.SearchStock_Button.Size = new System.Drawing.Size(171, 29);
+            this.SearchStock_Button.TabIndex = 10;
+            this.SearchStock_Button.Text = "Search";
+            this.SearchStock_Button.UseVisualStyleBackColor = true;
+            this.SearchStock_Button.Click += new System.EventHandler(this.SearchStock_Button_Click);
             // 
             // CreateStock_Button
             // 
@@ -397,7 +446,9 @@
             // SundayControlls_panel
             // 
             this.SundayControlls_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.SundayControlls_panel.Controls.Add(this.SundaySearch_TextBox);
             this.SundayControlls_panel.Controls.Add(this.SundayCreateBookings_Button);
+            this.SundayControlls_panel.Controls.Add(this.SundaySearch_Button);
             this.SundayControlls_panel.Controls.Add(this.SundayEditBookings_Button);
             this.SundayControlls_panel.Controls.Add(this.SundayReturn_button);
             this.SundayControlls_panel.Controls.Add(this.button5);
@@ -411,6 +462,14 @@
             this.SundayControlls_panel.TabIndex = 9;
             this.SundayControlls_panel.Visible = false;
             // 
+            // SundaySearch_TextBox
+            // 
+            this.SundaySearch_TextBox.Location = new System.Drawing.Point(5, 245);
+            this.SundaySearch_TextBox.Name = "SundaySearch_TextBox";
+            this.SundaySearch_TextBox.PlaceholderText = "Sunday Booking ID";
+            this.SundaySearch_TextBox.Size = new System.Drawing.Size(196, 23);
+            this.SundaySearch_TextBox.TabIndex = 13;
+            // 
             // SundayCreateBookings_Button
             // 
             this.SundayCreateBookings_Button.Location = new System.Drawing.Point(3, 101);
@@ -420,6 +479,16 @@
             this.SundayCreateBookings_Button.Text = "Create Bookings";
             this.SundayCreateBookings_Button.UseVisualStyleBackColor = true;
             this.SundayCreateBookings_Button.Click += new System.EventHandler(this.CreateBookings_Button_Click);
+            // 
+            // SundaySearch_Button
+            // 
+            this.SundaySearch_Button.Location = new System.Drawing.Point(5, 274);
+            this.SundaySearch_Button.Name = "SundaySearch_Button";
+            this.SundaySearch_Button.Size = new System.Drawing.Size(196, 29);
+            this.SundaySearch_Button.TabIndex = 12;
+            this.SundaySearch_Button.Text = "Search";
+            this.SundaySearch_Button.UseVisualStyleBackColor = true;
+            this.SundaySearch_Button.Click += new System.EventHandler(this.SundaySearch_Button_Click);
             // 
             // SundayEditBookings_Button
             // 
@@ -495,7 +564,9 @@
             // ThursdayControls_panel
             // 
             this.ThursdayControls_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ThursdayControls_panel.Controls.Add(this.ThursdaySearch_TextBox);
             this.ThursdayControls_panel.Controls.Add(this.ThursdayCreateBookings_button);
+            this.ThursdayControls_panel.Controls.Add(this.ThursdaySearch_Button);
             this.ThursdayControls_panel.Controls.Add(this.ThursdayEditBookings_button);
             this.ThursdayControls_panel.Controls.Add(this.ThursdayReturn_button);
             this.ThursdayControls_panel.Controls.Add(this.button8);
@@ -509,6 +580,14 @@
             this.ThursdayControls_panel.TabIndex = 10;
             this.ThursdayControls_panel.Visible = false;
             // 
+            // ThursdaySearch_TextBox
+            // 
+            this.ThursdaySearch_TextBox.Location = new System.Drawing.Point(3, 245);
+            this.ThursdaySearch_TextBox.Name = "ThursdaySearch_TextBox";
+            this.ThursdaySearch_TextBox.PlaceholderText = "Thursday Booking ID";
+            this.ThursdaySearch_TextBox.Size = new System.Drawing.Size(203, 23);
+            this.ThursdaySearch_TextBox.TabIndex = 15;
+            // 
             // ThursdayCreateBookings_button
             // 
             this.ThursdayCreateBookings_button.Location = new System.Drawing.Point(3, 102);
@@ -518,6 +597,16 @@
             this.ThursdayCreateBookings_button.Text = "Create Bookings";
             this.ThursdayCreateBookings_button.UseVisualStyleBackColor = true;
             this.ThursdayCreateBookings_button.Click += new System.EventHandler(this.ThursdayCreateBookings_button_Click);
+            // 
+            // ThursdaySearch_Button
+            // 
+            this.ThursdaySearch_Button.Location = new System.Drawing.Point(3, 274);
+            this.ThursdaySearch_Button.Name = "ThursdaySearch_Button";
+            this.ThursdaySearch_Button.Size = new System.Drawing.Size(203, 29);
+            this.ThursdaySearch_Button.TabIndex = 14;
+            this.ThursdaySearch_Button.Text = "Search";
+            this.ThursdaySearch_Button.UseVisualStyleBackColor = true;
+            this.ThursdaySearch_Button.Click += new System.EventHandler(this.ThursdaySearch_Button_Click);
             // 
             // ThursdayEditBookings_button
             // 
@@ -602,6 +691,7 @@
             // SettingsControls_panel
             // 
             this.SettingsControls_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.SettingsControls_panel.Controls.Add(this.SearchTest_Button);
             this.SettingsControls_panel.Controls.Add(this.DecryptString_Button);
             this.SettingsControls_panel.Controls.Add(this.encryptString_label);
             this.SettingsControls_panel.Controls.Add(this.SettingsReturn_Button);
@@ -618,6 +708,16 @@
             this.SettingsControls_panel.Size = new System.Drawing.Size(211, 727);
             this.SettingsControls_panel.TabIndex = 11;
             this.SettingsControls_panel.Visible = false;
+            // 
+            // SearchTest_Button
+            // 
+            this.SearchTest_Button.Location = new System.Drawing.Point(3, 66);
+            this.SearchTest_Button.Name = "SearchTest_Button";
+            this.SearchTest_Button.Size = new System.Drawing.Size(203, 29);
+            this.SearchTest_Button.TabIndex = 13;
+            this.SearchTest_Button.Text = "Search Test";
+            this.SearchTest_Button.UseVisualStyleBackColor = true;
+            this.SearchTest_Button.Click += new System.EventHandler(this.SearchTest_Button_Click);
             // 
             // DecryptString_Button
             // 
@@ -787,5 +887,14 @@
         private Button ThursdayEditBookings_button;
         private Button CreateStock_Button;
         private Button StockEdit_Button;
+        private Button SearchTest_Button;
+        private TextBox StockSearch_textBox;
+        private Button SearchStock_Button;
+        private TextBox StaffSearch_TextBox;
+        private Button StaffSearch_Button;
+        private TextBox SundaySearch_TextBox;
+        private Button SundaySearch_Button;
+        private TextBox ThursdaySearch_TextBox;
+        private Button ThursdaySearch_Button;
     }
 }

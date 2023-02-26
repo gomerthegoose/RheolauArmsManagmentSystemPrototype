@@ -2,36 +2,30 @@
 {
     internal class Search
     {
+        // simple binary search algorythm
+        // Returns index of x if it is present in the array
+        // otherwise returns -1
+        // this function is run recursively untill the quiery is located 
 
-        // simple linear search to find where id's are equal to desierd id
-        public bool[] id(int target, int[] searchArray)
+        public int binarySearch(int[] searchArray, int startOfArray, int lengthOfArray, int quiery)
         {
-            bool[] result = new bool[searchArray.Length];
+            if (lengthOfArray >= startOfArray)// if the length of the array is greater than the start of the array then we know that the search quiery is not present in the array 
+            {
+                int middle = startOfArray + (lengthOfArray - startOfArray) / 2; // calculate the middle of the array to be searched through
 
-            if (target != -1) // if no search quiery is enterd -1 signifies to show all results
-            {
-                for (int i = 0; i < searchArray.Length; i++)
-                {
-                    if (searchArray[i] == target)
-                    {
-                        result[i] = true;
-                    }
-                    else
-                    {
-                        result[i] = false;
-                    }
-                }
-            }
-            else
-            {
-                for (int i = 0; i < searchArray.Length; i++)
-                {
-                    result[i] = true;
-                }
+                if (searchArray[middle] == quiery) //if the element at the middle of the arrat equals the search quiery then we have found the quiery
+                { 
+                    return middle; 
+                } 
+                if (searchArray[middle] > quiery) // if the quiery is smaller that the middle then it must be located in the left of the array
+                { 
+                    return binarySearch(searchArray, startOfArray, middle - 1, quiery); 
+                }  
+
+                return binarySearch(searchArray, middle + 1, lengthOfArray, quiery); // if it was neither of the above option the quiery must be located in the right of the array 
             }
 
-
-            return result;
+            return -1; // if quiery is not present in array we return -1 to indicate not found 
         }
     }
 }

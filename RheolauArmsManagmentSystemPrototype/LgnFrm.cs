@@ -1,8 +1,10 @@
+using System.Security.Cryptography.X509Certificates;
+
 namespace RheolauArmsManagmentSystemPrototype
 {
     public partial class LgnFrm : Form
     {
-
+        public UserInfo CurrentUserInfo;
 
         public LgnFrm()
         {
